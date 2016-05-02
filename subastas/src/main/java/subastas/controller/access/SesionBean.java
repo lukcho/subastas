@@ -92,7 +92,7 @@ public class SesionBean implements Serializable{
 				Mensaje.crearMensajeWARN("Campos usuario y contraseña requeridos");
 				return "";
 			}else{
-				setMenu(mngAcc.loginWS(getUsuario(), getPass(), "TRANS"));
+				setMenu(mngAcc.loginWS(getUsuario(), getPass(), "SUB"));
 				setPass(null);
 				return "/views/index?faces-redirect=true";
 			}
@@ -124,7 +124,7 @@ public class SesionBean implements Serializable{
 	     SesionBean user = (SesionBean) session.getAttribute("sesionBean");
 	     if (user==null || user.getUsuario() == null) {
             try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("/transporte/index.xhtml");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/subastas/index.xhtml");
             } catch (IOException ex) {
             	Mensaje.crearMensajeERROR(ex.getMessage());
             }
@@ -135,7 +135,7 @@ public class SesionBean implements Serializable{
         		return user.getUsuario();
         	else{
         		try {
-       				FacesContext.getCurrentInstance().getExternalContext().redirect("/transporte/views/index.xhtml");
+       				FacesContext.getCurrentInstance().getExternalContext().redirect("/subastas/views/index.xhtml");
 	            } catch (IOException ex) {
 	            	Mensaje.crearMensajeERROR(ex.getMessage());
 	            }
@@ -155,7 +155,7 @@ public class SesionBean implements Serializable{
 	     SesionBean user = (SesionBean) session.getAttribute("sesionBean");
 	     if (user==null || user.getUsuario() == null) {
             try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("/transporte/index.xhtml");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/subastas/index.xhtml");
             } catch (IOException ex) {
             	Mensaje.crearMensajeERROR(ex.getMessage());
             }

@@ -23,8 +23,8 @@ public class SubItem implements Serializable {
 	@Column(name="item_id")
 	private Integer itemId;
 
-	@Column(name="irem_caracteristicas", length=255)
-	private String iremCaracteristicas;
+	@Column(name="item_caracteristicas", length=255)
+	private String itemCaracteristicas;
 
 	@Column(name="item_descripcion", length=255)
 	private String itemDescripcion;
@@ -71,12 +71,12 @@ public class SubItem implements Serializable {
 		this.itemId = itemId;
 	}
 
-	public String getIremCaracteristicas() {
-		return this.iremCaracteristicas;
+	public String getItemCaracteristicas() {
+		return this.itemCaracteristicas;
 	}
 
-	public void setIremCaracteristicas(String iremCaracteristicas) {
-		this.iremCaracteristicas = iremCaracteristicas;
+	public void setItemCaracteristicas(String itemCaracteristicas) {
+		this.itemCaracteristicas = itemCaracteristicas;
 	}
 
 	public String getItemDescripcion() {

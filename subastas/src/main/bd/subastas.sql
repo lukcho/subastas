@@ -63,7 +63,7 @@ create table SUB_ITEMS (
    ITEM_ID              INT4                 not null DEFAULT nextval('seq_sub_items'::regclass),
    ITEM_NOMBRE          VARCHAR(255)         null,
    ITEM_DESCRIPCION     VARCHAR(255)         null,
-   IREM_CARACTERISTICAS VARCHAR(255)         null,
+   ITEM_CARACTERISTICAS VARCHAR(255)         null,
    ITEM_IMAGEN          VARCHAR(255)         null,
    ITEM_VALOR_BASE      NUMERIC              null,
    ITEM_VALOR_VENTA     NUMERIC              null,
