@@ -356,10 +356,10 @@ public class postulantesusuBean implements Serializable {
 			fecha = new Date();
 			pos_fecha_reg = new Timestamp(fecha.getTime());
 			if (edicion) {
-				setPos_password(Utilidades.Encriptar(getPos_password()));// PASS
-				managergest.editarPostulante(pos_id.trim(), pos_nombre.trim(), pos_apellido.trim(),
-						pos_direccion.trim(), pos_correo.trim(), pos_telefono.trim(), pos_password.trim(),
-						pos_institucion.trim(), pos_gerencia.trim(), pos_area.trim(), pos_estado);
+//				setPos_password(Utilidades.Encriptar(getPos_password()));// PASS
+//				managergest.editarPostulante(pos_id.trim(), pos_nombre.trim(), pos_apellido.trim(),
+//						pos_direccion.trim(), pos_correo.trim(), pos_telefono.trim(), pos_password.trim(),
+//						pos_institucion.trim(), pos_gerencia.trim(), pos_area.trim(), pos_estado);
 				pos_id = "";
 				pos_nombre = "";
 				pos_apellido = "";
@@ -415,7 +415,7 @@ public class postulantesusuBean implements Serializable {
 					FacesContext context = FacesContext.getCurrentInstance();
 					context.addMessage(null, new FacesMessage(
 							"Registrado..!!!", "Usuario Creado "));
-					r = "postulantes?faces-redirect=true";
+					r = "index?faces-redirect=true";
 				}
 			}
 			// }
@@ -576,7 +576,7 @@ public class postulantesusuBean implements Serializable {
 		guardarin = false;
 		getListaPostulante().clear();
 		getListaPostulante().addAll(managergest.findAllpostulantes());
-		return "postulantes?faces-redirect=true";
+		return "index?faces-redirect=true";
 	}
 
 	public void abrirDialog() {
