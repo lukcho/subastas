@@ -73,7 +73,8 @@ public class itemBean implements Serializable {
 	private List<SubItem> listaItem;
 
 	// horario
-
+	private Date fi;
+	private Date ff;
 	private Date date;
 	private Date fecha;
 
@@ -98,6 +99,21 @@ public class itemBean implements Serializable {
 		mostrarpro_id = false;
 		mostrarfoto = false;
 		listaItem = managergest.findAllItems();
+	}
+	
+	public Date getFi() {
+		return fi;
+	}
+	public void setFi(Date fi) {
+		this.fi = fi;
+	}
+
+	public Date getFf() {
+		return ff;
+	}
+
+	public void setFf(Date ff) {
+		this.ff = ff;
 	}
 
 	public Integer getItem_id() {
@@ -229,6 +245,7 @@ public class itemBean implements Serializable {
 	}
 
 	public Date getDate() {
+		date = new Date();
 		return date;
 	}
 
@@ -313,13 +330,18 @@ public class itemBean implements Serializable {
 					"."));
 			BigDecimal valorventa = new BigDecimal(item_valorventa.replace(",",
 					"."));
+			item_fecha_subasta_inicio = new Timestamp(fi.getTime());
+			item_fecha_subasta_fin = new Timestamp(ff.getTime());
 			if (edicion) {
 				managergest.editarItem(item_id, item_nombre.trim(),
 						item_descripcion.trim(), item_caracteristicas.trim(),
 						item_imagen.trim(), valorbase, valorventa,
 						item_fecha_subasta_inicio, item_fecha_subasta_fin,
-						item_ganador_dni.trim(), item_usuario_registro.trim(),
+						item_ganador_dni.trim(),
 						item_estado);
+				
+				getListaItem().clear(); 
+				getListaItem().addAll(managergest.findAllItems());
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
 				item_id = null;
 				item_nombre = "";
@@ -338,11 +360,11 @@ public class itemBean implements Serializable {
 				ediciontipo = false;
 				verhorario = false;
 			} else {
-				managergest.insertarItem(item_nombre, item_descripcion,
-						item_caracteristicas, item_imagen, valorbase,
+				managergest.insertarItem(item_nombre.trim(), item_descripcion.trim(),
+						item_caracteristicas.trim(), item_imagen, valorbase,
 						valorventa, item_fecha_subasta_inicio,
 						item_fecha_subasta_fin, item_ganador_dni,
-						item_usuario_registro);
+						item_usuario_registro.trim());
 				Mensaje.crearMensajeINFO("Registrado - Creado");
 				item_id = null;
 				item_nombre = "";
@@ -363,7 +385,10 @@ public class itemBean implements Serializable {
 				imagenprod = false;
 				mostrarpro_id = true;
 				guardarin = true;
+				getListaItem().clear(); 
+				getListaItem().addAll(managergest.findAllItems());
 			}
+			r = "items?faces-redirect=true";
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
@@ -402,6 +427,8 @@ public class itemBean implements Serializable {
 			item_valorventa = item.getItemValorVenta().toString();
 			item_fecha_subasta_inicio = item.getItemFechaSubastaInicio();
 			item_fecha_subasta_fin = item.getItemFechaSubastaFin();
+			fi=item.getItemFechaSubastaInicio();
+			ff=item.getItemFechaSubastaFin();
 			item_ganador_dni = item.getItemGanadorDni();
 			item_usuario_registro = item.getItemUsuarioRegistro();
 			item_estado = item.getItemEstado();
@@ -435,7 +462,7 @@ public class itemBean implements Serializable {
 		return "";
 	}
 
-	public void cambiarEstadoprod(SubItem item) {
+	public void cambiarEstadoItem(SubItem item) {
 		setItemdelsita(item);
 		RequestContext.getCurrentInstance().execute("PF('ce').show();");
 	}
@@ -501,7 +528,8 @@ public class itemBean implements Serializable {
 			System.out.println("Vacio");
 		} else {
 			DateFormat dateFormat = new SimpleDateFormat("_ddMMyyyyHHmm");
-			g = "img_" + getItem_nombre() + dateFormat.format(new Date()) + ".jpg";
+			g = "img_" + getItem_nombre() + dateFormat.format(new Date())
+					+ ".jpg";
 			System.out.println(g);
 		}
 	}
@@ -522,7 +550,7 @@ public class itemBean implements Serializable {
 	 * 
 	 * @return
 	 */
-	public String nuevoProducto() {
+	public String nuevoItem() {
 		item_id = null;
 		item_nombre = "";
 		item_caracteristicas = "";
@@ -547,7 +575,6 @@ public class itemBean implements Serializable {
 	}
 
 	// ESTADOS
-
 	/**
 	 * Lista de estados
 	 * 
@@ -590,12 +617,10 @@ public class itemBean implements Serializable {
 		verhorario = false;
 		getListaItem().clear();
 		getListaItem().addAll(managergest.findAllItems());
-		return "productos?faces-redirect=true";
+		return "items?faces-redirect=true";
 	}
 
 	public void abrirDialog() {
-		if (edicion == true) {
 			RequestContext.getCurrentInstance().execute("PF('gu').show();");
-		}
 	}
 }

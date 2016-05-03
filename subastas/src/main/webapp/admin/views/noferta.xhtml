@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<ui:composition template="template.xhtml">
+	<ui:define name="titulo">
+           OFERTA 
+        </ui:define>
+	<ui:define name="contenido">
+		<br />
+		<h:form id="frm">
+			<p:growl id="messages" showDetail="false" />
+			<b:panel title="Registro de Oferta" look="primary">
+				<b:row>
+					<b:column col-sm="12" col-md="12">
+						<b:thumbnail tooltip="Oferta">
+							<b:row>
+								<b:column span="2">
+									<h:outputLabel value="Oferta id: " />
+								</b:column>
+								<b:column span="4">
+									<h:inputText value="#{ofertasBean.ofer_id}"
+										styleClass="form-control" disabled="true">
+									</h:inputText>
+								</b:column>
+								<b:column span="2">
+									<h:outputLabel value="Valor oferta: " />
+								</b:column>
+								<b:column span="4">
+									<h:inputText value="#{ofertasBean.ofer_valor_oferta}"
+										styleClass="form-control" disabled="true">
+									</h:inputText>
+								</b:column>
+								<b:column span="2">
+									<h:outputLabel value="Fecha oferta: " />
+								</b:column>
+								<b:column span="4">
+									<h:inputText value="#{ofertasBean.ofer_fecha_oferta}"
+										styleClass="form-control" disabled="true">
+										<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
+									</h:inputText>
+								</b:column>
+							</b:row>
+							<br />
+						</b:thumbnail>
+					</b:column>
+				</b:row>
+				<br />
+				<b:row>
+					<b:column col-sm="12" col-md="12">
+						<b:thumbnail tooltip="Item">
+							<b:row>
+								<b:column span="2">
+									<h:outputLabel value="Nombre del item: " />
+								</b:column>
+								<b:column span="4">
+									<h:inputText value="#{ofertasBean.item_nombre}"
+										styleClass="form-control" disabled="true">
+									</h:inputText>
+								</b:column>
+								<b:column span="2">
+									<h:outputLabel value="Caracteristicas del item: " />
+								</b:column>
+								<b:column span="4">
+									<h:inputTextarea value="#{ofertasBean.item_caracteristicas}"
+										styleClass="form-control" disabled="true">
+									</h:inputTextarea>
+								</b:column>
+								<b:column span="2">
+									<h:outputLabel value="Imagen del item: " />
+								</b:column>
+								<b:column span="4">
+									<p:graphicImage id="imagen"
+										value="#{facesContex}/imgevent/300.jpg" width="80" height="80" />
+								</b:column>
+							</b:row>
+						</b:thumbnail>
+					</b:column>
+				</b:row>
+				<br />
+				<b:row>
+					<b:column col-sm="12" col-md="12">
+						<b:thumbnail tooltip="Postulante">
+							<b:row>
+								<b:column span="2">
+									<h:outputLabel value="Nombre postulante: " />
+								</b:column>
+								<b:column span="4">
+									<h:inputText value="#{ofertasBean.pos_nombre}"
+										styleClass="form-control" disabled="true">
+									</h:inputText>
+								</b:column>
+								<b:column span="2">
+									<h:outputLabel value="Apellido del postulante: " />
+								</b:column>
+								<b:column span="4">
+									<h:inputText value="#{ofertasBean.pos_apellido}"
+										styleClass="form-control" disabled="true">
+									</h:inputText>
+								</b:column>
+							</b:row>
+							<b:row>
+								<b:column span="2">
+									<h:outputLabel value="Correo del postulante: " />
+								</b:column>
+								<b:column span="4">
+									<h:inputText value="#{ofertasBean.pos_correo}"
+										styleClass="form-control" disabled="true">
+									</h:inputText>
+								</b:column>
+								<b:column span="2">
+									<h:outputLabel value="teléfono del postulante: " />
+								</b:column>
+								<b:column span="4">
+									<h:inputText value="#{ofertasBean.pos_telefono}"
+										styleClass="form-control" disabled="true">
+									</h:inputText>
+								</b:column>
+							</b:row>
+							<b:row>
+								<b:column span="2">
+									<h:outputLabel value="Intitución del postulante: " />
+								</b:column>
+								<b:column span="4">
+									<h:inputText value="#{ofertasBean.pos_institucion}"
+										styleClass="form-control" disabled="true">
+									</h:inputText>
+								</b:column>
+								<b:column span="2">
+									<h:outputLabel value="Gerencia del postulante: " />
+								</b:column>
+								<b:column span="4">
+									<h:inputText value="#{ofertasBean.pos_gerencia}"
+										styleClass="form-control" disabled="true">
+									</h:inputText>
+								</b:column>
+							</b:row>
+							<b:row>
+								<b:column span="2">
+									<h:outputLabel value="Dirección del postulante: " />
+								</b:column>
+								<b:column span="4">
+									<h:inputText value="#{ofertasBean.pos_direccion}"
+										styleClass="form-control" disabled="true">
+									</h:inputText>
+								</b:column>
+								<b:column span="2">
+									<h:outputLabel value="Área del postulante: " />
+								</b:column>
+								<b:column span="4">
+									<h:inputText value="#{ofertasBean.pos_area}"
+										styleClass="form-control" disabled="true">
+									</h:inputText>
+								</b:column>
+							</b:row>
+						</b:thumbnail>
+					</b:column>
+				</b:row>
+				<br />
+				<b:row>
+					<b:column span="5">
+						<b:commandButton value="Volver" action="#{ofertasBean.salir()}"
+							update="frm" look="info" process="@this">
+						</b:commandButton>
+					</b:column>
+				</b:row>
+				<br />
+				<br />
+			</b:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

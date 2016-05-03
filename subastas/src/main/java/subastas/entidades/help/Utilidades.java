@@ -1,4 +1,4 @@
-package innopolis.entidades.help;
+package subastas.entidades.help;
 
 import java.security.MessageDigest;
 import java.util.Arrays;

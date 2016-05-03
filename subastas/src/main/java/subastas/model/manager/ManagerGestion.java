@@ -96,7 +96,7 @@ public class ManagerGestion{
 	 * @param pro_estado_fun
 	 * @throws Exception
 	 */	
-	public void editarItem(Integer item_id, String item_nombre, String item_descripcion, String item_caracteristicas,String item_imagen ,BigDecimal item_valorbase,BigDecimal item_valorventa, Timestamp item_fecha_subasta_inicio, Timestamp item_fecha_subasta_fin, String item_ganador_dni,String item_usuario_registro, String item_estado) throws Exception {
+	public void editarItem(Integer item_id, String item_nombre, String item_descripcion, String item_caracteristicas,String item_imagen ,BigDecimal item_valorbase,BigDecimal item_valorventa, Timestamp item_fecha_subasta_inicio, Timestamp item_fecha_subasta_fin, String item_ganador_dni, String item_estado) throws Exception {
 		SubItem item =  this.itemByID(item_id);
 		item.setItemNombre(item_nombre);
 		item.setItemDescripcion(item_descripcion);
@@ -107,7 +107,6 @@ public class ManagerGestion{
 		item.setItemFechaSubastaInicio(item_fecha_subasta_inicio);
 		item.setItemFechaSubastaFin(item_fecha_subasta_fin);
 		item.setItemGanadorDni(item_ganador_dni);
-		item.setItemUsuarioRegistro(item_usuario_registro);
 		item.setItemEstado(item_estado);
 		mDAO.actualizar(item);	
 	}
@@ -199,7 +198,9 @@ public class ManagerGestion{
 	 * @param pro_estado_fun
 	 * @throws Exception
 	 */	
-	public void editarConductor(String pos_id,String pos_nombre, String pos_apellido, String pos_direccion, String pos_correo, String pos_telefono,String pos_password, String pos_institucion, String pos_gerencia,String pos_area, String pos_estado) throws Exception {
+	public void editarPostulante(String pos_id,String pos_nombre, String pos_apellido, String pos_direccion, 
+			String pos_correo, String pos_telefono,String pos_password, String pos_institucion, 
+			String pos_gerencia,String pos_area, String pos_estado) throws Exception {
 		SubPostulante pos =  this.postulanteByID(pos_id);
 		pos.setPosNombre(pos_nombre);
 		pos.setPosApellido(pos_apellido);
@@ -248,6 +249,16 @@ public class ManagerGestion{
 		@SuppressWarnings("unchecked") 
 		public List<SubOferta> findAllofertas() {
 			return mDAO.findAll(SubOferta.class);
+		}
+		
+		/**
+		 * listar todos los postulantes
+		 * @param prod_id
+		 * @throws Exception
+		 */	
+		@SuppressWarnings("unchecked") 
+		public List<SubOferta> findAllofertasOrdenadas() {
+			return mDAO.findWhere(SubOferta.class, " 1=1 ", " o.oferFechaOferta desc");
 		}
 
 		/**

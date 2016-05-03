@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<ui:composition template="template.xhtml">
+	<ui:define name="titulo">
+           POSTULANTE 
+        </ui:define>
+	<ui:define name="contenido">
+		<br />
+		<h:form id="frm">
+			<p:growl id="messages" showDetail="false" />
+			<b:panel title="Registro de Postulante" look="primary">
+				<b:row>
+					<b:column span="2">
+						<h:outputLabel value="Cédula/Pasaporte:* " />
+					</b:column>
+					<b:column span="4">
+						<h:inputText value="#{postulantesusuBean.pos_id}" required="true"
+							styleClass="form-control"
+							requiredMessage="Campo cédula/pasaporte requerido">
+						</h:inputText>
+					</b:column>
+					<b:column span="2">
+						<h:outputLabel value="Nombre:* " />
+					</b:column>
+					<b:column span="4">
+						<h:inputText value="#{postulantesusuBean.pos_nombre}" required="true"
+							styleClass="form-control"
+							requiredMessage="Campo nombre requerido">
+						</h:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column span="2">
+						<h:outputLabel value="Apellido:* " />
+					</b:column>
+					<b:column span="4">
+						<h:inputText value="#{postulantesusuBean.pos_apellido}"
+							required="true" styleClass="form-control"
+							requiredMessage="Campo apellido requerido">
+						</h:inputText>
+					</b:column>
+					<b:column span="2">
+						<h:outputLabel value="Dirección:* " />
+					</b:column>
+					<b:column span="4">
+						<h:inputText value="#{postulantesusuBean.pos_direccion}"
+							required="true" styleClass="form-control"
+							requiredMessage="Campo direccion requerido">
+						</h:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column span="2">
+						<h:outputLabel value="Correo:* " />
+					</b:column>
+					<b:column span="4">
+						<h:inputText required="true" styleClass="form-control"
+							requiredMessage="Por favor ingrese su Correo."
+							validatorMessage="Formato de correo inv&aacute;lido"
+							value="#{postulantesusuBean.pos_correo}">
+							<f:validateRegex
+								pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+						</h:inputText>
+					</b:column>
+					<b:column span="2">
+						<h:outputLabel value="Teléfono:* " />
+					</b:column>
+					<b:column span="4">
+						<h:inputText value="#{postulantesusuBean.pos_telefono}"
+							required="true" styleClass="form-control"
+							requiredMessage="Campo teléfono requerido">
+							<f:validateRegex pattern="[0-9]+" />
+						</h:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column span="2">
+						<h:outputLabel value="Contraseña:* " />
+					</b:column>
+					<b:column span="4">
+						<h:inputSecret required="true" id="pass" redisplay="true" styleClass="form-control"
+							value="#{postulantesusuBean.pos_password}" feedback="true"
+							requiredMessage="Requerida Contraseña" goodLabel="Buena"
+							strongLabel="Fuerte" weakLabel="Débil"
+							promptLabel="Por favor ingrese contraseña"
+							validatorMessage="Password contiene caracteres no permitidos o posee un tamaño menor a 8">
+						</h:inputSecret>
+					</b:column>
+					<b:column span="2">
+						<h:outputLabel value="Institución:* " />
+					</b:column>
+					<b:column span="4">
+						<h:inputText value="#{postulantesusuBean.pos_institucion}"
+							required="true" styleClass="form-control"
+							requiredMessage="Campo institución requerido">
+						</h:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column span="2">
+						<h:outputLabel value="Gerencia:* " />
+					</b:column>
+					<b:column span="4">
+						<h:inputText value="#{postulantesusuBean.pos_gerencia}"
+							required="true" styleClass="form-control"
+							requiredMessage="Campo gerencia requerido">
+						</h:inputText>
+					</b:column>
+					<b:column span="2">
+						<h:outputLabel value="Area:* " />
+					</b:column>
+					<b:column span="4">
+						<h:inputText value="#{postulantesusuBean.pos_area}"
+							required="true" styleClass="form-control"
+							requiredMessage="Campo area requerido">
+						</h:inputText>
+					</b:column>
+				</b:row>
+				<br />
+				<b:row>
+					<b:column span="2">
+						<h:outputLabel value="Estado*"
+							rendered="#{postulantesusuBean.edicion}" />
+					</b:column>
+					<b:column span="4">
+						<b:selectOneMenu value="#{postulantesusuBean.pos_estado}" 
+							rendered="#{postulantesusuBean.edicion}">
+							<f:selectItems value="#{postulantesusuBean.listEstados}" />
+						</b:selectOneMenu>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column span="5">
+						<p:commandButton value="Registrase" styleClass="btn btn-info"
+							style="padding:7px;"
+							actionListener="#{postulantesusuBean.abrirDialog()}"
+							update="frm messages">
+						</p:commandButton>&nbsp;&nbsp;&nbsp;
+						<b:commandButton value="Volver"
+							action="#{postulantesusuBean.salir()}" update="frm" look="info"
+							process="@this">
+						</b:commandButton>
+					</b:column>
+				</b:row>
+				<br />
+				<br />
+			</b:panel>
+		</h:form>
+		<p:confirmDialog header="Confirmación"
+			message="Está seguro de guardar la información?" closable="false"
+			showEffect="fade" hideEffect="explode" widgetVar="gu">
+			<h:form>
+				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
+					icon="ui-icon-check" action="#{postulantesusuBean.crearPostulante()}"
+					oncomplete="PF('gu').hide();" update="frm" />
+				<p:commandButton value="No" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+					onclick="PF('gu').hide();" />
+			</h:form>
+		</p:confirmDialog>
+	</ui:define>
+</ui:composition>
+</html>

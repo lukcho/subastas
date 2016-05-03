@@ -1,4 +1,4 @@
-package innopolis.entidades.help;
+package subastas.entidades.help;
 
 public class UsuarioHelp {
 	private String idUsr;

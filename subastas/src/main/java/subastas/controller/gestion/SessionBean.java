@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import subastas.entidades.help.UsuarioHelp;
+import subastas.entidades.help.Utilidades;
 import subastas.model.dao.entities.SubPostulante;
 import subastas.model.generic.Mail;
 import subastas.model.manager.ManagerGestion;
-import innopolis.entidades.help.UsuarioHelp;
-import innopolis.entidades.help.Utilidades;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;

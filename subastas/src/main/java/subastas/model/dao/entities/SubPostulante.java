@@ -17,9 +17,7 @@ public class SubPostulante implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="SUB_POSTULANTES_POSID_GENERATOR" )
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SUB_POSTULANTES_POSID_GENERATOR")
-	@Column(name="pos_id", length=200)
+	@Column(name="pos_id")
 	private String posId;
 
 	@Column(name="pos_apellido", length=200)

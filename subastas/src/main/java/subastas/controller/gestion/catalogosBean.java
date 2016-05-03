@@ -56,6 +56,7 @@ public class catalogosBean implements Serializable {
 		cat_id = 0;
 		cati_nombre = "";
 		cati_estado = "A";
+		cati_idpadre=0;
 		edicion = false;
 		ediciontipo = false;
 		listaCatalogoItems = managercat.findAllCatalogoItems();
@@ -179,6 +180,7 @@ public class catalogosBean implements Serializable {
 		cati_nombre = "";
 		cati_estado = "A";
 		cati_id = 0;
+		cati_idpadre = 0;
 		return "ncatalogo?faces-redirect=true";
 	}
 

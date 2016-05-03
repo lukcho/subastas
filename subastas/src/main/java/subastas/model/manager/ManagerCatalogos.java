@@ -156,7 +156,7 @@ public class ManagerCatalogos {
 
 	@SuppressWarnings("unchecked")
 	public List<SubCatDet> findCatalogoItemsByCatalogo(Integer catId) {
-		return mDAO.findWhere(SubCatDet.class, "o.transCatCab.catcId= "
+		return mDAO.findWhere(SubCatDet.class, "o.subCatCab.catcId= "
 				+ catId + " and catdIdPadre= 0", null);
 	}
 
