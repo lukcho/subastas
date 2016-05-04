@@ -55,6 +55,16 @@ public class ManagerGestion{
 	}
 	
 	/**
+	 * listar todos los items por ganador
+	 * @param prod_id
+	 * @throws Exception
+	 */	
+	@SuppressWarnings("unchecked") 
+	public List<SubItem> findAllItemsOrdenadas() {
+		return mDAO.findWhere(SubItem.class, " 1=1 ", " o.itemGanadorDni not like '' desc");
+	}
+	
+	/**
 	 * Agrega vehiculo
 	 * @param pro_id
 	 * @param prodfoto_id
@@ -151,8 +161,8 @@ public class ManagerGestion{
 	 * @param prod_id
 	 * @throws Exception
 	 */
-	public SubPostulante postulanteByID(String con_id) throws Exception {
-		return (SubPostulante) mDAO.findById(SubPostulante.class, con_id);
+	public SubPostulante postulanteByID(String pos_id) throws Exception {
+		return (SubPostulante) mDAO.findById(SubPostulante.class, pos_id);
 	}
 	
 	/**

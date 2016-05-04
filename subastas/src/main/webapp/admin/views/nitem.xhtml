@@ -120,18 +120,22 @@
 							uploadLabel="Subir" label="Seleccionar" fileLimit="1"
 							fileUploadListener="#{itemBean.ImagenServ}">
 						</p:fileUpload>
-						<h:outputText value="Vista Previa: " />
-						<p:graphicImage id="imagen"
-							value="#{facesContex}/imgevent/300.jpg" width="150"
-							height="150" />
 					</b:column>
+					<b:row>
+						<b:column span="2">
+							<h:outputText value="Vista Previa: " />
+						</b:column>
+						<b:column span="4">
+							<p:graphicImage id="imagen"
+								value="#{facesContex}/imgevent/300.jpg" width="150" height="150" />
+						</b:column>
+					</b:row>
 				</b:row>
 
 				<br />
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Estado*"
-							rendered="#{itemBean.edicion}" />
+						<h:outputLabel value="Estado*" rendered="#{itemBean.edicion}" />
 					</b:column>
 					<b:column span="4">
 						<b:selectOneMenu value="#{itemBean.item_estado}"

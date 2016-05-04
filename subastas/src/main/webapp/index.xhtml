@@ -19,49 +19,69 @@
 		<br />
 		<h:form id="frm">
 			<p:growl id="messages" showDetail="false" />
-			<p:layout style="min-height:550px;">
-				<p:layoutUnit position="west" size="200" header="CAT&Aacute;LOGOS"
-					resizable="true" minSize="40" maxSize="200" closable="true"
-					collapsible="true">
-					<p:tree value="#{nodeBean.root}" var="node" dynamic="true"
-						selectionMode="single" selection="#{nodeBean.selectedNode}">
-						<p:treeNode>
-							<h:outputText value="#{node}" />
-						</p:treeNode>
-					</p:tree>
-
-				</p:layoutUnit>
-				<p:layoutUnit position="center" size="600">
-					<p:dataGrid var="proser" value="#{compraBean.listaProdFoto}"
+			<p:layout style="min-height:600px;">
+				<p:layoutUnit position="center" size="500">
+					<p:dataGrid var="item" value="#{ofertausuBean.listaItems}"
 						columns="3" layout="grid" rows="12" paginator="true" id="cars"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="6,12,16">
 
-						<p:panel header="#{proser.fabProducto.proTipo}"
-							style="text-align:center">
+						<p:panel header="#{item.itemNombre}" style="text-align:center">
 							<h:panelGrid columns="1" style="width:100%">
 								<p:graphicImage value="#{facesContex}/imgevent/300.jpg"
 									width="150" height="150" />
-								<h:outputText value="#{proser.fabProducto.proNombre}" />
-								<h:outputText value="$ #{proser.fabProducto.proPrecio}" />
+								<h:outputText value="$ #{item.itemValorVenta}" />
+								<h:outputText value="#{item.itemDescripcion}" />
+								<h:outputText value="#{item.itemCaracteristicas}" />
+								<h:outputText
+									value="#{item.itemFechaSubastaInicio} #{item.itemFechaSubastaFin}">
+									<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
+								</h:outputText>
 								<p:commandLink update=":frm:detalleproser"
-									oncomplete="PF('verproser').show()" title="Informacion">
+									oncomplete="PF('veritem').show()" title="Informacion">
 									<h:outputText styleClass="ui-icon ui-icon-search"
 										style="margin:0 auto;" />
-									<f:setPropertyActionListener value="#{proser}"
-										target="#{compraBean.fabproductofoto}" />
+									<f:setPropertyActionListener value="#{item}"
+										target="#{ofertausuBean.item}" />
 								</p:commandLink>
 							</h:panelGrid>
 						</p:panel>
 					</p:dataGrid>
 				</p:layoutUnit>
-				<p:layoutUnit position="east" size="200" header="IM&Aacute;GENES"
+				<p:layoutUnit position="east" size="300" header="Ingreso al Sistema"
 					resizable="true" closable="true" collapsible="true" effect="drop">
+							<div class="row topForm">
+								<div class="col-sm-6 col-sm-offset-3 form-box">
+									<div class="form-top">
+										<div class="form-top-right">
+											<i class="fa fa-gavel fa-3x"></i>
+										</div>
+									</div>
+									<div class="form-bottom">
+										<h:form id="frmlog">
+											<div class="form-group">
+												<p:inputText placeholder="USUARIO" styleClass="form-control" 
+													value="#{sessionBean.nick}">
+													<p:ajax listener="#{sessionBean.veri()}" update=":frm"></p:ajax>
+												</p:inputText>
+											</div>
+											<div class="form-group">
+												<b:inputSecret placeholder="CONTRASE&Ntilde;A"
+													value="#{sessionBean.pass}">
+												</b:inputSecret>
+											</div>
+											<b:commandButton value="Ingresar"
+												iconAwesome="check-square-o" action="#{sessionBean.login}"
+												styleClass="btn-block btnSend" look="primary"
+												update=":frm" />
+										</h:form>
+									</div>
+								</div>
+							</div>
 				</p:layoutUnit>
 			</p:layout>
-			<p:dialog header="Informaci&oacute;n del Producto/Servicio"
-				widgetVar="verproser" modal="true" showEffect="fade"
-				hideEffect="fade" resizable="false">
+			<p:dialog header="Informaci&oacute;n del Item" widgetVar="veritem"
+				modal="true" showEffect="fade" hideEffect="fade" resizable="false">
 				<p:outputPanel id="detalleproser" style="text-align:center;">
 					<p:panelGrid columns="2" columnClasses="label,value">
 						<f:facet name="header">
@@ -69,26 +89,25 @@
 								width="150" height="150" />
 						</f:facet>
 						<h:outputText value="Nombre: " />
-						<h:outputText
-							value="#{compraBean.fabproductofoto.fabProducto.proNombre}" />
+						<h:outputText value="#{ofertausuBean.item.itemNombre}" />
 						<h:outputText value="Descripcion: " />
-						<h:outputText
-							value="#{compraBean.fabproductofoto.fabProducto.proDescripcion}" />
-						<h:outputText value="Precio: " />
-						<h:outputText
-							value="$ #{compraBean.fabproductofoto.fabProducto.proPrecio}" />
-						<h:outputText value="Stock: " />
-						<h:outputText
-							value="#{compraBean.fabproductofoto.fabProducto.proStock}" />
-						<h:outputText value="Tipo: " />
-						<h:outputText
-							value="#{compraBean.fabproductofoto.fabProducto.proTipo}" />
+						<h:outputText value="#{ofertausuBean.item.itemDescripcion}" />
+						<h:outputText value="Valor: " />
+						<h:outputText value="$ #{ofertausuBean.item.itemValorVenta}" />
+						<h:outputText value="Fechas de Inicio: " />
+						<h:outputText value="#{ofertausuBean.item.itemFechaSubastaInicio}">
+							<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
+						</h:outputText>
+						<h:outputText value="Fechas de Final: " />
+						<h:outputText value="#{ofertausuBean.item.itemFechaSubastaFin}">
+							<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
+						</h:outputText>
 						<p:commandButton value="Comprar" styleClass="btn btn-default"
-							action="#{compraBean.irComprar()}" style="padding:7px;"
-							update="frm messages">
+							disabled="true" action="#{ofertausuBean.irComprar()}"
+							style="padding:7px;" update="frm messages">
 						</p:commandButton>
 						<p:commandButton value="Volver" styleClass="btn btn-default"
-							style="padding:7px;" actionListener="index.xhtml"
+							style="padding:7px;" actionListener="index.xhtml" oncomplete="PF('veritem').hide();"
 							update="frm messages">
 						</p:commandButton>
 					</p:panelGrid>

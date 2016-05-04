@@ -1,4 +1,4 @@
-package subastas.controller.gestion;
+package subastas.controller.oferta;
 
 import subastas.model.dao.entities.SubPostulante;
 import subastas.model.generic.Funciones;
@@ -378,7 +378,7 @@ public class postulantesusuBean implements Serializable {
 				FacesContext context = FacesContext.getCurrentInstance();
 				context.addMessage(null, new FacesMessage("Modificado..!!!",
 						"Usuario Modificado "));
-				r = "postulantes?faces-redirect=true";
+				r = "index?faces-redirect=true";
 			} else {
 				if (this.ccedula(pos_id)) {
 					FacesContext context = FacesContext.getCurrentInstance();

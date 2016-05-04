@@ -34,13 +34,13 @@
 						<p:commandButton id="btnE" icon="ui-icon-pencil"
 							action="#{ofertasBean.cargarOferta(ofer)}">
 							<p:tooltip id="toolTipTrack1" for="btnE"
-								value="Bot&oacute;n para modificar el ofer" trackMouse="true" />
+								value="Bot&oacute;n para ver el oferta" trackMouse="true" />
 						</p:commandButton>
 							&nbsp;&nbsp;&nbsp;
 							<p:commandButton id="trackcamb" icon="ui-icon-refresh"
-							action="#{ofertasBean.cambiarEstadoOferta(ofer)}">
+							action="#{ofertasBean.conocerGanador(ofer)}">
 							<p:tooltip id="toolTipTrack2" for="trackcamb"
-								value="Bot&oacute;n para cambiar el estado del ofer"
+								value="Bot&oacute;n para conocer eñ ganador"
 								trackMouse="true" />
 						</p:commandButton>
 					</p:column>
@@ -66,6 +66,10 @@
 					</p:column>
 					<p:column headerText="VALOR OFERTA" width="30">
 						<h:outputText value="#{ofer.oferValorOferta}"></h:outputText>
+					</p:column>
+					<p:column headerText="NOMBRE APELLIDO GANADOR" width="60">
+						<h:outputText
+							value="#{ofer.subItem.itemGanadorDni}"></h:outputText>
 					</p:column>
 				</p:dataTable>
 			</b:panel>

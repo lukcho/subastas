@@ -10,6 +10,7 @@ import subastas.model.dao.entities.SubPostulante;
 import subastas.model.generic.Mail;
 import subastas.model.manager.ManagerGestion;
 
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -21,10 +22,12 @@ import javax.servlet.http.HttpSession;
 public class SessionBean {
 	private UsuarioHelp session;
     //log
-    private String Cedula;
+    private String nick;
     private String pass;
     
+    @EJB
     ManagerGestion managest;
+    
     //devolver contraseña
     private String correocontra;
     String smscor="";
@@ -35,16 +38,13 @@ public class SessionBean {
     private SubPostulante usr;
     
     /*Perfil de Usuario*/
-    private String nombre, apellido, password, correo, cedula,alias; 
+    private String nombre, apellido, password, correo, cedula; 
     
     public SessionBean() {
     	managest = new ManagerGestion();
 		usr=new SubPostulante();
 	}
-    
-    public String getNick() {
-		return Cedula;
-	}
+
     
     public String getPass() {
 		return pass;
@@ -60,10 +60,6 @@ public class SessionBean {
 
 	public void setNom(String nom) {
 		this.nom = nom;
-	}
-
-	public void setNick(String nick) {
-		this.Cedula = nick;
 	}
     
     public void setPass(String pass) {
@@ -110,6 +106,14 @@ public class SessionBean {
     public void setCedula(String cedula) {
 		this.cedula = cedula;
 	}
+    
+    public String getNick() {
+		return nick;
+	}
+    
+    public void setNick(String nick) {
+		this.nick = nick;
+	}
     /**
 	 * @return the correocontra
 	 */
@@ -123,27 +127,14 @@ public class SessionBean {
 	public void setCorreocontra(String correocontra) {
 		this.correocontra = correocontra;
 	}
- /**
-	 * @return the alias
-	 */
-	public String getAlias() {
-		return alias;
-	}
-
-	/**
-	 * @param alias the alias to set
-	 */
-	public void setAlias(String alias) {
-		this.alias = alias;
-	}
 
 	// login
 	public void veri(){
- 		System.out.println(Cedula);
+ 		System.out.println("este es el id: "+nick);
  		int t=0;
  		List<SubPostulante> a = managest.findAllpostulantes();
  		for (SubPostulante u : a) {
- 			if ((u.getPosId().equals(Cedula) || u.getPosCorreo().equals(Cedula))){
+ 			if ((u.getPosId().equals(nick) || u.getPosCorreo().equals(nick))){
  				t=100;
  			}
  		}
@@ -160,14 +151,14 @@ public class SessionBean {
  		try {
  		for (SubPostulante y :u){
  			System.out.println("avr "+Utilidades.Encriptar(pass).toString());
- 			if (y.getPosId().equals(Cedula) && y.getPosPassword().equals(Utilidades.Encriptar(pass))){
+ 			if (y.getPosId().equals(nick) && y.getPosPassword().equals(Utilidades.Encriptar(pass))){
  				session = new UsuarioHelp(y.getPosId(), y.getPosApellido(),y.getPosCorreo() ,y.getPosNombre());
  				nom=y.getPosNombre()+" "+y.getPosApellido();
  				usr=y;
  				r="home?faces-redirect=true";
  				t=1;
  			}
- 			else if (y.getPosCorreo().equals(Cedula) && y.getPosPassword().equals(Utilidades.Encriptar(pass))){
+ 			else if (y.getPosCorreo().equals(nick) && y.getPosPassword().equals(Utilidades.Encriptar(pass))){
  				session = new UsuarioHelp(y.getPosId(), y.getPosApellido(),y.getPosCorreo() ,y.getPosNombre());
  				nom=y.getPosNombre()+" "+y.getPosApellido();
  				usr=y;
@@ -196,10 +187,10 @@ public class SessionBean {
  		nom="";
  		correo="";
  		pass="";
- 		Cedula="";
+ 		nick="";
  		System.out.println("si salio");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Salió",null));
- 		return "";
+ 		return "index?faces-redirect=true";
  	}
  	
  	 /**
