@@ -36,7 +36,7 @@ and open the template in the editor.
 			<ui:insert name="menu"></ui:insert>
 		</b:navbarLinks>
 		<p class="navbar-text pull-right">
-			<strong>#{sesionBean.usuario}</strong>&nbsp;|&nbsp; <a
+			<strong>#{sessionBean.nom}</strong>&nbsp;|&nbsp; <a
 				class="navbar-link" rel="nofollow" onclick="PF('cs').show();">Cerrar
 				sesión</a>
 		</p>
@@ -48,7 +48,7 @@ and open the template in the editor.
 				message="Está seguro de salir del sistema?" closable="false"
 				showEffect="fade" hideEffect="explode" widgetVar="cs">
 				<p:commandButton value="Yes" styleClass="ui-confirmdialog-yes"
-					icon="ui-icon-check" action="#{sesionBean.logOut()}"
+					icon="ui-icon-check" action="#{sessionBean.logout}"
 					oncomplete="PF('cs').hide();" />
 				<p:commandButton value="No" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"

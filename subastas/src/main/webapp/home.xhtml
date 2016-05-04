@@ -6,7 +6,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:b="http://bootsfaces.net/ui">
 
-<ui:composition template="template.xhtml">
+<ui:composition template="templateusu.xhtml">
 	<ui:define name="titulo">
             Subastas
         </ui:define>
@@ -21,7 +21,7 @@
 			<p:growl id="messages" showDetail="false" />
 			<p:layout style="min-height:600px;">
 				<p:layoutUnit position="center" size="500">
-					<p:dataScroller var="item" value="#{ofertausuindexBean.listaItems}"
+					<p:dataScroller var="item" value="#{ofertausuBean.listaItems}"
 						chunkSize="10"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 						rowsPerPageTemplate="6,12,16">
@@ -38,7 +38,7 @@
 
 							<p:outputPanel>
 								<h:panelGrid columns="2" cellpadding="5">
-									<h:outputText value="Nombre: " style="font-weight: bold"  />
+									<h:outputText value="Nombre: " style="font-weight: bold" />
 									<h:outputText value="#{item.itemNombre}"></h:outputText>
 
 									<h:outputText value="Valor Base: " style="font-weight: bold" />
@@ -57,17 +57,16 @@
 									</h:outputText>
 								</h:panelGrid>
 							</p:outputPanel>
-							
+
 							<p:outputPanel>
-								<h:panelGrid columns="2" cellpadding="5">
-									<p:commandLink update=":frm:detalleproser" value="Ver Información" 
-										oncomplete="PF('veritem').show()" title="Informacion">
-										<h:outputText styleClass="ui-icon ui-icon-search"
-											style="margin:0 auto;" />
-										<f:setPropertyActionListener value="#{item}"
-											target="#{ofertausuindexBean.item}" />
-									</p:commandLink>
-								</h:panelGrid>
+								<p:commandLink update=":frm:detalleproser"
+									value="Ver Información" oncomplete="PF('veritem').show()"
+									title="Informacion">
+									<h:outputText styleClass="ui-icon ui-icon-search"
+										style="margin:0 auto;" />
+									<f:setPropertyActionListener value="#{item}"
+										target="#{ofertausuBean.item}" />
+								</p:commandLink>
 							</p:outputPanel>
 						</h:panelGrid>
 					</p:dataScroller>
@@ -82,64 +81,31 @@
 								width="150" height="150" />
 						</f:facet>
 						<h:outputText value="Nombre: " />
-						<h:outputText value="#{ofertausuindexBean.item.itemNombre}" />
+						<h:outputText value="#{ofertausuBean.item.itemNombre}" />
 						<h:outputText value="Descripcion: " />
-						<h:outputText value="#{ofertausuindexBean.item.itemDescripcion}" />
+						<h:outputText value="#{ofertausuBean.item.itemDescripcion}" />
 						<h:outputText value="Valor: " />
-						<h:outputText value="$ #{ofertausuindexBean.item.itemValorVenta}" />
+						<h:outputText value="$ #{ofertausuBean.item.itemValorBase}" />
 						<h:outputText value="Fechas de Inicio: " />
-						<h:outputText
-							value="#{ofertausuindexBean.item.itemFechaSubastaInicio}">
+						<h:outputText value="#{ofertausuBean.item.itemFechaSubastaInicio}">
 							<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
 						</h:outputText>
 						<h:outputText value="Fechas de Final: " />
-						<h:outputText
-							value="#{ofertausuindexBean.item.itemFechaSubastaFin}">
+						<h:outputText value="#{ofertausuBean.item.itemFechaSubastaFin}">
 							<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
 						</h:outputText>
 						<p:commandButton value="Comprar" styleClass="btn btn-default"
-							disabled="true" action="#{ofertausuindexBean.irComprar()}"
+							disabled="false" action="#{ofertausuBean.irComprar()}"
 							style="padding:7px;" update="frm messages">
 						</p:commandButton>
 						<p:commandButton value="Volver" styleClass="btn btn-default"
-							style="padding:7px;" actionListener="index.xhtml"
+							style="padding:7px;" actionListener="home.xhtml"
 							oncomplete="PF('veritem').hide();" update="frm messages">
 						</p:commandButton>
 					</p:panelGrid>
 				</p:outputPanel>
 			</p:dialog>
 		</h:form>
-		<p:dialog header="Ingreso al Sistema de Subastas" widgetVar="ic" modal="true"
-			showEffect="fade" hideEffect="fade" resizable="false">
-			<div class="row topForm">
-				<div class="col-sm-6 col-sm-offset-3 form-box">
-					<div class="form-bottom">
-						<h:form id="frmlog">
-							<h:panelGrid columns="2" cellpadding="5">
-								<b:row>
-									<b:column>
-										<p:inputText placeholder="USUARIO" styleClass="form-control"
-											value="#{sessionBean.nick}">
-											<p:ajax listener="#{sessionBean.veri()}" update=":frm"></p:ajax>
-										</p:inputText>
-									</b:column>
-									<b:column>
-										<b:inputSecret placeholder="CONTRASE&Ntilde;A"
-											value="#{sessionBean.pass}">
-										</b:inputSecret>
-									</b:column>
-									<b:column>
-										<b:commandButton value="Ingresar" iconAwesome="check-square-o"
-											action="#{sessionBean.login}" styleClass="btn-block btnSend"
-											look="primary" update=":frm" />
-									</b:column>
-								</b:row>
-							</h:panelGrid>
-						</h:form>
-					</div>
-				</div>
-			</div>
-		</p:dialog>
 	</ui:define>
 </ui:composition>
 </html>

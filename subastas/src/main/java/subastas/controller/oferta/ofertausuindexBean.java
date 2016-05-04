@@ -29,7 +29,7 @@ import subastas.model.manager.ManagerGestion;
 
 @SessionScoped
 @ManagedBean
-public class ofertausuBean implements Serializable {
+public class ofertausuindexBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -77,14 +77,12 @@ public class ofertausuBean implements Serializable {
 	private Date date;
 	private Date fecha;
 
-	private UsuarioHelp session;
 	
-	public ofertausuBean() {
+	public ofertausuindexBean() {
 	}
 
 	@PostConstruct
 	public void ini() {
-		session = SessionBean.verificarSession();
 		listaItem = managergest.findAllItems();
 	}
 
@@ -364,7 +362,6 @@ public class ofertausuBean implements Serializable {
 			BigDecimal valoroferta = new BigDecimal(ofer_valor_oferta.replace(
 					",", "."));
 			fecha = new Date();
-			pos_id = session.getIdUsr();
 			System.out.println("iddelitem "+item_id);
 			managergest.asignarPostulante(pos_id);
 			managergest.asignarItem(item_id);

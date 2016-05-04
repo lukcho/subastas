@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<ui:composition template="templateusu.xhtml">
+	<ui:define name="titulo">
+           Ofertar 
+        </ui:define>
+	<ui:define name="contenido">
+		<br />
+		<h:form id="frm">
+			<p:growl id="messages" showDetail="false" />
+			<b:panel title="Ofertar Item" look="primary">
+				<b:row>
+					<b:column col-sm="12" col-md="12">
+						<b:thumbnail tooltip="Oferta">
+							<b:row>
+								<b:column span="2">
+								</b:column>
+								<b:column span="2">
+									<p:graphicImage id="imagen"
+										value="#{facesContex}/imgevent/300.jpg" width="150"
+										height="150" />
+								</b:column>
+								<b:column span="2">
+									<h:outputLabel value="Nombre:* " />
+								</b:column>
+								<b:column span="6">
+									<h:outputLabel value="#{ofertausuBean.item_nombre}">
+									</h:outputLabel>
+								</b:column>
+								<b:column span="2">
+									<h:outputLabel value="Descripción:* " />
+								</b:column>
+								<b:column span="6" style="margin-bottom:10px">
+									<h:outputLabel value="#{ofertausuBean.item_descripcion}" />
+								</b:column>
+								<b:column span="2">
+									<h:outputLabel value="Características*: " />
+								</b:column>
+								<b:column span="6" style="margin-bottom:10px">
+									<h:outputLabel value="#{ofertausuBean.item_caracteristicas}">
+									</h:outputLabel>
+								</b:column>
+								<b:column span="2">
+									<h:outputLabel value="Valor Base:* ($) " />
+								</b:column>
+								<b:column span="6">
+									<h:outputLabel value="#{ofertausuBean.item_valorbase}">
+									</h:outputLabel>
+								</b:column>
+								<b:column span="2">
+									<h:outputLabel value="Fecha Inicio*:" />
+								</b:column>
+								<b:column span="6">
+									<h:outputLabel value="#{ofertausuBean.fi}">
+										<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
+									</h:outputLabel>
+								</b:column>
+								<b:column span="2">
+									<h:outputLabel value="Fecha Fin*:" />
+								</b:column>
+								<b:column span="6">
+									<h:outputLabel value="#{ofertausuBean.ff}">
+										<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
+									</h:outputLabel>
+								</b:column>
+								<b:column span="4"></b:column>
+								<b:column span="2">
+									<h:outputLabel value="Valor a Ofertar*:" />
+								</b:column>
+								<b:column span="2">
+									<b:inputText value="#{ofertausuBean.ofer_valor_oferta}"
+										required="true" placeholder="0.00"
+										requiredMessage="Campo valor venta requerido"
+										validatorMessage="Ingrese solo dígitos">
+										<f:validateRegex pattern="[0-9.]+" />
+										<p:ajax listener="#{ofertausuBean.verificarValor()}"
+											update=":frm"></p:ajax>
+									</b:inputText>
+								</b:column>
+							</b:row>
+						</b:thumbnail>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column span="4" />
+					<b:column span="5">
+						<p:commandButton value="Enviar Oferta"
+							styleClass="btn btn-warning" style="padding:7px;"
+							actionListener="#{ofertausuBean.abrirDialog()}"
+							update="frm messages">
+						</p:commandButton>&nbsp;&nbsp;&nbsp;
+						<b:commandButton value="Volver" action="#{ofertausuBean.salir()}"
+							update="frm" look="info" process="@this">
+						</b:commandButton>
+					</b:column>
+				</b:row>
+			</b:panel>
+		</h:form>
+		<p:confirmDialog header="Confirmación"
+			message="Está seguro de guardar la información?" closable="false"
+			showEffect="fade" hideEffect="explode" widgetVar="gu">
+			<h:form>
+				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
+					icon="ui-icon-check" action="#{ofertausuBean.crearOferta()}"
+					oncomplete="PF('gu').hide();" update="frm" />
+				<p:commandButton value="No" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+					onclick="PF('gu').hide();" />
+			</h:form>
+		</p:confirmDialog>
+	</ui:define>
+</ui:composition>
+</html>
