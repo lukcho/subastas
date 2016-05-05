@@ -94,7 +94,7 @@ public class SesionBean implements Serializable{
 			}else{
 				setMenu(mngAcc.loginWS(getUsuario(), getPass(), "SUB"));
 				setPass(null);
-				return "/views/index?faces-redirect=true";
+				return "/admin/views/index?faces-redirect=true";
 			}
 		} catch (Exception e) {
 			Mensaje.crearMensajeERROR(e.getMessage());setPass(null);
@@ -110,7 +110,7 @@ public class SesionBean implements Serializable{
 		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         session.invalidate();
         setPass(null);setUsuario(null);setMenu(new ArrayList<Menu>());
-        return "/index?faces-redirect=true";
+        return "/admin/index?faces-redirect=true";
 	}
 	
 	/**
@@ -124,7 +124,7 @@ public class SesionBean implements Serializable{
 	     SesionBean user = (SesionBean) session.getAttribute("sesionBean");
 	     if (user==null || user.getUsuario() == null) {
             try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("/subastas/index.xhtml");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/subastas/admin/views/index.xhtml");
             } catch (IOException ex) {
             	Mensaje.crearMensajeERROR(ex.getMessage());
             }
@@ -135,7 +135,7 @@ public class SesionBean implements Serializable{
         		return user.getUsuario();
         	else{
         		try {
-       				FacesContext.getCurrentInstance().getExternalContext().redirect("/subastas/views/index.xhtml");
+       				FacesContext.getCurrentInstance().getExternalContext().redirect("/subastas/admin/views/index.xhtml");
 	            } catch (IOException ex) {
 	            	Mensaje.crearMensajeERROR(ex.getMessage());
 	            }
@@ -155,7 +155,7 @@ public class SesionBean implements Serializable{
 	     SesionBean user = (SesionBean) session.getAttribute("sesionBean");
 	     if (user==null || user.getUsuario() == null) {
             try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("/subastas/index.xhtml");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/subastas/admin/index.xhtml");
             } catch (IOException ex) {
             	Mensaje.crearMensajeERROR(ex.getMessage());
             }

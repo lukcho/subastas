@@ -1,7 +1,6 @@
 package subastas.controller.gestion;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import subastas.entidades.help.UsuarioHelp;
@@ -35,7 +34,8 @@ public class SessionBean {
     //mostrar
     private String nom;
     
-    private SubPostulante usr;
+    @SuppressWarnings("unused")
+	private SubPostulante usr;
     
     /*Perfil de Usuario*/
     private String nombre, apellido, password, correo, cedula; 
@@ -151,18 +151,18 @@ public class SessionBean {
  		try {
  		for (SubPostulante y :u){
  			System.out.println("avr "+Utilidades.Encriptar(pass).toString());
- 			if (y.getPosId().equals(nick) && y.getPosPassword().equals(Utilidades.Encriptar(pass))){
+ 			if (y.getPosId().equals(nick) && y.getPosPassword().equals(Utilidades.Encriptar(pass)) && y.getPosEstado().equals("A")){
  				session = new UsuarioHelp(y.getPosId(), y.getPosApellido(),y.getPosCorreo() ,y.getPosNombre());
  				nom=y.getPosNombre()+" "+y.getPosApellido();
  				usr=y;
- 				r="home?faces-redirect=true";
+ 				r="postulante/home?faces-redirect=true";
  				t=1;
  			}
  			else if (y.getPosCorreo().equals(nick) && y.getPosPassword().equals(Utilidades.Encriptar(pass))){
  				session = new UsuarioHelp(y.getPosId(), y.getPosApellido(),y.getPosCorreo() ,y.getPosNombre());
  				nom=y.getPosNombre()+" "+y.getPosApellido();
  				usr=y;
- 				r="home?faces-redirect=true";
+ 				r="postulante/home?faces-redirect=true";
  				t=1;
  			}
  		}
@@ -190,7 +190,7 @@ public class SessionBean {
  		nick="";
  		System.out.println("si salio");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Salió",null));
- 		return "index?faces-redirect=true";
+ 		return "/index?faces-redirect=true";
  	}
  	
  	 /**
@@ -204,7 +204,7 @@ public class SessionBean {
          SessionBean user = (SessionBean) session.getAttribute("sessionBean");
          if (user==null || user.getSession() == null) {
              try {
-                 FacesContext.getCurrentInstance().getExternalContext().redirect("../index.xhtml");
+                 FacesContext.getCurrentInstance().getExternalContext().redirect("/index.xhtml");
              } catch (IOException ex) {
              	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(),null));
              }
@@ -297,6 +297,6 @@ public class SessionBean {
 				e.printStackTrace();
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Error al enviar correo", null));
 			}
-    		return "index?faces-redirect=true";
+    		return "home?faces-redirect=true";
 		}			    
 }

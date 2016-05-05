@@ -9,7 +9,7 @@
 
 <ui:composition template="template.xhtml">
 	<ui:define name="titulo">
-           POSTULANTE 
+           Postulante 
         </ui:define>
 	<ui:define name="contenido">
 		<br />
@@ -20,7 +20,7 @@
 					<b:column span="2">
 						<h:outputLabel value="Cédula/Pasaporte:* " />
 					</b:column>
-					<b:column span="4">
+					<b:column span="3">
 						<h:inputText value="#{postulantesusuBean.pos_id}" required="true"
 							styleClass="form-control"
 							requiredMessage="Campo cédula/pasaporte requerido">
@@ -29,18 +29,19 @@
 					<b:column span="2">
 						<h:outputLabel value="Nombre:* " />
 					</b:column>
-					<b:column span="4">
+					<b:column span="3">
 						<h:inputText value="#{postulantesusuBean.pos_nombre}" required="true"
 							styleClass="form-control"
 							requiredMessage="Campo nombre requerido">
 						</h:inputText>
 					</b:column>
 				</b:row>
+				<br />
 				<b:row>
 					<b:column span="2">
 						<h:outputLabel value="Apellido:* " />
 					</b:column>
-					<b:column span="4">
+					<b:column span="3">
 						<h:inputText value="#{postulantesusuBean.pos_apellido}"
 							required="true" styleClass="form-control"
 							requiredMessage="Campo apellido requerido">
@@ -49,18 +50,19 @@
 					<b:column span="2">
 						<h:outputLabel value="Dirección:* " />
 					</b:column>
-					<b:column span="4">
+					<b:column span="3">
 						<h:inputText value="#{postulantesusuBean.pos_direccion}"
 							required="true" styleClass="form-control"
 							requiredMessage="Campo direccion requerido">
 						</h:inputText>
 					</b:column>
 				</b:row>
+				<br />
 				<b:row>
 					<b:column span="2">
 						<h:outputLabel value="Correo:* " />
 					</b:column>
-					<b:column span="4">
+					<b:column span="3">
 						<h:inputText required="true" styleClass="form-control"
 							requiredMessage="Por favor ingrese su Correo."
 							validatorMessage="Formato de correo inv&aacute;lido"
@@ -72,7 +74,7 @@
 					<b:column span="2">
 						<h:outputLabel value="Teléfono:* " />
 					</b:column>
-					<b:column span="4">
+					<b:column span="3">
 						<h:inputText value="#{postulantesusuBean.pos_telefono}"
 							required="true" styleClass="form-control"
 							requiredMessage="Campo teléfono requerido">
@@ -80,11 +82,12 @@
 						</h:inputText>
 					</b:column>
 				</b:row>
+				<br />
 				<b:row>
 					<b:column span="2">
 						<h:outputLabel value="Contraseña:* " />
 					</b:column>
-					<b:column span="4">
+					<b:column span="3">
 						<h:inputSecret required="true" id="pass" redisplay="true" styleClass="form-control"
 							value="#{postulantesusuBean.pos_password}" feedback="true"
 							requiredMessage="Requerida Contraseña" goodLabel="Buena"
@@ -96,18 +99,19 @@
 					<b:column span="2">
 						<h:outputLabel value="Institución:* " />
 					</b:column>
-					<b:column span="4">
+					<b:column span="3">
 						<h:inputText value="#{postulantesusuBean.pos_institucion}"
 							required="true" styleClass="form-control"
 							requiredMessage="Campo institución requerido">
 						</h:inputText>
 					</b:column>
 				</b:row>
+				<br />
 				<b:row>
 					<b:column span="2">
 						<h:outputLabel value="Gerencia:* " />
 					</b:column>
-					<b:column span="4">
+					<b:column span="3">
 						<h:inputText value="#{postulantesusuBean.pos_gerencia}"
 							required="true" styleClass="form-control"
 							requiredMessage="Campo gerencia requerido">
@@ -116,7 +120,7 @@
 					<b:column span="2">
 						<h:outputLabel value="Area:* " />
 					</b:column>
-					<b:column span="4">
+					<b:column span="3">
 						<h:inputText value="#{postulantesusuBean.pos_area}"
 							required="true" styleClass="form-control"
 							requiredMessage="Campo area requerido">
@@ -129,7 +133,7 @@
 						<h:outputLabel value="Estado*"
 							rendered="#{postulantesusuBean.edicion}" />
 					</b:column>
-					<b:column span="4">
+					<b:column span="3">
 						<b:selectOneMenu value="#{postulantesusuBean.pos_estado}" 
 							rendered="#{postulantesusuBean.edicion}">
 							<f:selectItems value="#{postulantesusuBean.listEstados}" />

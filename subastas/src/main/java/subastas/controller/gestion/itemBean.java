@@ -21,6 +21,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.inject.Inject;
 import javax.servlet.ServletContext;
 
 import org.primefaces.context.RequestContext;
@@ -31,6 +32,9 @@ import subastas.model.dao.entities.SubItem;
 import subastas.model.generic.Funciones;
 import subastas.model.generic.Mensaje;
 import subastas.model.manager.ManagerGestion;
+import subastas.model.dao.entities.Persona;
+import subastas.model.manager.ManagerCarga;
+import subastas.controller.access.SesionBean;
 
 @SessionScoped
 @ManagedBean
@@ -40,6 +44,9 @@ public class itemBean implements Serializable {
 
 	@EJB
 	private ManagerGestion managergest;
+
+	@Inject
+	SesionBean ms;
 
 	// PRODUCTOS Y SERVICIOS
 	// Items
@@ -78,11 +85,18 @@ public class itemBean implements Serializable {
 	private Date date;
 	private Date fecha;
 
+	private String usuario;
+	private String nombre_usuario;
+	private Persona per;
+	private Persona per1;
+	private ManagerCarga mc;
+
 	public itemBean() {
 	}
 
 	@PostConstruct
 	public void ini() {
+		mc = new ManagerCarga();
 		item_imagen = "300.jpg";
 		item_caracteristicas = "";
 		item_descripcion = "";
@@ -99,11 +113,21 @@ public class itemBean implements Serializable {
 		mostrarpro_id = false;
 		mostrarfoto = false;
 		listaItem = managergest.findAllItems();
+		usuario = ms.validarSesion("items.xhtml");
 	}
-	
+
+	public String getNombre_usuario() {
+		return nombre_usuario;
+	}
+
+	public void setNombre_usuario(String nombre_usuario) {
+		this.nombre_usuario = nombre_usuario;
+	}
+
 	public Date getFi() {
 		return fi;
 	}
+
 	public void setFi(Date fi) {
 		this.fi = fi;
 	}
@@ -337,10 +361,9 @@ public class itemBean implements Serializable {
 						item_descripcion.trim(), item_caracteristicas.trim(),
 						item_imagen.trim(), valorbase, valorventa,
 						item_fecha_subasta_inicio, item_fecha_subasta_fin,
-						item_ganador_dni.trim(),
-						item_estado);
-				
-				getListaItem().clear(); 
+						item_ganador_dni.trim(), item_estado);
+
+				getListaItem().clear();
 				getListaItem().addAll(managergest.findAllItems());
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
 				item_id = null;
@@ -353,18 +376,17 @@ public class itemBean implements Serializable {
 				item_fecha_subasta_inicio = null;
 				item_fecha_subasta_fin = null;
 				item_ganador_dni = "";
-				item_usuario_registro = "";
 				item_estado = "A";
 				edicion = false;
 				guardarin = false;
 				ediciontipo = false;
 				verhorario = false;
 			} else {
-				managergest.insertarItem(item_nombre.trim(), item_descripcion.trim(),
-						item_caracteristicas.trim(), item_imagen, valorbase,
-						valorventa, item_fecha_subasta_inicio,
-						item_fecha_subasta_fin, item_ganador_dni,
-						item_usuario_registro.trim());
+				managergest.insertarItem(item_nombre.trim(),
+						item_descripcion.trim(), item_caracteristicas.trim(),
+						item_imagen, valorbase, valorventa,
+						item_fecha_subasta_inicio, item_fecha_subasta_fin,
+						item_ganador_dni, item_usuario_registro.trim());
 				Mensaje.crearMensajeINFO("Registrado - Creado");
 				item_id = null;
 				item_nombre = "";
@@ -376,7 +398,6 @@ public class itemBean implements Serializable {
 				item_fecha_subasta_inicio = null;
 				item_fecha_subasta_fin = null;
 				item_ganador_dni = "";
-				item_usuario_registro = "";
 				item_estado = "A";
 				edicion = false;
 				guardarin = false;
@@ -385,7 +406,7 @@ public class itemBean implements Serializable {
 				imagenprod = false;
 				mostrarpro_id = true;
 				guardarin = true;
-				getListaItem().clear(); 
+				getListaItem().clear();
 				getListaItem().addAll(managergest.findAllItems());
 			}
 			r = "items?faces-redirect=true";
@@ -427,14 +448,17 @@ public class itemBean implements Serializable {
 			item_valorventa = item.getItemValorVenta().toString();
 			item_fecha_subasta_inicio = item.getItemFechaSubastaInicio();
 			item_fecha_subasta_fin = item.getItemFechaSubastaFin();
-			fi=item.getItemFechaSubastaInicio();
-			ff=item.getItemFechaSubastaFin();
+			fi = item.getItemFechaSubastaInicio();
+			ff = item.getItemFechaSubastaFin();
 			item_ganador_dni = item.getItemGanadorDni();
 			item_usuario_registro = item.getItemUsuarioRegistro();
+			System.out.println("usuario que hizo: "+item_usuario_registro);
 			item_estado = item.getItemEstado();
+			BuscarPersonaitem(item_usuario_registro);
 			edicion = true;
 			imagenprod = false;
 			mostrarpro_id = true;
+			guardarin = false;
 			return "nitem?faces-redirect=true";
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -551,6 +575,7 @@ public class itemBean implements Serializable {
 	 * @return
 	 */
 	public String nuevoItem() {
+		BuscarPersona();
 		item_id = null;
 		item_nombre = "";
 		item_caracteristicas = "";
@@ -561,7 +586,6 @@ public class itemBean implements Serializable {
 		item_fecha_subasta_inicio = null;
 		item_fecha_subasta_fin = null;
 		item_ganador_dni = "";
-		item_usuario_registro = "";
 		item_estado = "A";
 		edicion = false;
 		guardarin = false;
@@ -572,6 +596,27 @@ public class itemBean implements Serializable {
 		guardarin = false;
 		mostrarfoto = false;
 		return "nitem?faces-redirect=true";
+	}
+
+	public void BuscarPersona() {
+		try {
+			per = mc.funcionarioByDNI(usuario);
+			item_usuario_registro = per.getPerDNI();
+			nombre_usuario = per.getPerNombres() + " " + per.getPerApellidos();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void BuscarPersonaitem(String per_id) {
+		try {
+			per1 = mc.personasolicitudByDNI(per_id);
+			nombre_usuario = per1.getPerNombres() + " " + per1.getPerApellidos();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	// ESTADOS
@@ -609,7 +654,6 @@ public class itemBean implements Serializable {
 		item_fecha_subasta_inicio = null;
 		item_fecha_subasta_fin = null;
 		item_ganador_dni = "";
-		item_usuario_registro = "";
 		item_estado = "A";
 		edicion = false;
 		guardarin = false;
@@ -621,6 +665,6 @@ public class itemBean implements Serializable {
 	}
 
 	public void abrirDialog() {
-			RequestContext.getCurrentInstance().execute("PF('gu').show();");
+		RequestContext.getCurrentInstance().execute("PF('gu').show();");
 	}
 }

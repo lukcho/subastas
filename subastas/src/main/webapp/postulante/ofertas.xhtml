@@ -6,19 +6,19 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:b="http://bootsfaces.net/ui">
 
-<ui:composition template="template.xhtml">
+<ui:composition template="templateusu.xhtml">
 	<ui:define name="titulo">
-            Ofertas
+            Subastas
         </ui:define>
 	<ui:define name="contenido">
 		<h:form>
 			<center>
-				<h1>Ofertas</h1>
+				<h1>Subastas</h1>
 			</center>
 			<b:row>
 				<b:column span="1">
 					<b:commandButton value="Volver" iconAwesome="angle-left"
-						action="index?faces-redirect=true" />
+						action="home?faces-redirect=true" />
 				</b:column>
 			</b:row>
 		</h:form>
@@ -26,22 +26,15 @@
 		<h:form id="frm">
 			<p:growl id="messages" showDetail="true" />
 			<b:panel title="Listado de Ofertas" look="primary">
-				<p:dataTable id="tbb" value="#{ofertasBean.listaOferta}"
+				<p:dataTable id="tbb" value="#{ofertausuBean.listaOfertaXUsuario}"
 					reflow="true" var="ofer" rows="8" emptyMessage="Sin Datos"
 					paginator="true"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 					<p:column headerText="OPCIONES" width="50">
 						<p:commandButton id="btnE" icon="ui-icon-pencil"
-							action="#{ofertasBean.cargarOferta(ofer)}">
+							action="#{ofertausuBean.cargarOferta(ofer)}">
 							<p:tooltip id="toolTipTrack1" for="btnE"
 								value="Bot&oacute;n para ver el oferta" trackMouse="true" />
-						</p:commandButton>
-							&nbsp;&nbsp;&nbsp;
-							<p:commandButton id="trackcamb" icon="ui-icon-refresh"
-							action="#{ofertasBean.conocerGanador(ofer)}">
-							<p:tooltip id="toolTipTrack2" for="trackcamb"
-								value="Bot&oacute;n para conocer el ganador"
-								trackMouse="true" />
 						</p:commandButton>
 					</p:column>
 					<p:column filterBy="#{ofer.oferId}" filterMatchMode="contains"
@@ -67,10 +60,6 @@
 					<p:column headerText="VALOR OFERTA" width="30">
 						<h:outputText value="#{ofer.oferValorOferta}"></h:outputText>
 					</p:column>
-					<p:column headerText="GANADOR" width="60">
-						<h:outputText
-							value="#{ofer.subItem.itemGanadorDni}"></h:outputText>
-					</p:column>
 				</p:dataTable>
 			</b:panel>
 		</h:form>
@@ -79,7 +68,7 @@
 			showEffect="fade" hideEffect="explode" widgetVar="ce">
 			<h:form>
 				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
-					icon="ui-icon-check" action="#{ofertasBean.cambiarEstado()}"
+					icon="ui-icon-check" action="#{ofertausuBean.cambiarEstado()}"
 					oncomplete="PF('ce').hide();" update="frm" />
 				<p:commandButton value="No" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"

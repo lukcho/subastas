@@ -270,6 +270,16 @@ public class ManagerGestion{
 		public List<SubOferta> findAllofertasOrdenadas() {
 			return mDAO.findWhere(SubOferta.class, " 1=1 ", " o.oferFechaOferta desc");
 		}
+		
+		/**
+		 * listar todos los postulantes
+		 * @param prod_id
+		 * @throws Exception
+		 */	
+		@SuppressWarnings("unchecked") 
+		public List<SubOferta> findAllofertasOrdenadasXUsuario(String usu_id) {
+			return mDAO.findWhere(SubOferta.class, " o.subPostulante.posId = '"+usu_id+"' ", " o.oferFechaOferta desc");
+		}
 
 		/**
 		 * buscar conductores por ID

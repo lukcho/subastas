@@ -9,7 +9,7 @@
 
 <ui:composition template="template.xhtml">
 	<ui:define name="titulo">
-           ITEM 
+           Item 
         </ui:define>
 	<ui:define name="contenido">
 		<br />
@@ -92,18 +92,18 @@
 				</b:row>
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Ganador:* " rendered="#{itemBean.guardarin}" />
+						<h:outputLabel value="Ganador:* " rendered="#{itemBean.edicion}" />
 					</b:column>
 					<b:column span="4">
 						<h:outputLabel value="#{itemBean.item_ganador_dni}"
-							rendered="#{itemBean.guardarin}" />
+							rendered="#{itemBean.edicion}" />
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Usario Registro:* " />
+						<h:outputLabel value="Usario Registro:* " rendered="#{itemBean.edicion}"/>
 					</b:column>
 					<b:column span="4">
-						<h:outputLabel value="#{itemBean.item_usuario_registro}"
-							rendered="#{itemBean.guardarin}" />
+						<h:outputLabel value="#{itemBean.nombre_usuario}"
+							rendered="#{itemBean.edicion}" />
 					</b:column>
 				</b:row>
 				<b:row>
@@ -123,7 +123,7 @@
 					</b:column>
 					<b:row>
 						<b:column span="2">
-							<h:outputText value="Vista Previa: " />
+							<h:outputLabel value="Vista Imagen: " />
 						</b:column>
 						<b:column span="4">
 							<p:graphicImage id="imagen"

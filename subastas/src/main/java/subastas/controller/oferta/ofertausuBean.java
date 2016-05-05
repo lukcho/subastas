@@ -338,8 +338,22 @@ public class ofertausuBean implements Serializable {
 		List<SubItem> a = managergest.findItems();
 		List<SubItem> l1 = new ArrayList<SubItem>();
 		for (SubItem t : a) {
+			if(t.getItemGanadorDni().equals("") && t.getItemEstado().equals("A"))
 			l1.add(t);
-
+		}
+		return l1;
+	}
+	
+	/**
+	 * metodo para listar las ofertas x usuario
+	 * 
+	 * @return
+	 */
+	public List<SubOferta> getListaOfertaXUsuario() {
+		List<SubOferta> a = managergest.findAllofertasOrdenadasXUsuario(session.getIdUsr());
+		List<SubOferta> l1 = new ArrayList<SubOferta>();
+		for (SubOferta t : a) {
+			l1.add(t);
 		}
 		return l1;
 	}
@@ -412,7 +426,6 @@ public class ofertausuBean implements Serializable {
 	 */
 	public String cargarOferta(SubOferta ofer) {
 		try {
-			managergest.asignarItem(item_id);
 			ofer_id = ofer.getOferId();
 			ofer_valor_oferta = ofer.getOferValorOferta().toString();
 			ofer_fecha_oferta = ofer.getOferFechaOferta();
@@ -432,7 +445,7 @@ public class ofertausuBean implements Serializable {
 			pos_gerencia = ofer.getSubPostulante().getPosGerencia();
 			pos_area = ofer.getSubPostulante().getPosArea();
 
-			return "noferta?faces-redirect=true";
+			return "uoferta?faces-redirect=true";
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -563,6 +576,26 @@ public class ofertausuBean implements Serializable {
 		getListaItems().clear();
 		getListaItems().addAll(managergest.findAllItems());
 		return "home?faces-redirect=true";
+	}
+	
+	/**
+	 * limpia la informacion
+	 * 
+	 * @return
+	 */
+	public String salirOfertas() {
+		// limpiar datos
+		ofer_id = null;
+		ofer_valor_oferta = null;
+		ofer_fecha_oferta = null;
+		item = null;
+
+		item_nombre = "";
+		item_caracteristicas = "";
+		item_imagen = "";
+		getListaOfertaXUsuario().clear();
+		getListaOfertaXUsuario().addAll(managergest.findAllofertasOrdenadasXUsuario(session.getIdUsr()));
+		return "ofertas?faces-redirect=true";
 	}
 
 	/**

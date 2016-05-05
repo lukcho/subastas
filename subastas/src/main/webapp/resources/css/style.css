@@ -11,3 +11,12 @@
 	color: #317EAC;
 	font-size: 15px;
 }
+
+.ecuador-iso {
+	width:400px;
+	max-width:100%;
+	position: absolute;
+	left: -9%;
+	top: -2.2%;
+	z-index: -1;
+}
