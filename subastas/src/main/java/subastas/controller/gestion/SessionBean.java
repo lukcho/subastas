@@ -7,6 +7,7 @@ import subastas.entidades.help.UsuarioHelp;
 import subastas.entidades.help.Utilidades;
 import subastas.model.dao.entities.SubPostulante;
 import subastas.model.generic.Mail;
+import subastas.model.generic.Mensaje;
 import subastas.model.manager.ManagerGestion;
 
 import javax.ejb.EJB;
@@ -213,6 +214,22 @@ public class SessionBean {
                  return user.getSession();
              } 
          }
+     
+	 /**
+	  * Método para validar sesión en el INDEX
+	  */
+	 public void validaIndex(){
+		 HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+	                .getExternalContext().getSession(false);
+	     SessionBean user = (SessionBean) session.getAttribute("sessionBean");
+	     if (user==null || user.getSession() == null) {
+	            try {
+	                FacesContext.getCurrentInstance().getExternalContext().redirect("/index.xhtml");
+	            } catch (IOException ex) {
+	            	Mensaje.crearMensajeERROR(ex.getMessage());
+	            }
+	     }
+	 }
      
     public String cargarDatosPerfil(){
     	String pag ="";

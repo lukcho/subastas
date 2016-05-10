@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<ui:composition template="template.xhtml">
+	<ui:define name="titulo">
+            Subastas Pasadas
+        </ui:define>
+	<ui:define name="contenido">
+		<h:form>
+			<center>
+				<h1>Listado de Subastas Pasadas</h1>
+			</center>
+			<b:row>
+				<b:column span="1">
+					<b:commandButton value="Volver" iconAwesome="angle-left"
+						action="index?faces-redirect=true" />
+				</b:column>
+			</b:row>
+		</h:form>
+		<br />
+		<h:form id="frm">
+			<p:growl id="messages" showDetail="false" />
+			<b:panel title="Listado de Subastas" look="primary">
+				<p:dataTable id="tbb" value="#{ofertausuindexBean.listaSubastasPasadas}"
+					reflow="true" var="item" rows="8" emptyMessage="Sin Datos"
+					paginator="true"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+					<p:column headerText="OPCIONES" width="50">
+						<p:commandButton id="btnE" icon="ui-icon-pencil"
+							action="#{ofertausuindexBean.cargarItem(item)}">
+							<p:tooltip id="toolTipTrack1" for="btnE"
+								value="Bot&oacute;n para ver la información" trackMouse="true" />
+						</p:commandButton>
+					</p:column>
+					<p:column filterBy="#{item.itemNombre}" filterMatchMode="contains"
+						headerText="NOMBRE" width="50">
+						<h:outputText value="#{item.itemNombre}"></h:outputText>
+					</p:column>
+					<p:column headerText="DESCRIPCIÓN" width="60">
+						<h:outputText value="#{item.itemDescripcion}"></h:outputText>
+					</p:column>
+					<p:column headerText="USUARIO REGISTRO" width="40">
+						<h:outputText value="#{item.itemUsuarioRegistro}"></h:outputText>
+					</p:column>
+					<p:column headerText="VALOR BASE" width="30">
+						<h:outputText value="#{item.itemValorBase}"></h:outputText>
+					</p:column>
+					<p:column headerText="VALOR VENTA" width="30">
+						<h:outputText value="#{item.itemValorVenta}"></h:outputText>
+					</p:column>
+					<p:column width="50" headerText="IMAGEN" exportable="false">
+						<p:graphicImage width="100" height="100"
+							value="/resources/img/items/#{item.itemImagen}"></p:graphicImage>
+					</p:column>
+					<p:column headerText="INICIO SUBASTA" width="30">
+						<h:outputText value="#{item.itemFechaSubastaInicio}">
+							<f:convertDateTime pattern="yyyy/MM/dd HH:mm" timeZone="GMT-5"/>
+						</h:outputText>
+					</p:column>
+					<p:column headerText="FIN SUBASTA" width="30">
+						<h:outputText value="#{item.itemFechaSubastaFin}">
+							<f:convertDateTime pattern="yyyy/MM/dd HH:mm" timeZone="GMT-5" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="ESTADO" width="30">
+						<h:outputText value="#{item.itemEstado}"></h:outputText>
+					</p:column>
+					<p:column headerText="GANADOR" width="30">
+						<h:outputText value="#{item.itemGanadorDni}"></h:outputText>
+					</p:column>
+				</p:dataTable>
+			</b:panel>
+		</h:form>
+		<p:confirmDialog header="Confirmación"
+			message="Está seguro de cambiar el estado?" closable="false"
+			showEffect="fade" hideEffect="explode" widgetVar="ce">
+			<h:form>
+				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
+					icon="ui-icon-check" action="#{ofertasBean.cambiarEstado()}"
+					oncomplete="PF('ce').hide();" update=":frm:messages" />
+				<p:commandButton value="No" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+					onclick="PF('ce').hide();" />
+			</h:form>
+		</p:confirmDialog>
+	</ui:define>
+</ui:composition>
+</html>

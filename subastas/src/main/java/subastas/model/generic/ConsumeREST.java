@@ -1,13 +1,15 @@
 package subastas.model.generic;
 
-
-
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import org.jboss.resteasy.client.ClientRequest;
+import org.jboss.resteasy.client.ClientResponse;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -50,6 +52,68 @@ public class ConsumeREST {
 		//CERRAR CONEXION
 		conn.disconnect();
 		//RESPUESTA
+		return resp;
+	}
+	
+	/**
+	 * CONSUME UN SERVICIO DE REST EASY TIPO GET DEVOLVIENDO UN ARRAY
+	 * @param urlServicio
+	 * @return JSONArray
+	 * @throws Exception
+	 */
+	public static JSONArray consumeGetRestEasyArray(String urlServicio) throws Exception{
+		JSONArray resp = null;
+		ClientRequest request = new ClientRequest(urlServicio);
+		request.accept("application/json");
+		ClientResponse<String> response = request.get(String.class);
+		
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : "
+					+ response.getStatus());
+		}
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(
+				new ByteArrayInputStream(response.getEntity().getBytes())));
+
+		String output;
+		String objeto = "";
+
+		while ((output = br.readLine()) != null) {
+			objeto += output;
+		}
+
+		resp = (JSONArray) new JSONParser().parse(objeto);
+		return resp;
+	}
+	
+	/**
+	 * CONSUME UN SERVICIO DE REST EASY TIPO GET DEVOLVIENDO UN OBJECT
+	 * @param urlServicio
+	 * @return JSONObject
+	 * @throws Exception
+	 */
+	public static JSONObject consumeGetRestEasyObject(String urlServicio) throws Exception{
+		JSONObject resp = null;
+		ClientRequest request = new ClientRequest(urlServicio);
+		request.accept("application/json");
+		ClientResponse<String> response = request.get(String.class);
+		
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : "
+					+ response.getStatus());
+		}
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(
+				new ByteArrayInputStream(response.getEntity().getBytes())));
+
+		String output;
+		String objeto = "";
+
+		while ((output = br.readLine()) != null) {
+			objeto += output;
+		}
+
+		resp = (JSONObject) new JSONParser().parse(objeto);
 		return resp;
 	}
 }

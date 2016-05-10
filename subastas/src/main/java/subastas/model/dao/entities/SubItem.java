@@ -38,8 +38,8 @@ public class SubItem implements Serializable {
 	@Column(name="item_fecha_subasta_inicio")
 	private Timestamp itemFechaSubastaInicio;
 
-	@Column(name="item_ganador_dni", length=255)
-	private String itemGanadorDni;
+	@Column(name="item_ganador_dni")
+	private Integer itemGanadorDni;
 
 	@Column(name="item_imagen", length=255)
 	private String itemImagen;
@@ -111,11 +111,11 @@ public class SubItem implements Serializable {
 		this.itemFechaSubastaInicio = itemFechaSubastaInicio;
 	}
 
-	public String getItemGanadorDni() {
+	public Integer getItemGanadorDni() {
 		return this.itemGanadorDni;
 	}
 
-	public void setItemGanadorDni(String itemGanadorDni) {
+	public void setItemGanadorDni(Integer itemGanadorDni) {
 		this.itemGanadorDni = itemGanadorDni;
 	}
 

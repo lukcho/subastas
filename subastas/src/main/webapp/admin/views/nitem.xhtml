@@ -28,6 +28,7 @@
 						</h:inputText>
 					</b:column>
 				</b:row>
+				<br />
 				<b:row>
 					<b:column span="2">
 						<h:outputLabel value="Descripción:* " />
@@ -60,19 +61,25 @@
 						</b:inputText>
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Valor Venta:* ($) " />
+						<h:outputLabel value="Valor Vendido:* ($) " />
 					</b:column>
 					<b:column span="4">
-						<b:inputText value="#{itemBean.item_valorventa}" required="true"
-							placeholder="0.00" requiredMessage="Campo valor venta requerido"
-							validatorMessage="Ingrese solo dígitos">
-							<f:validateRegex pattern="[0-9.]+" />
+						<b:inputText value="#{itemBean.item_valorventa}" disabled="true"
+							placeholder="0.00">
 						</b:inputText>
 					</b:column>
+					<b:column span="2">
+						<h:outputLabel value="Máximo Ofertado:* ($) " rendered="#{itemBean.edicion}"/>
+					</b:column>
+					<b:column span="4">
+						<b:inputText value="#{itemBean.valorMaximo}" rendered="#{itemBean.edicion}" disabled="true">
+						</b:inputText>
+					</b:column>
+					
 				</b:row>
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Fecha Inicio*:" />
+						<h:outputLabel value="Inicio Subasta*:" />
 					</b:column>
 					<b:column span="4">
 						<p:calendar required="true" mindate="#{itemBean.date}"
@@ -81,7 +88,7 @@
 						</p:calendar>
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Fecha Fin*:" />
+						<h:outputLabel value="Fin Subasta*:" />
 					</b:column>
 					<b:column span="4">
 						<p:calendar required="true" mindate="#{itemBean.date}"
@@ -90,6 +97,7 @@
 						</p:calendar>
 					</b:column>
 				</b:row>
+				<br />
 				<b:row>
 					<b:column span="2">
 						<h:outputLabel value="Ganador:* " rendered="#{itemBean.edicion}" />
@@ -99,7 +107,8 @@
 							rendered="#{itemBean.edicion}" />
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Usario Registro:* " rendered="#{itemBean.edicion}"/>
+						<h:outputLabel value="Usuario Registro:* "
+							rendered="#{itemBean.edicion}" />
 					</b:column>
 					<b:column span="4">
 						<h:outputLabel value="#{itemBean.nombre_usuario}"
@@ -108,7 +117,7 @@
 				</b:row>
 				<b:row>
 					<b:column span="2">
-						<h:outputText value="Imagen:" />
+						<h:outputLabel value="Imagen:" />
 					</b:column>
 					<b:column span="10">
 						<p:fileUpload mode="advanced" dragDropSupport="true"
@@ -119,23 +128,25 @@
 							allowTypes="/(\.|\/)(gif|jpe?g|png)$/" cancelLabel="Cancelar"
 							uploadLabel="Subir" label="Seleccionar" fileLimit="1"
 							fileUploadListener="#{itemBean.ImagenServ}">
+
 						</p:fileUpload>
 					</b:column>
-					<b:row>
-						<b:column span="2">
-							<h:outputLabel value="Vista Imagen: " />
-						</b:column>
-						<b:column span="4">
-							<p:graphicImage id="imagen"
-								value="#{facesContex}/imgevent/300.jpg" width="150" height="150" />
-						</b:column>
-					</b:row>
 				</b:row>
-
 				<br />
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Estado*" rendered="#{itemBean.edicion}" />
+						<h:outputLabel value="Vista Imagen: " />
+					</b:column>
+					<b:column span="4">
+						<p:graphicImage id="imagen"
+							value="/resources/img/items/#{itemBean.item_imagen}" width="150"
+							height="150" />
+					</b:column>
+				</b:row>
+				<br />
+				<b:row>
+					<b:column span="2">
+						<h:outputLabel value="Estado: " rendered="#{itemBean.edicion}" />
 					</b:column>
 					<b:column span="4">
 						<b:selectOneMenu value="#{itemBean.item_estado}"
@@ -160,12 +171,12 @@
 			</b:panel>
 		</h:form>
 		<p:confirmDialog header="Confirmación"
-			message="Está seguro de guardar la información?" closable="false"
+			message="Está seguro de guardar el Item" closable="false"
 			showEffect="fade" hideEffect="explode" widgetVar="gu">
 			<h:form>
 				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
 					icon="ui-icon-check" action="#{itemBean.crearItem()}"
-					oncomplete="PF('gu').hide();" update="frm" />
+					oncomplete="PF('gu').hide();" update=":frm:messages" />
 				<p:commandButton value="No" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
 					onclick="PF('gu').hide();" />

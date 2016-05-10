@@ -177,7 +177,7 @@
 			<h:form>
 				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
 					icon="ui-icon-check" action="#{postulantesBean.crearPostulante()}"
-					oncomplete="PF('gu').hide();" update="frm" />
+					oncomplete="PF('gu').hide();" update=":frm:messages" />
 				<p:commandButton value="No" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
 					onclick="PF('gu').hide();" />

@@ -42,6 +42,7 @@ public class ofertausuBean implements Serializable {
 	private Timestamp ofer_fecha_oferta;
 	private SubItem item;
 	private SubPostulante postulante;
+	private String valorMaximo;
 
 	// Items
 	private Integer item_id;
@@ -78,7 +79,7 @@ public class ofertausuBean implements Serializable {
 	private Date fecha;
 
 	private UsuarioHelp session;
-	
+
 	public ofertausuBean() {
 	}
 
@@ -86,6 +87,14 @@ public class ofertausuBean implements Serializable {
 	public void ini() {
 		session = SessionBean.verificarSession();
 		listaItem = managergest.findAllItems();
+	}
+
+	public String getValorMaximo() {
+		return valorMaximo;
+	}
+
+	public void setValorMaximo(String valorMaximo) {
+		this.valorMaximo = valorMaximo;
 	}
 
 	public String getPos_id() {
@@ -335,22 +344,58 @@ public class ofertausuBean implements Serializable {
 	 * @return
 	 */
 	public List<SubItem> getListaItems() {
+		fecha = new Date();
+		Timestamp fecha_ahora = new Timestamp(fecha.getTime());
 		List<SubItem> a = managergest.findItems();
 		List<SubItem> l1 = new ArrayList<SubItem>();
 		for (SubItem t : a) {
-			if(t.getItemGanadorDni().equals("") && t.getItemEstado().equals("A"))
-			l1.add(t);
+			if (t.getItemGanadorDni().equals("")
+					&& t.getItemEstado().equals("A")
+					&& t.getItemFechaSubastaFin().after((fecha_ahora)))
+				l1.add(t);
 		}
 		return l1;
 	}
-	
+
+	/**
+	 * Metodo de cálculo de tiempo
+	 * 
+	 * @param eva_est
+	 */
+	public void totalTiempo(SubItem item) {
+		String tiempo_eva = "";
+		fecha = new Date();
+		Timestamp fecha_ahora = new Timestamp(fecha.getTime());
+		long time = fecha_ahora.getTime()
+				- item.getItemFechaSubastaInicio().getTime();
+
+		long minutos = 0;
+		long segundos = 0;
+
+		minutos = time / (60 * 1000);
+		while (minutos >= 60) {
+			minutos = minutos - 60;
+		}
+
+		segundos = time / 1000;
+		while (segundos >= 60) {
+			segundos = segundos - 60;
+		}
+
+		tiempo_eva = minutos + ":" + segundos;
+		System.out.println(tiempo_eva);
+	}
+
 	/**
 	 * metodo para listar las ofertas x usuario
 	 * 
 	 * @return
 	 */
 	public List<SubOferta> getListaOfertaXUsuario() {
-		List<SubOferta> a = managergest.findAllofertasOrdenadasXUsuario(session.getIdUsr());
+		session = SessionBean.verificarSession();
+		System.out.println(session.getIdUsr());
+		List<SubOferta> a = managergest.findAllofertasOrdenadasXUsuario(session
+				.getIdUsr());
 		List<SubOferta> l1 = new ArrayList<SubOferta>();
 		for (SubOferta t : a) {
 			l1.add(t);
@@ -379,12 +424,11 @@ public class ofertausuBean implements Serializable {
 					",", "."));
 			fecha = new Date();
 			pos_id = session.getIdUsr();
-			System.out.println("iddelitem "+item_id);
+			System.out.println("iddelitem " + item_id);
 			managergest.asignarPostulante(pos_id);
 			managergest.asignarItem(item_id);
 			ofer_fecha_oferta = new Timestamp(fecha.getTime());
 			managergest.insertarOferta(valoroferta, ofer_fecha_oferta);
-			Mensaje.crearMensajeINFO("Registrado - Creado");
 			item_id = null;
 			item_nombre = "";
 			item_caracteristicas = "";
@@ -392,16 +436,23 @@ public class ofertausuBean implements Serializable {
 			item_imagen = "300.jpg";
 			item_valorbase = "";
 			item_valorventa = "";
+			valoroferta = new BigDecimal(0.00);
 			item_fecha_subasta_inicio = null;
 			item_fecha_subasta_fin = null;
 			getListaItem().clear();
 			getListaItem().addAll(managergest.findAllItems());
+			Mensaje.crearMensajeINFO("Si se alammaceno la oferta");
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
+							"Registrado- Se envio la oferta", null));
 			r = "home?faces-redirect=true";
+
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Error al crear producto", null));
+							"Error al crear oferta", null));
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, e
@@ -432,9 +483,19 @@ public class ofertausuBean implements Serializable {
 			item = ofer.getSubItem();
 			postulante = ofer.getSubPostulante();
 
+			item_id = ofer.getSubItem().getItemId();
+			System.out.println("este es el id: "+item_id);
 			item_nombre = ofer.getSubItem().getItemNombre();
 			item_caracteristicas = ofer.getSubItem().getItemCaracteristicas();
 			item_imagen = ofer.getSubItem().getItemImagen();
+			item_descripcion = ofer.getSubItem().getItemDescripcion();
+			item_valorbase = ofer.getSubItem().getItemValorBase().toString();
+
+			if (managergest.ValorMaximoXItem(item_id) == null) {
+				valorMaximo = "";
+			} else {
+				valorMaximo = managergest.ValorMaximoXItem(item_id).toString();
+			}
 
 			pos_nombre = ofer.getSubPostulante().getPosNombre();
 			pos_apellido = ofer.getSubPostulante().getPosApellido();
@@ -459,23 +520,59 @@ public class ofertausuBean implements Serializable {
 	 * @return
 	 */
 	public String irComprar() {
+		String r = "";
 		try {
-			item_id = item.getItemId();
-			item_nombre = item.getItemNombre();
-			item_caracteristicas = item.getItemCaracteristicas();
-			item_descripcion = item.getItemDescripcion();
-			item_imagen = item.getItemImagen();
-			item_valorbase = item.getItemValorBase().toString();
-			item_valorventa = item.getItemValorVenta().toString();
+			fecha = new Date();
+			ofer_fecha_oferta = new Timestamp(System.currentTimeMillis());
 			item_fecha_subasta_inicio = item.getItemFechaSubastaInicio();
 			item_fecha_subasta_fin = item.getItemFechaSubastaFin();
-			fi = item.getItemFechaSubastaInicio();
-			ff = item.getItemFechaSubastaFin();
+			System.out.println("mi dia: " + ofer_fecha_oferta);
+			System.out.println("dia del tiem inicio: "
+					+ item_fecha_subasta_inicio);
+			System.out.println("mi hora: " + ofer_fecha_oferta.getTime());
+			System.out.println("hora del tiem inicio: "
+					+ item_fecha_subasta_inicio.getTime());
+			System.out.println("hora del tiem fin: "
+					+ item_fecha_subasta_fin.getTime());
+			if (ofer_fecha_oferta.before((item_fecha_subasta_inicio))
+					&& ofer_fecha_oferta.getTime() < item_fecha_subasta_inicio
+							.getTime()) {
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO,
+								"Aun no se puede ofertar", null));
+			} else if (ofer_fecha_oferta.after((item_fecha_subasta_fin))
+					&& ofer_fecha_oferta.getTime() > item_fecha_subasta_fin
+							.getTime()) {
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO,
+								"Ya se ha terminado la oferta", null));
+			} else {
+				item_id = item.getItemId();
+				item_nombre = item.getItemNombre();
+				item_caracteristicas = item.getItemCaracteristicas();
+				item_descripcion = item.getItemDescripcion();
+				item_imagen = item.getItemImagen();
+				item_valorbase = item.getItemValorBase().toString();
+				item_valorventa = item.getItemValorVenta().toString();
+
+				if (managergest.ValorMaximoXItem(item_id) == null) {
+					valorMaximo = "";
+				} else {
+					valorMaximo = managergest.ValorMaximoXItem(item_id).toString();
+				}
+				item_fecha_subasta_inicio = item.getItemFechaSubastaInicio();
+				item_fecha_subasta_fin = item.getItemFechaSubastaFin();
+				fi = item.getItemFechaSubastaInicio();
+				ff = item.getItemFechaSubastaFin();
+				r = "noferta?faces-redirect=true";
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "noferta?faces-redirect=true";
+		return r;
 	}
 
 	/**
@@ -577,7 +674,7 @@ public class ofertausuBean implements Serializable {
 		getListaItems().addAll(managergest.findAllItems());
 		return "home?faces-redirect=true";
 	}
-	
+
 	/**
 	 * limpia la informacion
 	 * 
@@ -594,7 +691,9 @@ public class ofertausuBean implements Serializable {
 		item_caracteristicas = "";
 		item_imagen = "";
 		getListaOfertaXUsuario().clear();
-		getListaOfertaXUsuario().addAll(managergest.findAllofertasOrdenadasXUsuario(session.getIdUsr()));
+		getListaOfertaXUsuario()
+				.addAll(managergest.findAllofertasOrdenadasXUsuario(session
+						.getIdUsr()));
 		return "ofertas?faces-redirect=true";
 	}
 
@@ -620,9 +719,8 @@ public class ofertausuBean implements Serializable {
 		boolean r;
 		BigDecimal valoroferta1 = new BigDecimal(ofer_valor_oferta.replace(",",
 				"."));
-		BigDecimal valorventa = new BigDecimal(
-				item_valorventa.replace(",", "."));
-		if (valoroferta1.compareTo(valorventa) < 1) {
+		BigDecimal valorbase = new BigDecimal(item_valorbase.replace(",", "."));
+		if (valoroferta1.compareTo(valorbase) < 1) {
 			r = true;
 		} else {
 			r = false;

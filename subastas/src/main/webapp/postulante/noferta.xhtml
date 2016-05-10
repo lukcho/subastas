@@ -20,65 +20,98 @@
 					<b:column col-sm="12" col-md="12">
 						<b:thumbnail tooltip="Oferta">
 							<b:row>
-								<b:column span="2">
+								<b:column span="3">
+									<p:graphicImage id="imagen" value="/resources/img/items/#{ofertausuBean.item_imagen}"
+										width="250" height="250" />
 								</b:column>
 								<b:column span="2">
-									<p:graphicImage id="imagen"
-										value="#{facesContex}/imgevent/300.jpg" width="150"
-										height="150" />
+									<h:outputLabel value="Nombre: " />
 								</b:column>
 								<b:column span="2">
-									<h:outputLabel value="Nombre:* " />
-								</b:column>
-								<b:column span="6">
-									<h:outputLabel value="#{ofertausuBean.item_nombre}">
-									</h:outputLabel>
+									<h:outputText value="#{ofertausuBean.item_nombre}">
+									</h:outputText>
 								</b:column>
 								<b:column span="2">
-									<h:outputLabel value="Descripción:* " />
+								</b:column>
+								<br />
+								<br />
+								<b:column span="2">
+									<h:outputLabel value="Descripción: " />
 								</b:column>
 								<b:column span="6" style="margin-bottom:10px">
-									<h:outputLabel value="#{ofertausuBean.item_descripcion}" />
+									<b:inputTextarea rows="3" cols="20" disabled="true"
+										value="#{ofertausuBean.item_descripcion}" />
 								</b:column>
+								<b:column span="1">
+								</b:column>
+								<br />
+								<br />
+								<br />
+								<br />
 								<b:column span="2">
-									<h:outputLabel value="Características*: " />
+									<h:outputLabel value="Características: " />
 								</b:column>
 								<b:column span="6" style="margin-bottom:10px">
-									<h:outputLabel value="#{ofertausuBean.item_caracteristicas}">
-									</h:outputLabel>
+									<b:inputTextarea rows="3" cols="20" disabled="true"
+										value="#{ofertausuBean.item_caracteristicas}" />
+								</b:column>
+								<br />
+								<br />
+								<br />
+								<br />
+								<b:column span="2">
+									<h:outputLabel value="Valor Base: ($) " />
 								</b:column>
 								<b:column span="2">
-									<h:outputLabel value="Valor Base:* ($) " />
-								</b:column>
-								<b:column span="6">
-									<h:outputLabel value="#{ofertausuBean.item_valorbase}">
-									</h:outputLabel>
+									<h:outputText value="#{ofertausuBean.item_valorbase}">
+									</h:outputText>
 								</b:column>
 								<b:column span="2">
-									<h:outputLabel value="Fecha Inicio*:" />
 								</b:column>
-								<b:column span="6">
-									<h:outputLabel value="#{ofertausuBean.fi}">
+							</b:row>
+
+							<b:row>
+								<b:column span="3"></b:column>
+								<b:column span="2">
+									<h:outputLabel value="Valor Máximo Ofertado: ($) " />
+								</b:column>
+								<b:column span="2">
+									<h:outputText value="#{ofertausuBean.valorMaximo}">
+									</h:outputText>
+								</b:column>
+							</b:row>
+							<b:row>
+								<b:column span="3"></b:column>
+								<b:column span="2">
+									<h:outputLabel value="Inicio Subasta:" />
+								</b:column>
+								<b:column span="4">
+									<h:outputText value="#{ofertausuBean.fi}">
 										<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
-									</h:outputLabel>
+									</h:outputText>
 								</b:column>
+							</b:row>
+							<b:row>
+								<b:column span="3"></b:column>
 								<b:column span="2">
-									<h:outputLabel value="Fecha Fin*:" />
+									<h:outputLabel value="Fin Subasta:" />
 								</b:column>
-								<b:column span="6">
-									<h:outputLabel value="#{ofertausuBean.ff}">
+								<b:column span="4">
+									<h:outputText value="#{ofertausuBean.ff}">
 										<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
-									</h:outputLabel>
+									</h:outputText>
 								</b:column>
-								<b:column span="4"></b:column>
+							</b:row>
+							<b:row>
+								<b:column span="3"></b:column>
 								<b:column span="2">
-									<h:outputLabel value="Valor a Ofertar*:" />
+									<h:outputLabel value="Valor a Ofertar: ($) " />
 								</b:column>
 								<b:column span="2">
 									<b:inputText value="#{ofertausuBean.ofer_valor_oferta}"
 										required="true" placeholder="0.00"
 										requiredMessage="Campo valor venta requerido"
-										validatorMessage="Ingrese solo dígitos">
+										validatorMessage="Ingrese solo dígitos Ej. 0.00">
 										<f:validateRegex pattern="[0-9.]+" />
 										<p:ajax listener="#{ofertausuBean.verificarValor()}"
 											update=":frm"></p:ajax>
@@ -89,7 +122,7 @@
 					</b:column>
 				</b:row>
 				<b:row>
-					<b:column span="4" />
+					<b:column span="3" />
 					<b:column span="5">
 						<p:commandButton value="Enviar Oferta"
 							styleClass="btn btn-warning" style="padding:7px;"
@@ -109,7 +142,7 @@
 			<h:form>
 				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
 					icon="ui-icon-check" action="#{ofertausuBean.crearOferta()}"
-					oncomplete="PF('gu').hide();" update="frm" />
+					oncomplete="PF('gu').hide();" update=":frm:messages" />
 				<p:commandButton value="No" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
 					onclick="PF('gu').hide();" />

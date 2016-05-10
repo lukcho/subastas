@@ -24,10 +24,12 @@ and open the template in the editor.
 	<b:navBar brand="Subastas" inverse="true" brandHref="home.xhtml">
 		<b:navbarLinks>
 			<b:navbarLinks>
-				<b:navLink value="Ver sus Ofertas" iconAwesome="user"
+				<b:navLink value="Ver sus Ofertas" iconAwesome="fa fa-gavel"
 					href="ofertas.xhtml">
 				</b:navLink>
-
+				<b:navLink value="Ayuda" iconAwesome="fa fa-question"
+					onclick="PF('im').show();">
+				</b:navLink>
 				<ui:insert name="menu"></ui:insert>
 			</b:navbarLinks>
 			<ui:insert name="menu"></ui:insert>

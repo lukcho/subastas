@@ -14,7 +14,7 @@
 	<ui:define name="contenido">
 		<br />
 		<h:form id="frm">
-			<p:growl id="messages" showDetail="true" />
+			<p:growl id="messages" showDetail="false" />
 			<b:panel title="Registro de Catálogo" look="primary">
 				<b:row>
 					<b:column span="2">
@@ -103,7 +103,7 @@
 			<h:form>
 				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
 					icon="ui-icon-check" action="#{catalogosBean.crearCatalogo()}"
-					oncomplete="PF('gu').hide();" update="frm" />
+					oncomplete="PF('gu').hide();" update=":frm:messages" />
 				<p:commandButton value="No" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
 					onclick="PF('gu').hide();" />

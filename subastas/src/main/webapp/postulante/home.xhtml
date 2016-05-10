@@ -32,90 +32,195 @@
 			<p:layout style="min-height:600px;">
 				<p:layoutUnit position="center" size="500">
 					<p:dataScroller var="item" value="#{ofertausuBean.listaItems}"
-						chunkSize="10"
-						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-						rowsPerPageTemplate="6,12,16">
-
-						<f:facet name="loader">
-							<p:commandButton type="button" value="Mas"
-								icon="ui-icon-circle-triangle-s" />
-						</f:facet>
+						chunkSize="10" rows="3" mode="inline" scrollHeight="500">
 
 						<h:panelGrid columns="3" style="width:100%"
 							columnClasses="Imagen,detalle,ofertar">
-							<p:graphicImage value="#{facesContex}/imgevent/300.jpg"
-								width="150" height="150" />
-
 							<p:outputPanel>
-								<h:panelGrid columns="2" cellpadding="5">
-									<h:outputText value="Nombre: " style="font-weight: bold" />
-									<h:outputText value="#{item.itemNombre}"></h:outputText>
-
-									<h:outputText value="Valor Base: " style="font-weight: bold" />
-									<h:outputText value="#{item.itemValorBase}"></h:outputText>
-
-									<h:outputText value="Descripción: " style="font-weight: bold" />
-									<h:outputText value="#{item.itemDescripcion}" />
-
-									<h:outputText value="Fecha Inicio: " style="font-weight: bold" />
-									<h:outputText value="#{item.itemFechaSubastaInicio}">
-										<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
-									</h:outputText>
-									<h:outputText value="Fecha Final: " style="font-weight: bold" />
-									<h:outputText value="#{item.itemFechaSubastaFin}">
-										<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
-									</h:outputText>
-								</h:panelGrid>
-							</p:outputPanel>
-
-							<p:outputPanel>
-								<p:commandLink update=":frm:detalleproser"
-									value="Ver Información" oncomplete="PF('veritem').show()"
-									title="Informacion">
-									<h:outputText styleClass="ui-icon ui-icon-search"
-										style="margin:0 auto;" />
-									<f:setPropertyActionListener value="#{item}"
-										target="#{ofertausuBean.item}" />
-								</p:commandLink>
+								<b:column col-sm="12" col-md="12">
+									<b:row>
+										<b:column span="3">
+											<p:graphicImage
+												value="/resources/img/items/#{item.itemImagen}" width="200"
+												height="200" />
+										</b:column>
+										<b:column span="2">
+											<h:outputLabel value="Nombre: " />
+										</b:column>
+										<b:column span="3">
+											<h:outputText value="#{item.itemNombre}">
+											</h:outputText>
+										</b:column>
+										<b:column span="2">
+										</b:column>
+										<br />
+										<br />
+										<b:column span="2">
+											<h:outputLabel value="Descripción: " />
+										</b:column>
+										<b:column span="5" style="margin-bottom:10px">
+											<b:inputTextarea rows="3" cols="20" disabled="true"
+												value="#{item.itemDescripcion}" />
+										</b:column>
+										<br />
+										<br />
+										<br />
+										<b:column span="1">
+											<p:commandButton value="Ofertar" styleClass="btn btn-default"
+												disabled="false" action="#{ofertausuBean.irComprar()}"
+												style="padding:7px;" update=":frm:messages">
+												<f:setPropertyActionListener value="#{item}"
+													target="#{ofertausuBean.item}" />
+											</p:commandButton>
+										</b:column>
+										<br />
+										<br />
+										<br />
+										<b:column span="2">
+											<h:outputLabel value="Características: " />
+										</b:column>
+										<b:column span="5" style="margin-bottom:10px">
+											<b:inputTextarea rows="3" cols="20" disabled="true"
+												value="#{item.itemCaracteristicas}" />
+										</b:column>
+										<br />
+										<br />
+										<br />
+										<br />
+										<br />
+										<br />
+										<b:column span="3" />
+										<b:column span="2">
+											<h:outputLabel value="Valor Base: ($) " />
+										</b:column>
+										<b:column span="2">
+											<h:outputText value="#{item.itemValorBase}">
+											</h:outputText>
+										</b:column>
+										<b:column span="2">
+										</b:column>
+									</b:row>
+									<b:row>
+										<b:column span="3"></b:column>
+										<b:column span="2">
+											<h:outputLabel value="Inicio Subasta:" />
+										</b:column>
+										<b:column span="4">
+											<h:outputText value="#{item.itemFechaSubastaInicio}">
+												<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
+											</h:outputText>
+										</b:column>
+									</b:row>
+									<b:row>
+										<b:column span="3"></b:column>
+										<b:column span="2">
+											<h:outputLabel value="Fin Subasta:" />
+										</b:column>
+										<b:column span="4">
+											<h:outputText value="#{item.itemFechaSubastaFin}">
+												<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
+											</h:outputText>
+										</b:column>
+									</b:row>
+								</b:column>
 							</p:outputPanel>
 						</h:panelGrid>
+<!-- 						<h:panelGrid columns="3" style="width:100%" -->
+<!-- 							columnClasses="Imagen,detalle,ofertar"> -->
+<!-- 							<p:graphicImage value="/resources/img/items/#{item.itemImagen}" -->
+<!-- 								width="200" height="200" /> -->
+
+<!-- 							<p:outputPanel> -->
+<!-- 								<h:panelGrid columns="7" cellpadding="10"> -->
+<!-- 									<b:row> -->
+<!-- 										<b:row> -->
+<!-- 											<b:column span="5"> -->
+<!-- 												<h:outputText value="Nombre: " style="font-weight: bold" /> -->
+<!-- 											</b:column> -->
+
+<!-- 											<b:column span="5"> -->
+<!-- 												<h:outputText value="#{item.itemNombre}"></h:outputText> -->
+<!-- 											</b:column> -->
+<!-- 										</b:row> -->
+<!-- 										<b:row> -->
+<!-- 											<b:column span="5"> -->
+<!-- 												<h:outputText value="Descripción: " -->
+<!-- 													style="font-weight: bold" /> -->
+<!-- 											</b:column> -->
+
+<!-- 											<b:column span="7"> -->
+<!-- 												<b:inputTextarea rows="3" cols="20" disabled="true" -->
+<!-- 													value="#{item.itemDescripcion}" /> -->
+<!-- 											</b:column> -->
+<!-- 										</b:row> -->
+<!-- 										<b:row> -->
+<!-- 											<b:column span="5"> -->
+<!-- 												<h:outputText value="Valor Base: ($)" -->
+<!-- 													style="font-weight: bold" /> -->
+<!-- 											</b:column> -->
+
+<!-- 											<b:column span="3"> -->
+<!-- 												<h:outputText value="#{item.itemValorBase}"></h:outputText> -->
+<!-- 											</b:column> -->
+<!-- 										</b:row> -->
+<!-- 										<b:row> -->
+<!-- 											<b:column span="5"> -->
+<!-- 												<h:outputText value="Inicio Subasta: " -->
+<!-- 													style="font-weight: bold" /> -->
+<!-- 											</b:column> -->
+<!-- 											<b:column span="7"> -->
+<!-- 												<h:outputText value="#{item.itemFechaSubastaInicio}"> -->
+<!-- 													<f:convertDateTime pattern="yyyy/MM/dd HH:mm" -->
+<!-- 														timeZone="GMT-5" /> -->
+<!-- 												</h:outputText> -->
+<!-- 											</b:column> -->
+<!-- 										</b:row> -->
+<!-- 										<b:row> -->
+<!-- 											<b:column span="5"> -->
+<!-- 												<h:outputText value="Fin Subasta: " -->
+<!-- 													style="font-weight: bold" /> -->
+<!-- 											</b:column> -->
+<!-- 											<b:column span="7"> -->
+<!-- 												<h:outputText value="#{item.itemFechaSubastaFin}"> -->
+<!-- 													<f:convertDateTime pattern="yyyy/MM/dd HH:mm" -->
+<!-- 														timeZone="GMT-5" /> -->
+<!-- 												</h:outputText> -->
+<!-- 											</b:column> -->
+<!-- 										</b:row> -->
+<!-- 									</b:row> -->
+<!-- 								</h:panelGrid> -->
+<!-- 							</p:outputPanel> -->
+
+<!-- 							<p:outputPanel> -->
+<!-- 								<h:panelGrid columns="2" cellpadding="5"> -->
+<!-- 									<p:commandButton value="Ofertar" styleClass="btn btn-default" -->
+<!-- 										disabled="false" action="#{ofertausuBean.irComprar()}" -->
+<!-- 										style="padding:7px;" update=":frm:messages"> -->
+<!-- 										<f:setPropertyActionListener value="#{item}" -->
+<!-- 											target="#{ofertausuBean.item}" /> -->
+<!-- 									</p:commandButton> -->
+<!-- 								</h:panelGrid> -->
+<!-- 							</p:outputPanel> -->
+<!-- 							<br /> -->
+<!-- 						</h:panelGrid> -->
+						<p:separator></p:separator>
 					</p:dataScroller>
 				</p:layoutUnit>
 			</p:layout>
-			<p:dialog header="Informaci&oacute;n del Item" widgetVar="veritem"
-				modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-				<p:outputPanel id="detalleproser" style="text-align:center;">
-					<p:panelGrid columns="2" columnClasses="label,value">
-						<f:facet name="header">
+		</h:form>
+		<p:dialog header="Imágen de Flujo de Ofertas" widgetVar="im"
+			modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+			<div class="row topForm">
+				<div class="col-sm-8 col-sm-offset-2 form-box">
+					<div class="form-bottom">
+						<h:panelGrid>
 							<p:graphicImage value="#{facesContex}/imgevent/300.jpg"
 								width="150" height="150" />
-						</f:facet>
-						<h:outputText value="Nombre: " />
-						<h:outputText value="#{ofertausuBean.item.itemNombre}" />
-						<h:outputText value="Descripcion: " />
-						<h:outputText value="#{ofertausuBean.item.itemDescripcion}" />
-						<h:outputText value="Valor: " />
-						<h:outputText value="$ #{ofertausuBean.item.itemValorBase}" />
-						<h:outputText value="Fechas de Inicio: " />
-						<h:outputText value="#{ofertausuBean.item.itemFechaSubastaInicio}">
-							<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
-						</h:outputText>
-						<h:outputText value="Fechas de Final: " />
-						<h:outputText value="#{ofertausuBean.item.itemFechaSubastaFin}">
-							<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
-						</h:outputText>
-						<p:commandButton value="Comprar" styleClass="btn btn-default"
-							disabled="false" action="#{ofertausuBean.irComprar()}"
-							style="padding:7px;" update="frm messages">
-						</p:commandButton>
-						<p:commandButton value="Volver" styleClass="btn btn-default"
-							style="padding:7px;" actionListener="home.xhtml"
-							oncomplete="PF('veritem').hide();" update="frm messages">
-						</p:commandButton>
-					</p:panelGrid>
-				</p:outputPanel>
-			</p:dialog>
-		</h:form>
+						</h:panelGrid>
+					</div>
+				</div>
+			</div>
+		</p:dialog>
 	</ui:define>
 </ui:composition>
 </html>

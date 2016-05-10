@@ -24,7 +24,7 @@
 			</h:form>
 			<br/>
 		<h:form id="frm">
-			<p:growl id="messages" showDetail="true" />
+			<p:growl id="messages" showDetail="false" />
 			<b:panel title="Listado de Cat&aacute;logos" look="primary">
 				<p:dataTable id="tbb" value="#{catalogosBean.listaCatalogoItems}"
 					reflow="true" var="cati" rows="8" emptyMessage="Sin Datos"
@@ -72,7 +72,7 @@
 				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
 					icon="ui-icon-check"
 					action="#{catalogosBean.cambiarEstado()}"
-					oncomplete="PF('ce').hide();" update="frm" />
+					oncomplete="PF('ce').hide();" update=":frm:messages" />
 				<p:commandButton value="No" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
 					onclick="PF('ce').hide();" />

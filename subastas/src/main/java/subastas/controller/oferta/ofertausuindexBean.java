@@ -70,6 +70,8 @@ public class ofertausuindexBean implements Serializable {
 	private List<SubItem> listaItem;
 
 	private List<SubOferta> listaOferta;
+	
+	private List<String> ValorMaximo;
 
 	// horario
 	private Date fi;
@@ -77,7 +79,6 @@ public class ofertausuindexBean implements Serializable {
 	private Date date;
 	private Date fecha;
 
-	
 	public ofertausuindexBean() {
 	}
 
@@ -309,6 +310,14 @@ public class ofertausuindexBean implements Serializable {
 	public void setListaOferta(List<SubOferta> listaOferta) {
 		this.listaOferta = listaOferta;
 	}
+	
+	public List<String> getValorMaximo() {
+		return ValorMaximo;
+	}
+	
+	public void setValorMaximo(List<String> valorMaximo) {
+		ValorMaximo = valorMaximo;
+	}
 
 	public Date getDate() {
 		date = new Date();
@@ -333,11 +342,43 @@ public class ofertausuindexBean implements Serializable {
 	 * @return
 	 */
 	public List<SubItem> getListaItems() {
+		fecha = new Date();
+		Timestamp fecha_ahora = new Timestamp(fecha.getTime());
 		List<SubItem> a = managergest.findItems();
 		List<SubItem> l1 = new ArrayList<SubItem>();
 		for (SubItem t : a) {
-			l1.add(t);
+			if (t.getItemGanadorDni().equals("")
+					&& t.getItemEstado().equals("A")
+					&& t.getItemFechaSubastaFin().after((fecha_ahora)))
+				l1.add(t);
+		}
+		return l1;
+	}
 
+	/**
+	 * metodo para listar las ofertas x usuario
+	 * 
+	 * @return
+	 */
+	public List<SubItem> getlistaSubastasPasadas() {
+		List<SubItem> a = managergest.findAllItemsOrdenadasPasadas();
+		List<SubItem> l1 = new ArrayList<SubItem>();
+		for (SubItem t : a) {
+			l1.add(t);
+		}
+		return l1;
+	}
+
+	/**
+	 * metodo para listar las ofertas x usuario
+	 * 
+	 * @return
+	 */
+	public List<SubOferta> getListaOfertaXItem() {
+		List<SubOferta> a = managergest.findAllofertasOrdenadasXItem(item_id);
+		List<SubOferta> l1 = new ArrayList<SubOferta>();
+		for (SubOferta t : a) {
+			l1.add(t);
 		}
 		return l1;
 	}
@@ -362,7 +403,7 @@ public class ofertausuindexBean implements Serializable {
 			BigDecimal valoroferta = new BigDecimal(ofer_valor_oferta.replace(
 					",", "."));
 			fecha = new Date();
-			System.out.println("iddelitem "+item_id);
+			System.out.println("iddelitem " + item_id);
 			managergest.asignarPostulante(pos_id);
 			managergest.asignarItem(item_id);
 			ofer_fecha_oferta = new Timestamp(fecha.getTime());
@@ -407,6 +448,41 @@ public class ofertausuindexBean implements Serializable {
 	 * @param pro_estado_fun
 	 * @throws Exception
 	 */
+	public String cargarItem(SubItem item) {
+		try {
+			item_id = item.getItemId();
+			item_nombre = item.getItemNombre();
+			item_caracteristicas = item.getItemCaracteristicas();
+			item_descripcion = item.getItemDescripcion();
+			item_imagen = item.getItemImagen();
+			item_valorbase = item.getItemValorBase().toString();
+			item_valorventa = item.getItemValorVenta().toString();
+			item_fecha_subasta_inicio = item.getItemFechaSubastaInicio();
+			item_fecha_subasta_fin = item.getItemFechaSubastaFin();
+			fi = item.getItemFechaSubastaInicio();
+			ff = item.getItemFechaSubastaFin();
+			return "pasofertasub?faces-redirect=true";
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return "";
+	}
+
+	/**
+	 * accion para cargar los datos en el formulario
+	 * 
+	 * @param pro_id
+	 * @param prodfoto_id
+	 * @param pro_nombre
+	 * @param pro_descripcion
+	 * @param pro_costo
+	 * @param pro_precio
+	 * @param pro_stock
+	 * @param pro_estado
+	 * @param pro_estado_fun
+	 * @throws Exception
+	 */
 	public String cargarOferta(SubOferta ofer) {
 		try {
 			managergest.asignarItem(item_id);
@@ -429,7 +505,7 @@ public class ofertausuindexBean implements Serializable {
 			pos_gerencia = ofer.getSubPostulante().getPosGerencia();
 			pos_area = ofer.getSubPostulante().getPosArea();
 
-			return "noferta?faces-redirect=true";
+			return "pasuoferta?faces-redirect=true";
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -514,6 +590,34 @@ public class ofertausuindexBean implements Serializable {
 		return "nitem?faces-redirect=true";
 	}
 
+	/**
+	 * limpia la informacion
+	 * 
+	 * @return
+	 */
+	public String salirPasuOferta() {
+		// limpiar datos
+		ofer_id = null;
+		ofer_valor_oferta = null;
+		ofer_fecha_oferta = null;
+		item = null;
+		postulante = null;
+
+		item_nombre = "";
+		item_caracteristicas = "";
+		item_imagen = "";
+
+		pos_nombre = "";
+		pos_apellido = "";
+		pos_direccion = "";
+		pos_correo = "";
+		pos_telefono = "";
+		pos_institucion = "";
+		pos_gerencia = "";
+		pos_area = "";
+		return "pasofertasub?faces-redirect=true";
+	}
+
 	// ESTADOS
 	/**
 	 * Lista de estados
@@ -560,6 +664,19 @@ public class ofertausuindexBean implements Serializable {
 		getListaItems().clear();
 		getListaItems().addAll(managergest.findAllItems());
 		return "home?faces-redirect=true";
+	}
+
+	/**
+	 * limpia la informacion
+	 * 
+	 * @return
+	 */
+	public String limpiarItems() {
+		// limpiar datos
+		item = new SubItem();
+		getListaItems().clear();
+		getListaItems().addAll(managergest.findAllItems());
+		return "index?faces-redirect=true";
 	}
 
 	/**

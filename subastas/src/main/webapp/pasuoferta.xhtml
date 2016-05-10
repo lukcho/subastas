@@ -7,7 +7,7 @@
 	xmlns:b="http://bootsfaces.net/ui"
 	xmlns:pe="http://primefaces.org/ui/extensions">
 
-<ui:composition template="templateusu.xhtml">
+<ui:composition template="template.xhtml">
 	<ui:define name="titulo">
            Ofertar 
         </ui:define>
@@ -24,7 +24,7 @@
 									<h:outputLabel value="Oferta id: " />
 								</b:column>
 								<b:column span="3">
-									<h:outputLabel value="#{ofertausuBean.ofer_id}"
+									<h:outputLabel value="#{ofertausuindexBean.ofer_id}"
 										styleClass="form-control" disabled="true">
 									</h:outputLabel>
 								</b:column>
@@ -32,7 +32,7 @@
 									<h:outputLabel value="Valor oferta: " />
 								</b:column>
 								<b:column span="3">
-									<h:outputLabel value="#{ofertausuBean.ofer_valor_oferta}"
+									<h:outputLabel value="#{ofertausuindexBean.ofer_valor_oferta}"
 										styleClass="form-control" disabled="true">
 									</h:outputLabel>
 								</b:column>
@@ -45,17 +45,9 @@
 									<h:outputLabel value="Fecha oferta: " />
 								</b:column>
 								<b:column span="3">
-									<h:outputLabel value="#{ofertausuBean.ofer_fecha_oferta}"
+									<h:outputLabel value="#{ofertausuindexBean.ofer_fecha_oferta}"
 										styleClass="form-control" disabled="true">
 										<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
-									</h:outputLabel>
-								</b:column>
-								<b:column span="2">
-									<h:outputLabel value="Maximo Ofertado: " />
-								</b:column>
-								<b:column span="3">
-									<h:outputLabel value="#{ofertausuBean.valorMaximo}"
-										styleClass="form-control" disabled="true">
 									</h:outputLabel>
 								</b:column>
 							</b:row>
@@ -63,34 +55,29 @@
 						</b:thumbnail>
 					</b:column>
 				</b:row>
+				<br />
 				<b:row>
 					<b:column col-sm="12" col-md="12">
 						<b:thumbnail tooltip="Item">
 							<b:row>
-								<b:column span="3">
-									<p:graphicImage id="imagen"
-										value="/resources/img/items/#{ofertausuBean.item_imagen}"
-										width="250" height="250" />
-								</b:column>
 								<b:column span="2">
 									<h:outputLabel value="Nombre Item: " />
 								</b:column>
-								<b:column span="4">
-									<h:outputLabel value="#{ofertausuBean.item_nombre}"
+								<b:column span="3">
+									<h:outputLabel value="#{ofertausuindexBean.item_nombre}"
 										styleClass="form-control" disabled="true">
 									</h:outputLabel>
 								</b:column>
-								<br />
-								<br />
-								<br />
 								<b:column span="2">
 									<h:outputLabel value="Características Item: " />
 								</b:column>
 								<b:column span="4">
 									<h:inputTextarea rows="4"
-										value="#{ofertausuBean.item_caracteristicas}" disabled="true"
+										value="#{ofertausuindexBean.item_caracteristicas}" disabled="true"
 										styleClass="form-control">
 									</h:inputTextarea>
+								</b:column>
+								<b:column span="2">
 								</b:column>
 								<br />
 								<br />
@@ -99,28 +86,33 @@
 								<br />
 								<br />
 								<b:column span="2">
+									<h:outputLabel value="Imagen Item: " />
+								</b:column>
+								<b:column span="3">
+									<p:graphicImage id="imagen"
+										value="/resources/img/items/#{ofertausuindexBean.item_imagen}" width="150"
+										height="150" />
 								</b:column>
 								<b:column span="2">
 									<h:outputLabel value="Descripción Item: " />
 								</b:column>
 								<b:column span="4">
 									<h:inputTextarea rows="4"
-										value="#{ofertausuBean.item_descripcion}" disabled="true"
+										value="#{ofertausuindexBean.item_descripcion}" disabled="true"
 										styleClass="form-control">
 									</h:inputTextarea>
 								</b:column>
-								<br />
-								<br />
-								<br />
-								<br />
-								<br />
-								<br />
-								<b:column span="3"></b:column>
+								<br/>
+								<br/>
+								<br/>
+								<br/>
+								<br/>
+								<br/>
 								<b:column span="2">
 									<h:outputLabel value="Valor Base Item: " />
 								</b:column>
 								<b:column span="4">
-									<h:outputLabel value="#{ofertausuBean.item_valorbase}"
+									<h:outputLabel value="#{ofertausuindexBean.item_valorbase}"
 										styleClass="form-control" disabled="true">
 									</h:outputLabel>
 								</b:column>
@@ -128,6 +120,7 @@
 						</b:thumbnail>
 					</b:column>
 				</b:row>
+				<br />
 				<b:row>
 					<b:column col-sm="12" col-md="12">
 						<b:thumbnail tooltip="Postulante">
@@ -136,7 +129,7 @@
 									<h:outputLabel value="Nombre Postulante: " />
 								</b:column>
 								<b:column span="3">
-									<h:outputLabel value="#{ofertausuBean.pos_nombre}"
+									<h:outputLabel value="#{ofertausuindexBean.pos_nombre}"
 										styleClass="form-control" disabled="true">
 									</h:outputLabel>
 								</b:column>
@@ -144,7 +137,7 @@
 									<h:outputLabel value="Apellido Postulante: " />
 								</b:column>
 								<b:column span="3">
-									<h:outputLabel value="#{ofertausuBean.pos_apellido}"
+									<h:outputLabel value="#{ofertausuindexBean.pos_apellido}"
 										styleClass="form-control" disabled="true">
 									</h:outputLabel>
 								</b:column>
@@ -155,7 +148,7 @@
 									<h:outputLabel value="Correo Postulante: " />
 								</b:column>
 								<b:column span="3">
-									<h:outputLabel value="#{ofertausuBean.pos_correo}"
+									<h:outputLabel value="#{ofertausuindexBean.pos_correo}"
 										styleClass="form-control" disabled="true">
 									</h:outputLabel>
 								</b:column>
@@ -163,7 +156,7 @@
 									<h:outputLabel value="Teléfono Postulante: " />
 								</b:column>
 								<b:column span="3">
-									<h:outputLabel value="#{ofertausuBean.pos_telefono}"
+									<h:outputLabel value="#{ofertausuindexBean.pos_telefono}"
 										styleClass="form-control" disabled="true">
 									</h:outputLabel>
 								</b:column>
@@ -174,7 +167,7 @@
 									<h:outputLabel value="Intitución Postulante: " />
 								</b:column>
 								<b:column span="3">
-									<h:outputLabel value="#{ofertausuBean.pos_institucion}"
+									<h:outputLabel value="#{ofertausuindexBean.pos_institucion}"
 										styleClass="form-control" disabled="true">
 									</h:outputLabel>
 								</b:column>
@@ -182,7 +175,7 @@
 									<h:outputLabel value="Gerencia Postulante: " />
 								</b:column>
 								<b:column span="3">
-									<h:outputLabel value="#{ofertausuBean.pos_gerencia}"
+									<h:outputLabel value="#{ofertausuindexBean.pos_gerencia}"
 										styleClass="form-control" disabled="true">
 									</h:outputLabel>
 								</b:column>
@@ -193,7 +186,7 @@
 									<h:outputLabel value="Dirección Postulante: " />
 								</b:column>
 								<b:column span="3">
-									<h:outputLabel value="#{ofertausuBean.pos_direccion}"
+									<h:outputLabel value="#{ofertausuindexBean.pos_direccion}"
 										styleClass="form-control" disabled="true">
 									</h:outputLabel>
 								</b:column>
@@ -201,7 +194,7 @@
 									<h:outputLabel value="Área Postulante: " />
 								</b:column>
 								<b:column span="3">
-									<h:outputLabel value="#{ofertausuBean.pos_area}"
+									<h:outputLabel value="#{ofertausuindexBean.pos_area}"
 										styleClass="form-control" disabled="true">
 									</h:outputLabel>
 								</b:column>
@@ -213,7 +206,7 @@
 				<b:row>
 					<b:column span="5">
 						<b:commandButton value="Volver"
-							action="#{ofertausuBean.salirOfertas()}" update="frm" look="info"
+							action="#{ofertausuindexBean.salirPasuOferta()}" update="frm" look="info"
 							process="@this">
 						</b:commandButton>
 					</b:column>

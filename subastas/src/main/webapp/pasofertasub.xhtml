@@ -6,33 +6,33 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:b="http://bootsfaces.net/ui">
 
-<ui:composition template="templateusu.xhtml">
+<ui:composition template="template.xhtml">
 	<ui:define name="titulo">
             Ofertas
         </ui:define>
 	<ui:define name="contenido">
 		<h:form>
 			<center>
-				<h1>Mis Ofertas</h1>
+				<h1>Ofertas del Item</h1>
 			</center>
 			<b:row>
 				<b:column span="1">
 					<b:commandButton value="Volver" iconAwesome="angle-left"
-						action="home?faces-redirect=true" />
+						action="pasofertas?faces-redirect=true" />
 				</b:column>
 			</b:row>
 		</h:form>
 		<br />
 		<h:form id="frm">
 			<p:growl id="messages" showDetail="true" />
-			<b:panel title="Listado de Ofertas" look="primary">
-				<p:dataTable id="tbb" value="#{ofertausuBean.listaOfertaXUsuario}"
+			<b:panel title="Listado de Ofertas X Item" look="primary">
+				<p:dataTable id="tbb" value="#{ofertausuindexBean.listaOfertaXItem}"
 					reflow="true" var="ofer" rows="8" emptyMessage="Sin Datos"
 					paginator="true"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 					<p:column headerText="OPCIONES" width="50">
 						<p:commandButton id="btnE" icon="ui-icon-pencil"
-							action="#{ofertausuBean.cargarOferta(ofer)}">
+							action="#{ofertausuindexBean.cargarOferta(ofer)}">
 							<p:tooltip id="toolTipTrack1" for="btnE"
 								value="Bot&oacute;n para ver el oferta" trackMouse="true" />
 						</p:commandButton>
@@ -64,18 +64,6 @@
 				</p:dataTable>
 			</b:panel>
 		</h:form>
-		<p:confirmDialog header="Confirmación"
-			message="Está seguro de cambiar el estado?" closable="false"
-			showEffect="fade" hideEffect="explode" widgetVar="ce">
-			<h:form>
-				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
-					icon="ui-icon-check" action="#{ofertausuBean.cambiarEstado()}"
-					oncomplete="PF('ce').hide();" update=":frm:messages" />
-				<p:commandButton value="No" type="button"
-					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
-					onclick="PF('ce').hide();" />
-			</h:form>
-		</p:confirmDialog>
 	</ui:define>
 </ui:composition>
 </html>

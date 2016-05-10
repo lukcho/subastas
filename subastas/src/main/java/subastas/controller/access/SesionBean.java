@@ -124,7 +124,7 @@ public class SesionBean implements Serializable{
 	     SesionBean user = (SesionBean) session.getAttribute("sesionBean");
 	     if (user==null || user.getUsuario() == null) {
             try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("/subastas/admin/views/index.xhtml");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/subastas/admin/index.xhtml");
             } catch (IOException ex) {
             	Mensaje.crearMensajeERROR(ex.getMessage());
             }
@@ -135,7 +135,7 @@ public class SesionBean implements Serializable{
         		return user.getUsuario();
         	else{
         		try {
-       				FacesContext.getCurrentInstance().getExternalContext().redirect("/subastas/admin/views/index.xhtml");
+       				FacesContext.getCurrentInstance().getExternalContext().redirect("/subastas/admin/index.xhtml");
 	            } catch (IOException ex) {
 	            	Mensaje.crearMensajeERROR(ex.getMessage());
 	            }

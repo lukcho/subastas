@@ -2,7 +2,9 @@ package subastas.controller.gestion;
 
 import subastas.model.dao.entities.SubPostulante;
 import subastas.model.generic.Funciones;
+import subastas.model.generic.Mensaje;
 import subastas.model.manager.ManagerGestion;
+import subastas.controller.access.SesionBean;
 import subastas.entidades.help.UsuarioHelp;
 import subastas.entidades.help.Utilidades;
 
@@ -19,6 +21,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.inject.Inject;
 
 import org.primefaces.context.RequestContext;
 
@@ -29,6 +32,9 @@ public class postulantesBean implements Serializable {
 
 	@EJB
 	private ManagerGestion managergest;
+
+	@Inject
+	SesionBean ms;
 
 	private String pos_id;
 	private Timestamp pos_fecha_reg;
@@ -59,6 +65,8 @@ public class postulantesBean implements Serializable {
 	private boolean verhorario;
 	private boolean guardarin;
 
+	private String usuario;
+
 	public postulantesBean() {
 	}
 
@@ -82,6 +90,7 @@ public class postulantesBean implements Serializable {
 		guardarin = false;
 		mostrarpro_id = false;
 		listaPostulante = managergest.findAllpostulantes();
+		usuario = ms.validarSesion("postulantes.xhtml");
 	}
 
 	public ManagerGestion getManagergest() {
@@ -357,9 +366,13 @@ public class postulantesBean implements Serializable {
 			pos_fecha_reg = new Timestamp(fecha.getTime());
 			if (edicion) {
 				setPos_password(Utilidades.Encriptar(getPos_password()));// PASS
-				managergest.editarPostulante(pos_id.trim(), pos_nombre.trim(), pos_apellido.trim(),
-						pos_direccion.trim(), pos_correo.trim(), pos_telefono.trim(), pos_password.trim(),
-						pos_institucion.trim(), pos_gerencia.trim(), pos_area.trim(), pos_estado);
+				managergest.editarPostulante(pos_id.trim(), pos_nombre.trim(),
+						pos_apellido.trim(), pos_direccion.trim(),
+						pos_correo.trim(), pos_telefono.trim(),
+						pos_password.trim(), pos_institucion.trim(),
+						pos_gerencia.trim(), pos_area.trim(), pos_estado);
+				getListaPostulante().clear();
+				getListaPostulante().addAll(managergest.findAllpostulantes());
 				pos_id = "";
 				pos_nombre = "";
 				pos_apellido = "";
@@ -373,11 +386,11 @@ public class postulantesBean implements Serializable {
 				pos_gerencia = "";
 				pos_estado = "A";
 				pos_area = "";
-				getListaPostulante().clear();
-				getListaPostulante().addAll(managergest.findAllpostulantes());
-				FacesContext context = FacesContext.getCurrentInstance();
-				context.addMessage(null, new FacesMessage("Modificado..!!!",
-						"Usuario Modificado "));
+				Mensaje.crearMensajeINFO("Actualizado - Modificado");
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO,
+								"Modificado - Editado", null));
 				r = "postulantes?faces-redirect=true";
 			} else {
 				if (this.ccedula(pos_id)) {
@@ -392,10 +405,15 @@ public class postulantesBean implements Serializable {
 							"El correo ya esta siendo utilizado"));
 				} else {
 					setPos_password(Utilidades.Encriptar(getPos_password()));// PASS
-					managergest.insertarPostulante(pos_id.trim(), pos_fecha_reg,
-							pos_nombre.trim(), pos_apellido.trim(), pos_direccion.trim(),
-							pos_correo.trim(), pos_telefono.trim(), pos_password.trim(),
-							pos_institucion.trim(), pos_gerencia.trim(), pos_area.trim());
+					managergest.insertarPostulante(pos_id.trim(),
+							pos_fecha_reg, pos_nombre.trim(),
+							pos_apellido.trim(), pos_direccion.trim(),
+							pos_correo.trim(), pos_telefono.trim(),
+							pos_password.trim(), pos_institucion.trim(),
+							pos_gerencia.trim(), pos_area.trim());
+					getListaPostulante().clear();
+					getListaPostulante().addAll(
+							managergest.findAllpostulantes());
 					pos_id = "";
 					pos_nombre = "";
 					pos_apellido = "";
@@ -409,12 +427,11 @@ public class postulantesBean implements Serializable {
 					pos_gerencia = "";
 					pos_area = "";
 					pos_estado = "A";
-					getListaPostulante().clear();
-					getListaPostulante().addAll(
-							managergest.findAllpostulantes());
-					FacesContext context = FacesContext.getCurrentInstance();
-					context.addMessage(null, new FacesMessage(
-							"Registrado..!!!", "Usuario Creado "));
+					Mensaje.crearMensajeINFO("Actualizado - Modificado");
+					FacesContext.getCurrentInstance().addMessage(
+							null,
+							new FacesMessage(FacesMessage.SEVERITY_INFO,
+									"Registrado - Creado", null));
 					r = "postulantes?faces-redirect=true";
 				}
 			}
@@ -423,7 +440,7 @@ public class postulantesBean implements Serializable {
 			// FacesContext.getCurrentInstance().addMessage(null, new
 			// FacesMessage(FacesMessage.SEVERITY_ERROR,"Cédula no valida",null));
 			// }
-			
+
 		} catch (Exception e) {
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage("Error..!!!",
@@ -541,7 +558,7 @@ public class postulantesBean implements Serializable {
 		edicion = false;
 		guardarin = false;
 		ediciontipo = false;
-		mostrarpro_id=false;
+		mostrarpro_id = false;
 		verhorario = false;
 		edicion = false;
 		guardarin = false;

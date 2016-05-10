@@ -33,7 +33,7 @@
 		<h:form id="frm">
 			<p:growl id="messages" showDetail="false" />
 			<b:panel title="Listado de Ofertas" look="primary">
-				<p:dataTable id="tbb" value="#{ofertasBean.listaOfertasNoGanadores}"
+				<p:dataTable id="tbb" value="#{ofertasBean.listaOfertasGanadores}"
 					widgetVar="ofer" reflow="true" var="ofer" rows="8"
 					emptyMessage="Sin Datos" paginator="true" columnIndexVar="colIndex"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">

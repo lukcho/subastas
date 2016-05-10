@@ -2,6 +2,7 @@ package subastas.controller.oferta;
 
 import subastas.model.dao.entities.SubPostulante;
 import subastas.model.generic.Funciones;
+import subastas.model.generic.Mensaje;
 import subastas.model.manager.ManagerGestion;
 import subastas.entidades.help.UsuarioHelp;
 import subastas.entidades.help.Utilidades;
@@ -360,6 +361,8 @@ public class postulantesusuBean implements Serializable {
 //				managergest.editarPostulante(pos_id.trim(), pos_nombre.trim(), pos_apellido.trim(),
 //						pos_direccion.trim(), pos_correo.trim(), pos_telefono.trim(), pos_password.trim(),
 //						pos_institucion.trim(), pos_gerencia.trim(), pos_area.trim(), pos_estado);
+				getListaPostulante().clear();
+				getListaPostulante().addAll(managergest.findAllpostulantes());
 				pos_id = "";
 				pos_nombre = "";
 				pos_apellido = "";
@@ -373,11 +376,11 @@ public class postulantesusuBean implements Serializable {
 				pos_gerencia = "";
 				pos_estado = "A";
 				pos_area = "";
-				getListaPostulante().clear();
-				getListaPostulante().addAll(managergest.findAllpostulantes());
-				FacesContext context = FacesContext.getCurrentInstance();
-				context.addMessage(null, new FacesMessage("Modificado..!!!",
-						"Usuario Modificado "));
+				Mensaje.crearMensajeINFO("");
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO,
+								"Modificado - Editado", null));
 				r = "index?faces-redirect=true";
 			} else {
 				if (this.ccedula(pos_id)) {
@@ -396,6 +399,9 @@ public class postulantesusuBean implements Serializable {
 							pos_nombre.trim(), pos_apellido.trim(), pos_direccion.trim(),
 							pos_correo.trim(), pos_telefono.trim(), pos_password.trim(),
 							pos_institucion.trim(), pos_gerencia.trim(), pos_area.trim());
+					getListaPostulante().clear();
+					getListaPostulante().addAll(
+							managergest.findAllpostulantes());
 					pos_id = "";
 					pos_nombre = "";
 					pos_apellido = "";
@@ -409,12 +415,11 @@ public class postulantesusuBean implements Serializable {
 					pos_gerencia = "";
 					pos_area = "";
 					pos_estado = "A";
-					getListaPostulante().clear();
-					getListaPostulante().addAll(
-							managergest.findAllpostulantes());
-					FacesContext context = FacesContext.getCurrentInstance();
-					context.addMessage(null, new FacesMessage(
-							"Registrado..!!!", "Usuario Creado "));
+					Mensaje.crearMensajeINFO("");
+					FacesContext.getCurrentInstance().addMessage(
+							null,
+							new FacesMessage(FacesMessage.SEVERITY_INFO,
+									"Registrado - Creado", null));
 					r = "index?faces-redirect=true";
 				}
 			}

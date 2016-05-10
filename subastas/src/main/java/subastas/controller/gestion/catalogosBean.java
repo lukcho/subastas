@@ -11,9 +11,11 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.inject.Inject;
 
 import org.primefaces.context.RequestContext;
 
+import subastas.controller.access.SesionBean;
 import subastas.model.dao.entities.SubCatCab;
 import subastas.model.dao.entities.SubCatDet;
 import subastas.model.generic.Funciones;
@@ -28,6 +30,9 @@ public class catalogosBean implements Serializable {
 
 	@EJB
 	private ManagerCatalogos managercat;
+	
+	@Inject
+	SesionBean ms;
 
 	// CATALOGO
 	private Integer cat_id;// para la seleccion de categoria
@@ -47,6 +52,9 @@ public class catalogosBean implements Serializable {
 
 	private List<SubCatCab> listaCatalogo;
 	private List<SubCatDet> listaCatalogoItems;
+	
+	private String usuario;
+
 
 	public catalogosBean() {
 	}
@@ -61,6 +69,7 @@ public class catalogosBean implements Serializable {
 		ediciontipo = false;
 		listaCatalogoItems = managercat.findAllCatalogoItems();
 		listaCatalogo = managercat.findAllCatalogos();
+		usuario = ms.validarSesion("catalogos.xhtml");
 	}
 	
 
@@ -209,12 +218,22 @@ public class catalogosBean implements Serializable {
 				getListaCatalogoItems().clear();
 				getListaCatalogoItems().addAll(
 						managercat.findAllCatalogoItems());
+				Mensaje.crearMensajeINFO("Si se alammaceno la oferta");
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO,
+								"Modificado - Editado", null));
 			} else {
 				managercat.insertarCatalogoItems(cati_nombre, cati_idpadre);
 				Mensaje.crearMensajeINFO("Registrado - Creado");
 				getListaCatalogoItems().clear();
 				getListaCatalogoItems().addAll(
 						managercat.findAllCatalogoItems());
+				Mensaje.crearMensajeINFO("Si se alammaceno la oferta");
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO,
+								"Registrado- Creado", null));
 			}
 			r = "catalogos?faces-redirect=true";
 

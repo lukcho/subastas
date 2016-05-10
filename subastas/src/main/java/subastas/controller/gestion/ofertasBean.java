@@ -13,11 +13,16 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.inject.Inject;
+
 import org.primefaces.context.RequestContext;
+
+import subastas.controller.access.SesionBean;
 import subastas.model.dao.entities.SubItem;
 import subastas.model.dao.entities.SubOferta;
 import subastas.model.dao.entities.SubPostulante;
 import subastas.model.generic.Funciones;
+import subastas.model.generic.Mensaje;
 import subastas.model.manager.ManagerGestion;
 
 @SessionScoped
@@ -28,6 +33,9 @@ public class ofertasBean implements Serializable {
 
 	@EJB
 	private ManagerGestion managergest;
+
+	@Inject
+	SesionBean ms;
 
 	// ofertas
 	private Integer ofer_id;
@@ -40,8 +48,12 @@ public class ofertasBean implements Serializable {
 	private Integer item_id;
 	private String item_nombre;
 	private String item_caracteristicas;
+	private String item_descripcion;
 	private String item_imagen;
-	private String item_ganador;
+	private Integer item_ganador;
+	private String item_valorbase;
+	private String item_valorventa;
+	private String valorMaximo;
 
 	// postulante
 	private String pos_nombre;
@@ -65,19 +77,46 @@ public class ofertasBean implements Serializable {
 	private Date date;
 	private Date fecha;
 
+	private String usuario;
+
 	public ofertasBean() {
 	}
 
 	@PostConstruct
 	public void ini() {
 		listaOferta = managergest.findAllofertasOrdenadas();
+		usuario = ms.validarSesion("ofertas.xhtml");
 	}
 
-	public String getItem_ganador() {
+	public String getItem_valorventa() {
+		return item_valorventa;
+	}
+
+	public void setItem_valorventa(String item_valorventa) {
+		this.item_valorventa = item_valorventa;
+	}
+
+	public String getValorMaximo() {
+		return valorMaximo;
+	}
+
+	public void setValorMaximo(String valorMaximo) {
+		this.valorMaximo = valorMaximo;
+	}
+
+	public String getItem_valorbase() {
+		return item_valorbase;
+	}
+
+	public void setItem_valorbase(String item_valorbase) {
+		this.item_valorbase = item_valorbase;
+	}
+
+	public Integer getItem_ganador() {
 		return item_ganador;
 	}
 
-	public void setItem_ganador(String item_ganador) {
+	public void setItem_ganador(Integer item_ganador) {
 		this.item_ganador = item_ganador;
 	}
 
@@ -225,6 +264,14 @@ public class ofertasBean implements Serializable {
 		this.item_caracteristicas = item_caracteristicas;
 	}
 
+	public String getItem_descripcion() {
+		return item_descripcion;
+	}
+
+	public void setItem_descripcion(String item_descripcion) {
+		this.item_descripcion = item_descripcion;
+	}
+
 	public String getItem_imagen() {
 		return item_imagen;
 	}
@@ -273,7 +320,30 @@ public class ofertasBean implements Serializable {
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
-	
+
+	/**
+	 * metodo para listar los registros
+	 * 
+	 * @return
+	 */
+	public List<SubOferta> getListaOfertasNoGanadores() {
+		List<SubOferta> a = managergest.listadoNoGanadores();
+		List<SubOferta> l1 = new ArrayList<SubOferta>();
+		for (SubOferta t : a) {
+			l1.add(t);
+		}
+		return l1;
+	}
+
+	/**
+	 * metodo para listar los registros
+	 * 
+	 * @return
+	 */
+	public List<SubOferta> getListaOfertasGanadores() {
+		return managergest.listadoGanadores();
+	}
+
 	/**
 	 * metodo para listar las ofertas
 	 * 
@@ -311,9 +381,19 @@ public class ofertasBean implements Serializable {
 			item = ofer.getSubItem();
 			postulante = ofer.getSubPostulante();
 
+			item_id = ofer.getSubItem().getItemId();
 			item_nombre = ofer.getSubItem().getItemNombre();
 			item_caracteristicas = ofer.getSubItem().getItemCaracteristicas();
+			item_descripcion = ofer.getSubItem().getItemDescripcion();
 			item_imagen = ofer.getSubItem().getItemImagen();
+			item_valorbase = ofer.getSubItem().getItemValorBase().toString();
+			item_valorventa = ofer.getSubItem().getItemValorVenta().toString();
+
+			if (managergest.ValorMaximoXItem(item_id) == null) {
+				valorMaximo = "";
+			} else {
+				valorMaximo = managergest.ValorMaximoXItem(item_id).toString();
+			}
 
 			pos_nombre = ofer.getSubPostulante().getPosNombre();
 			pos_apellido = ofer.getSubPostulante().getPosApellido();
@@ -323,7 +403,11 @@ public class ofertasBean implements Serializable {
 			pos_institucion = ofer.getSubPostulante().getPosInstitucion();
 			pos_gerencia = ofer.getSubPostulante().getPosGerencia();
 			pos_area = ofer.getSubPostulante().getPosArea();
-
+			Mensaje.crearMensajeINFO("Actualizado - Modificado");
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
+							"Editado - Modificado", null));
 			return "noferta?faces-redirect=true";
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -346,34 +430,59 @@ public class ofertasBean implements Serializable {
 	 * @param pro_estado_fun
 	 * @throws Exception
 	 */
-	public String conocerGanador(SubOferta ofer) {
+	public String conocerGanador() {
 		try {
-			ofer_id = ofer.getOferId();
-			ofer_valor_oferta = ofer.getOferValorOferta().toString();
-			ofer_fecha_oferta = ofer.getOferFechaOferta();
-			item = ofer.getSubItem();
-			postulante = ofer.getSubPostulante();
+			ofer_id = ofertadelsita.getOferId();
+			ofer_valor_oferta = ofertadelsita.getOferValorOferta().toString();
+			ofer_fecha_oferta = ofertadelsita.getOferFechaOferta();
+			item = ofertadelsita.getSubItem();
+			postulante = ofertadelsita.getSubPostulante();
 
-			item_nombre = ofer.getSubItem().getItemNombre();
-			item_caracteristicas = ofer.getSubItem().getItemCaracteristicas();
-			item_imagen = ofer.getSubItem().getItemImagen();
-			item_ganador = ofer.getSubItem().getItemGanadorDni();
-			
-			pos_nombre = ofer.getSubPostulante().getPosNombre();
-			pos_apellido = ofer.getSubPostulante().getPosApellido();
-			pos_direccion = ofer.getSubPostulante().getPosDireccion();
-			pos_correo = ofer.getSubPostulante().getPosCorreo();
-			pos_telefono = ofer.getSubPostulante().getPosTelefono();
-			pos_institucion = ofer.getSubPostulante().getPosInstitucion();
-			pos_gerencia = ofer.getSubPostulante().getPosGerencia();
-			pos_area = ofer.getSubPostulante().getPosArea();
+			item_id = ofertadelsita.getSubItem().getItemId();
+			item_nombre = ofertadelsita.getSubItem().getItemNombre();
+			item_caracteristicas = ofertadelsita.getSubItem()
+					.getItemCaracteristicas();
+			item_descripcion = ofertadelsita.getSubItem().getItemDescripcion();
+			item_imagen = ofertadelsita.getSubItem().getItemImagen();
+			item_ganador = ofertadelsita.getSubItem().getItemGanadorDni();
 
-			return "noferta?faces-redirect=true";
+			pos_nombre = ofertadelsita.getSubPostulante().getPosNombre();
+			pos_apellido = ofertadelsita.getSubPostulante().getPosApellido();
+			pos_direccion = ofertadelsita.getSubPostulante().getPosDireccion();
+			pos_correo = ofertadelsita.getSubPostulante().getPosCorreo();
+			pos_telefono = ofertadelsita.getSubPostulante().getPosTelefono();
+			pos_institucion = ofertadelsita.getSubPostulante()
+					.getPosInstitucion();
+			pos_gerencia = ofertadelsita.getSubPostulante().getPosGerencia();
+			pos_area = ofertadelsita.getSubPostulante().getPosArea();
+
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(
+					null,
+					new FacesMessage("INFORMACION", managergest.ganadorItem(
+							item_id, "I", managergest.itemByID(item_id),
+							ofer_id)));
+
+			getListaOferta().clear();
+			getListaOferta().addAll(managergest.findAllofertasOrdenadas());
+			Mensaje.crearMensajeINFO("Actualizado - Modificado");
+			return "ofertas?faces-redirect=true";
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return "";
+	}
+
+	/**
+	 * activar y desactivar estado producto
+	 * 
+	 * @param pro_id
+	 * @throws Exception
+	 */
+	public void conocerGanadorItem(SubOferta ofer) {
+		setOfertadelsita(ofer);
+		RequestContext.getCurrentInstance().execute("PF('cg').show();");
 	}
 
 	/**
@@ -416,6 +525,7 @@ public class ofertasBean implements Serializable {
 
 		item_nombre = "";
 		item_caracteristicas = "";
+		item_descripcion = "";
 		item_imagen = "";
 
 		pos_nombre = "";
@@ -462,7 +572,9 @@ public class ofertasBean implements Serializable {
 
 		item_nombre = "";
 		item_caracteristicas = "";
+		item_descripcion = "";
 		item_imagen = "";
+		item_valorbase = "";
 
 		pos_nombre = "";
 		pos_apellido = "";

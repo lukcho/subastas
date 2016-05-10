@@ -10,6 +10,13 @@
 	<ui:define name="titulo">
             Items
         </ui:define>
+         <ui:define name="head">
+        <style type="text/css">
+            .ui-datatable .ui-datatable-header {
+                text-align: right !important;
+            }
+        </style>
+    </ui:define>    
 	<ui:define name="contenido">
 		<h:form>
 			<center>
@@ -28,61 +35,82 @@
 		</h:form>
 		<br />
 		<h:form id="frm">
-			<p:growl id="messages" showDetail="true" />
+			<p:growl id="messages" showDetail="false" />
 			<b:panel title="Listado de Items" look="primary">
-				<p:dataTable id="tbb" value="#{itemBean.listaItem}" reflow="true"
+				<p:dataTable id="tbb" value="#{itemBean.listaItems}" reflow="true" widgetVar="item"
 					var="item" rows="8" emptyMessage="Sin Datos" paginator="true"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+					
+					<f:facet name="header">
+						<p:outputPanel>
+							<h:outputText value="Buscar:" />
+							<p:inputText id="globalFilter" onkeyup="PF('item').filter()"
+								style="width:200px" placeholder="Ingrese" />
+						</p:outputPanel>
+					</f:facet>
+					
 					<p:column headerText="OPCIONES" width="50">
-						<p:commandButton id="btnE" icon="ui-icon-pencil"
+						<b:commandButton id="btnE" iconAwesome="fa fa-pencil"
 							action="#{itemBean.cargarItem(item)}">
 							<p:tooltip id="toolTipTrack1" for="btnE"
 								value="Bot&oacute;n para modificar el item" trackMouse="true" />
-						</p:commandButton>
+						</b:commandButton>
 							&nbsp;&nbsp;&nbsp;
-							<p:commandButton id="trackcamb" icon="ui-icon-refresh"
+							<b:commandButton id="trackcamb" iconAwesome="fa fa-refresh"
 							action="#{itemBean.cambiarEstadoItem(item)}">
 							<p:tooltip id="toolTipTrack2" for="trackcamb"
 								value="Bot&oacute;n para cambiar el estado del item"
 								trackMouse="true" />
-						</p:commandButton>
+						</b:commandButton>
+						&nbsp;&nbsp;&nbsp;
+							<b:commandButton id="trackcamb2" iconAwesome="fa fa-child"
+							action="#{itemBean.conocerGanadorItem(item)}">
+							<p:tooltip id="toolTipTrack3" for="trackcamb2"
+								value="Bot&oacute;n para Conocer al Ganador"
+								trackMouse="true" />
+						</b:commandButton>
+						&nbsp;&nbsp;&nbsp;
+							<b:commandButton id="trackcamb4" iconAwesome="fa fa-envelope-o">
+							<p:tooltip id="toolTipTrack4" for="trackcamb4"
+								value="Bot&oacute;n para Enviar el Mensaje"
+								trackMouse="true" />
+						</b:commandButton>
 					</p:column>
 					<p:column filterBy="#{item.itemNombre}" filterMatchMode="contains"
 						headerText="NOMBRE" width="50">
 						<h:outputText value="#{item.itemNombre}"></h:outputText>
 					</p:column>
-					<p:column filterBy="#{item.itemCaracteristicas}"
-						filterMatchMode="contains" headerText="CARACTERISTICAS" width="60">
-						<h:outputText value="#{item.itemCaracteristicas}"></h:outputText>
+					<p:column headerText="DESCRIPCIÓN" width="60">
+						<h:outputText value="#{item.itemDescripcion}"></h:outputText>
 					</p:column>
-					<p:column headerText="USUARIO REGISTRÓ" width="30">
+					<p:column filterBy="#{item.itemUsuarioRegistro}" filterMatchMode="contains" headerText="USUARIO REGISTRO" width="40">
 						<h:outputText value="#{item.itemUsuarioRegistro}"></h:outputText>
 					</p:column>
-					<p:column headerText="VALOR BASE" width="30">
+					<p:column filterBy="#{item.itemValorBase}" filterMatchMode="contains" headerText="VALOR BASE" width="30">
 						<h:outputText value="#{item.itemValorBase}"></h:outputText>
 					</p:column>
-					<p:column headerText="VALOR VENTA" width="30">
+					<p:column filterBy="#{item.itemValorVenta}" filterMatchMode="contains" headerText="VALOR VENTA" width="30">
 						<h:outputText value="#{item.itemValorVenta}"></h:outputText>
 					</p:column>
-					<p:column width="100" headerText="IMAGEN" exportable="false">
-						<p:graphicImage width="50" height="50"
-							value="/imgevent/#{item.itemImagen}"></p:graphicImage>
+					<p:column width="50" headerText="IMAGEN" exportable="false">
+						<p:graphicImage width="100" height="100"
+							value="/resources/img/items/#{item.itemImagen}"></p:graphicImage>
 					</p:column>
-					<p:column headerText="FECHA SUBASTA I." width="30">
+					<p:column filterBy="#{item.itemFechaSubastaInicio}" filterMatchMode="contains" headerText="INICIO SUBASTA" width="30">
 						<h:outputText value="#{item.itemFechaSubastaInicio}">
-							<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
+							<f:convertDateTime pattern="yyyy/MM/dd HH:mm" timeZone="GMT-5"/>
 						</h:outputText>
 					</p:column>
-					<p:column headerText="FECHA SUBASTA F." width="30">
+					<p:column filterBy="#{item.itemFechaSubastaFin}" filterMatchMode="contains" headerText="FIN SUBASTA" width="30">
 						<h:outputText value="#{item.itemFechaSubastaFin}">
-							<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
+							<f:convertDateTime pattern="yyyy/MM/dd HH:mm" timeZone="GMT-5" />
 						</h:outputText>
 					</p:column>
-					<p:column headerText="GANADOR" width="30">
-						<h:outputText value="#{item.itemGanadorDni}"></h:outputText>
-					</p:column>
-					<p:column headerText="ESTADO" width="30">
+					<p:column filterBy="#{item.itemEstado}" filterMatchMode="contains" headerText="ESTADO" width="30">
 						<h:outputText value="#{item.itemEstado}"></h:outputText>
+					</p:column>
+					<p:column filterBy="#{item.itemGanadorDni}"  filterMatchMode="contains" headerText="GANADOR" width="30">
+						<h:outputText value="#{item.itemGanadorDni}"></h:outputText>
 					</p:column>
 				</p:dataTable>
 			</b:panel>
@@ -93,10 +121,22 @@
 			<h:form>
 				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
 					icon="ui-icon-check" action="#{itemBean.cambiarEstado()}"
-					oncomplete="PF('ce').hide();" update="frm" />
+					oncomplete="PF('ce').hide();" update=":frm:messages" />
 				<p:commandButton value="No" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
 					onclick="PF('ce').hide();" />
+			</h:form>
+		</p:confirmDialog>
+		<p:confirmDialog header="Confirmación"
+			message="Está seguro de hacer ganador la oferta?" closable="false"
+			showEffect="fade" hideEffect="explode" widgetVar="cg">
+			<h:form>
+				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
+					icon="ui-icon-check" action="#{itemBean.conocerGanador()}"
+					oncomplete="PF('cg').hide();" update=":frm:messages" />
+				<p:commandButton value="No" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+					onclick="PF('cg').hide();" />
 			</h:form>
 		</p:confirmDialog>
 	</ui:define>
