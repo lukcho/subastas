@@ -349,7 +349,7 @@ public class ofertausuBean implements Serializable {
 		List<SubItem> a = managergest.findItems();
 		List<SubItem> l1 = new ArrayList<SubItem>();
 		for (SubItem t : a) {
-			if (t.getItemGanadorDni().equals("")
+			if (t.getItemGanadorDni() == null
 					&& t.getItemEstado().equals("A")
 					&& t.getItemFechaSubastaFin().after((fecha_ahora)))
 				l1.add(t);
