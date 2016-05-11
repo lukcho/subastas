@@ -27,125 +27,101 @@
 		<h:form id="frm">
 			<p:growl id="messages" showDetail="false" />
 			<p:layoutUnit position="center" size="450">
-				<p:dataScroller var="item" value="#{ofertausuindexBean.listaItems}"
-					chunkSize="3" rows="3">
+				<p:dataGrid var="item" value="#{ofertausuindexBean.listaItems}"
+					columns="2" layout="grid" rows="12" paginator="true" id="item"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="6,12,16">
 
-					<f:facet name="loader">
-						<p:commandButton type="button" value="Mas"
-							icon="ui-icon-circle-triangle-s" />
-					</f:facet>
+					<p:panel>
+						<h:panelGrid columns="3" style="width:100%"
+							columnClasses="Imagen,detalle,ofertar">
+							<p:outputPanel>
+								<b:column col-sm="12" col-md="12">
+									<b:row>
+										<b:column col-sm="3" col-md="3">
+											<p:graphicImage
+												value="/resources/img/items/#{item.itemImagen}" width="120"
+												height="120" />
+										</b:column>
 
+										<b:column col-sm="6" col-md="6">
+											<b:row>
+												<b:column col-sm="3" col-md="5">
+													<h:outputLabel value="Nombre: " />
+												</b:column>
+												<b:column col-sm="2" col-md="5">
+													<h:outputText value="#{item.itemNombre}">
+													</h:outputText>
+												</b:column>
+											</b:row>
+											<b:row>
+												<b:column col-sm="3" col-md="5">
+													<h:outputLabel value="Valor Base: (USD) " />
+												</b:column>
+												<b:column col-sm="2" col-md="4">
+													<h:outputText value="#{item.itemValorBase}">
+													</h:outputText>
+												</b:column>
+												<b:column col-sm="2" col-md="2">
+													<p:commandButton update=":frm:messages"
+														style="padding:7px;" value="Ofertar"
+														onclick="PF('ic').show();">
+													</p:commandButton>
+												</b:column>
+											</b:row>
+											<b:row>
+												<b:column col-sm="3" col-md="5">
+													<h:outputLabel value="Inicio Subasta:" />
+												</b:column>
+												<b:column col-sm="2" col-md="4">
+													<h:outputText value="#{item.itemFechaSubastaInicio}">
+														<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
+													</h:outputText>
+												</b:column>
+											</b:row>
 
-					<h:panelGrid columns="3" style="width:100%"
-						columnClasses="Imagen,detalle,ofertar">
-						<p:outputPanel>
-							<b:column col-sm="12" col-md="12">
-
-								<b:row>
-
-									<b:column col-sm="3" col-md="3">
-										<p:graphicImage
-											value="/resources/img/items/#{item.itemImagen}" width="200"
-											height="200" />
-									</b:column>
-
-									<b:column col-sm="6" col-md="6">
-										<b:row>
-											<b:column col-sm="3" col-md="3">
-												<h:outputLabel value="Nombre: " />
-											</b:column>
-											<b:column col-sm="2" col-md="4">
-												<h:outputText value="#{item.itemNombre}">
-												</h:outputText>
-											</b:column>
-										</b:row>
-
-										<b:row>
-											<b:column col-sm="3" col-md="3">
-												<h:outputLabel value="Descripción: " />
-											</b:column>
-											<b:column col-sm="2" col-md="7">
-												<b:inputTextarea rows="3" cols="20" disabled="true"
-													value="#{item.itemDescripcion}" />
-											</b:column>
-											<br />
-											<br />
-											<b:column col-sm="2" col-md="2">
-												<p:commandButton update=":frm:messages" style="padding:7px;"
-													value="Ofertar" onclick="PF('ic').show();">
-												</p:commandButton>
-											</b:column>
-										</b:row>
-										<b:row></b:row>
-										<b:row>
-											<b:column col-sm="3" col-md="3">
-												<h:outputLabel value="Valor Base: (USD) " />
-											</b:column>
-											<b:column col-sm="2" col-md="4">
-												<h:outputText value="#{item.itemValorBase}">
-												</h:outputText>
-											</b:column>
-										</b:row>
-
-										<b:row>
-											<b:column col-sm="3" col-md="3">
-												<h:outputLabel value="Inicio Subasta:" />
-											</b:column>
-											<b:column col-sm="2" col-md="4">
-												<h:outputText value="#{item.itemFechaSubastaInicio}">
-													<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
-												</h:outputText>
-											</b:column>
-										</b:row>
-
-										<b:row>
-											<b:column col-sm="3" col-md="3">
-												<h:outputLabel value="Fin Subasta:" />
-											</b:column>
-											<b:column col-sm="2" col-md="4">
-												<h:outputText value="#{item.itemFechaSubastaFin}">
-													<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
-												</h:outputText>
-											</b:column>
-										</b:row>
-									</b:column>
-								</b:row>
-							</b:column>
-						</p:outputPanel>
-					</h:panelGrid>
-					<p:separator></p:separator>
-				</p:dataScroller>
+											<b:row>
+												<b:column col-sm="3" col-md="5">
+													<h:outputLabel value="Fin Subasta:" />
+												</b:column>
+												<b:column col-sm="2" col-md="4">
+													<h:outputText value="#{item.itemFechaSubastaFin}">
+														<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
+													</h:outputText>
+												</b:column>
+											</b:row>
+										</b:column>
+									</b:row>
+								</b:column>
+							</p:outputPanel>
+						</h:panelGrid>
+					</p:panel>
+				</p:dataGrid>
 			</p:layoutUnit>
 		</h:form>
-		<p:dialog widgetVar="ic"
-			modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-				<b:container>
-						<div class="col-sm-6 col-sm-offset-3 form-box">
-							<div class="form-top">
-								<div class="form-top-left">
-									<h2>Ingreso al sistema</h2>
-									<p>Sistema de Subastas Yachay</p>
-								</div>
-								<div class="form-top-right">
-									<i class="fa fa-gavel"></i>
-								</div>
-							</div>
-							<div class="form-bottom">
-								<h:form id="frmlog">
-									<p:messages closable="true" />
-										<b:inputText placeholder="USUARIO" value="#{sessionBean.nick}" disabled="false">
-											<p:ajax listener="#{sessionBean.veri()}" update=":frm"></p:ajax>
-										</b:inputText>
-										<b:inputSecret placeholder="CONTRASE&Ntilde;A" disabled="false"
-											value="#{sessionBean.pass}">
-										</b:inputSecret>
-									<b:commandButton value="Ingresar" iconAwesome="check-square-o"
-										action="#{sessionBean.login}" styleClass="btn-block btnSend"
-										look="primary" update="frmlog" />
-								</h:form>
-							</div>
-						</div>
-				</b:container>
+		<p:dialog widgetVar="ic" modal="true" showEffect="fade"
+			header="Sistema de Subastas Yachay" hideEffect="fade"
+			resizable="false">
+
+			<div class="form-bottom">
+						<div class="form-box">
+				<h2>Ingreso al sistema 	<i class="fa fa-gavel fa-1x"></i></h2>
+			</div>
+			
+				<h:form id="frmlog">
+					<p:messages closable="true" />
+					<b:inputText placeholder="USUARIO" value="#{sessionBean.nick}"
+						disabled="false">
+						<p:ajax listener="#{sessionBean.veri()}" update=":frm"></p:ajax>
+					</b:inputText>
+					<b:inputSecret placeholder="CONTRASE&Ntilde;A" disabled="false"
+						value="#{sessionBean.pass}">
+					</b:inputSecret>
+					<b:commandButton value="Ingresar" iconAwesome="check-square-o"
+						action="#{sessionBean.login}" styleClass="btn-block btnSend"
+						look="primary" update="frmlog" />
+				</h:form>
+			</div>
 		</p:dialog>
 		<p:dialog header="Imágen de Flujo de Ofertas" widgetVar="im"
 			modal="true" showEffect="fade" hideEffect="fade" resizable="false">

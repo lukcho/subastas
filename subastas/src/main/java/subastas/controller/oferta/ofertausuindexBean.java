@@ -18,6 +18,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.ResizeEvent;
 
 import subastas.model.dao.entities.SubItem;
 import subastas.model.dao.entities.SubOferta;
@@ -70,7 +71,7 @@ public class ofertausuindexBean implements Serializable {
 	private List<SubItem> listaItem;
 
 	private List<SubOferta> listaOferta;
-	
+
 	private List<String> ValorMaximo;
 
 	private UsuarioHelp session;
@@ -312,11 +313,11 @@ public class ofertausuindexBean implements Serializable {
 	public void setListaOferta(List<SubOferta> listaOferta) {
 		this.listaOferta = listaOferta;
 	}
-	
+
 	public List<String> getValorMaximo() {
 		return ValorMaximo;
 	}
-	
+
 	public void setValorMaximo(List<String> valorMaximo) {
 		ValorMaximo = valorMaximo;
 	}
@@ -349,8 +350,7 @@ public class ofertausuindexBean implements Serializable {
 		List<SubItem> a = managergest.findItems();
 		List<SubItem> l1 = new ArrayList<SubItem>();
 		for (SubItem t : a) {
-			if (t.getItemGanadorDni() == null
-					&& t.getItemEstado().equals("A")
+			if (t.getItemGanadorDni() == null && t.getItemEstado().equals("A")
 					&& t.getItemFechaSubastaFin().after((fecha_ahora)))
 				l1.add(t);
 		}
