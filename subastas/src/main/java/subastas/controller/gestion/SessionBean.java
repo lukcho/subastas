@@ -1,10 +1,14 @@
 package subastas.controller.gestion;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import subastas.entidades.help.UsuarioHelp;
 import subastas.entidades.help.Utilidades;
+import subastas.model.dao.entities.SubItem;
 import subastas.model.dao.entities.SubPostulante;
 import subastas.model.generic.Mail;
 import subastas.model.generic.Mensaje;
@@ -16,6 +20,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
+
+import org.primefaces.context.RequestContext;
 
 @SessionScoped
 @ManagedBean
@@ -41,13 +47,144 @@ public class SessionBean {
     /*Perfil de Usuario*/
     private String nombre, apellido, password, correo, cedula; 
     
+	private String pos_id;
+	private Timestamp pos_fecha_reg;
+	private String pos_nombre;
+	private String pos_apellido;
+	private String pos_direccion;
+	private String pos_correo;
+	private String pos_telefono;
+	private String pos_password;
+	private String pos_institucion;
+	private String pos_gerencia;
+	private String pos_area;
+	private String pos_estado;
+	private Date fecha;
+	private boolean edicion;
+
+
+	@EJB
+	private ManagerGestion managergest;
+	
     public SessionBean() {
     	managest = new ManagerGestion();
 		usr=new SubPostulante();
 	}
-
     
-    public String getPass() {
+    
+    public boolean isEdicion() {
+		return edicion;
+	}
+
+	public void setEdicion(boolean edicion) {
+		this.edicion = edicion;
+	}
+    
+    public String getPos_id() {
+		return pos_id;
+	}
+
+	public void setPos_id(String pos_id) {
+		this.pos_id = pos_id;
+	}
+
+	public Timestamp getPos_fecha_reg() {
+		return pos_fecha_reg;
+	}
+
+	public void setPos_fecha_reg(Timestamp pos_fecha_reg) {
+		this.pos_fecha_reg = pos_fecha_reg;
+	}
+
+	public String getPos_nombre() {
+		return pos_nombre;
+	}
+
+	public void setPos_nombre(String pos_nombre) {
+		this.pos_nombre = pos_nombre;
+	}
+
+	public String getPos_apellido() {
+		return pos_apellido;
+	}
+
+	public void setPos_apellido(String pos_apellido) {
+		this.pos_apellido = pos_apellido;
+	}
+
+	public String getPos_direccion() {
+		return pos_direccion;
+	}
+
+	public void setPos_direccion(String pos_direccion) {
+		this.pos_direccion = pos_direccion;
+	}
+
+	public String getPos_correo() {
+		return pos_correo;
+	}
+
+	public void setPos_correo(String pos_correo) {
+		this.pos_correo = pos_correo;
+	}
+
+	public String getPos_telefono() {
+		return pos_telefono;
+	}
+
+	public void setPos_telefono(String pos_telefono) {
+		this.pos_telefono = pos_telefono;
+	}
+
+	public String getPos_password() {
+		return pos_password;
+	}
+
+	public void setPos_password(String pos_password) {
+		this.pos_password = pos_password;
+	}
+
+	public String getPos_institucion() {
+		return pos_institucion;
+	}
+
+	public void setPos_institucion(String pos_institucion) {
+		this.pos_institucion = pos_institucion;
+	}
+
+	public String getPos_gerencia() {
+		return pos_gerencia;
+	}
+
+	public void setPos_gerencia(String pos_gerencia) {
+		this.pos_gerencia = pos_gerencia;
+	}
+
+	public String getPos_area() {
+		return pos_area;
+	}
+
+	public void setPos_area(String pos_area) {
+		this.pos_area = pos_area;
+	}
+
+	public String getPos_estado() {
+		return pos_estado;
+	}
+
+	public void setPos_estado(String pos_estado) {
+		this.pos_estado = pos_estado;
+	}
+
+	public Date getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}
+
+	public String getPass() {
 		return pass;
 	}
     
@@ -246,7 +383,6 @@ public class SessionBean {
     	}
     	return pag;
     }
-    
         
     public String regresarHomeUser(){
     	return "home?faces-redirect=true";

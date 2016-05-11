@@ -1,6 +1,7 @@
 package subastas.controller.oferta;
 
 import subastas.entidades.help.UsuarioHelp;
+import subastas.entidades.help.Utilidades;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -65,7 +66,8 @@ public class ofertausuBean implements Serializable {
 	private String pos_gerencia;
 	private String pos_area;
 	private String pos_direccion;
-
+	private String pos_password;
+	private boolean edicion;
 	private SubOferta ofertadelsita;
 
 	private List<SubItem> listaItem;
@@ -85,8 +87,26 @@ public class ofertausuBean implements Serializable {
 
 	@PostConstruct
 	public void ini() {
+		edicion = true;
 		session = SessionBean.verificarSession();
+		cargarDatosLogeado();
 		listaItem = managergest.findAllItems();
+	}
+
+	public boolean isEdicion() {
+		return edicion;
+	}
+
+	public void setEdicion(boolean edicion) {
+		this.edicion = edicion;
+	}
+
+	public String getPos_password() {
+		return pos_password;
+	}
+
+	public void setPos_password(String pos_password) {
+		this.pos_password = pos_password;
 	}
 
 	public String getValorMaximo() {
@@ -339,25 +359,6 @@ public class ofertausuBean implements Serializable {
 	}
 
 	/**
-	 * metodo para listar los registros
-	 * 
-	 * @return
-	 */
-	public List<SubItem> getListaItems() {
-		fecha = new Date();
-		Timestamp fecha_ahora = new Timestamp(fecha.getTime());
-		List<SubItem> a = managergest.findItems();
-		List<SubItem> l1 = new ArrayList<SubItem>();
-		for (SubItem t : a) {
-			if (t.getItemGanadorDni() == null
-					&& t.getItemEstado().equals("A")
-					&& t.getItemFechaSubastaFin().after((fecha_ahora)))
-				l1.add(t);
-		}
-		return l1;
-	}
-
-	/**
 	 * Metodo de cálculo de tiempo
 	 * 
 	 * @param eva_est
@@ -461,6 +462,32 @@ public class ofertausuBean implements Serializable {
 		return r;
 	}
 
+	// accion para invocar el manager y crear evento
+	public String editarPostulante() {
+		String r = "";
+		try {
+			setPos_password(Utilidades.Encriptar(getPos_password()));// PASS
+			managergest.editarPostulanteedicion(pos_id.trim(), pos_nombre.trim(),
+					pos_apellido.trim(), pos_direccion.trim(),
+					pos_correo.trim(), pos_telefono.trim(),
+					pos_password.trim(), pos_institucion.trim(),
+					pos_gerencia.trim(), pos_area.trim());
+			Mensaje.crearMensajeINFO("Actualizado - Modificado");
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
+							"Modificado - Editado", null));
+			r = "home?faces-redirect=true";
+
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							"Error al  crear usuario postulante", null));
+		}
+		return r;
+	}
+
 	/**
 	 * accion para cargar los datos en el formulario
 	 * 
@@ -484,7 +511,7 @@ public class ofertausuBean implements Serializable {
 			postulante = ofer.getSubPostulante();
 
 			item_id = ofer.getSubItem().getItemId();
-			System.out.println("este es el id: "+item_id);
+			System.out.println("este es el id: " + item_id);
 			item_nombre = ofer.getSubItem().getItemNombre();
 			item_caracteristicas = ofer.getSubItem().getItemCaracteristicas();
 			item_imagen = ofer.getSubItem().getItemImagen();
@@ -514,6 +541,120 @@ public class ofertausuBean implements Serializable {
 		return "";
 	}
 
+	// postulante edicion perfil
+	/**
+	 * metodo para listar los registros
+	 * 
+	 * @return
+	 */
+	public List<SubItem> getListaItems() {
+		fecha = new Date();
+		cargarDatosLogeado();
+		Timestamp fecha_ahora = new Timestamp(fecha.getTime());
+		List<SubItem> a = managergest.findItems();
+		List<SubItem> l1 = new ArrayList<SubItem>();
+		for (SubItem t : a) {
+			if (t.getItemGanadorDni() == null && t.getItemEstado().equals("A")
+					&& t.getItemFechaSubastaFin().after((fecha_ahora)))
+				l1.add(t);
+		}
+		return l1;
+	}
+
+	// accion para invocar el manager y crear evento
+	public String crearPostulante() {
+		String r = "";
+		try {
+			if (edicion) {
+				setPos_password(Utilidades.Encriptar(getPos_password()));// PASS
+				managergest.editarPostulante(pos_id.trim(), pos_nombre.trim(),
+						pos_apellido.trim(), pos_direccion.trim(),
+						pos_correo.trim(), pos_telefono.trim(),
+						pos_password.trim(), pos_institucion.trim(),
+						pos_gerencia.trim(), pos_area.trim(), "A");
+				pos_id = "";
+				pos_nombre = "";
+				pos_apellido = "";
+				pos_direccion = "";
+				pos_correo = "";
+				pos_password = "";
+				pos_telefono = "";
+				pos_institucion = "";
+				pos_gerencia = "";
+				pos_area = "";
+				Mensaje.crearMensajeINFO("");
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO,
+								"Modificado - Editado", null));
+				r = "home?faces-redirect=true";
+			} else {
+				FacesContext context = FacesContext.getCurrentInstance();
+				context.addMessage(null, new FacesMessage(
+						"Error..!!! Usuario no pudo ser Creado "));
+			}
+		} catch (Exception e) {
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage("Error..!!!",
+					"Usuario no pudo ser Creado "));
+			e.printStackTrace();
+		}
+		return r;
+	}
+
+	public String cargarDatosLogeado() {
+		if (session != null) {
+			try {
+				SubPostulante usr = managergest.postulanteByID(session
+						.getIdUsr());
+				pos_id = usr.getPosId();
+				pos_nombre = usr.getPosNombre();
+				pos_apellido = usr.getPosApellido();
+				pos_direccion = usr.getPosDireccion();
+				pos_correo = usr.getPosCorreo();
+				pos_password = Utilidades.Desencriptar(usr.getPosPassword());
+				pos_telefono = usr.getPosTelefono();
+				pos_institucion = usr.getPosInstitucion();
+				pos_gerencia = usr.getPosGerencia();
+				pos_area = usr.getPosArea();
+				edicion = true;
+			} catch (Exception e) {
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR,
+								"Error al  cargar sus datos personales", null));
+			}
+		} else {
+			System.out.println("no carga nada");
+		}
+		return "uperfil?faces-redirect=true";
+	}
+
+	/**
+	 * limpia la informacion
+	 * 
+	 * @return
+	 */
+	public String salir() {
+		// limpiar datos
+		pos_id = "";
+		pos_nombre = "";
+		pos_apellido = "";
+		pos_direccion = "";
+		pos_correo = "";
+		pos_password = "";
+		pos_telefono = "";
+		pos_institucion = "";
+		pos_gerencia = "";
+		pos_area = "";
+		edicion = false;
+		getListaItems().clear();
+		getListaItems().addAll(managergest.findAllItems());
+		return "home?faces-redirect=true";
+	}
+
+	// traslados
+
 	/**
 	 * Cancela la accion de irHorario
 	 * 
@@ -522,51 +663,57 @@ public class ofertausuBean implements Serializable {
 	public String irComprar() {
 		String r = "";
 		try {
-			fecha = new Date();
-			ofer_fecha_oferta = new Timestamp(System.currentTimeMillis());
-			item_fecha_subasta_inicio = item.getItemFechaSubastaInicio();
-			item_fecha_subasta_fin = item.getItemFechaSubastaFin();
-			System.out.println("mi dia: " + ofer_fecha_oferta);
-			System.out.println("dia del tiem inicio: "
-					+ item_fecha_subasta_inicio);
-			System.out.println("mi hora: " + ofer_fecha_oferta.getTime());
-			System.out.println("hora del tiem inicio: "
-					+ item_fecha_subasta_inicio.getTime());
-			System.out.println("hora del tiem fin: "
-					+ item_fecha_subasta_fin.getTime());
-			if (ofer_fecha_oferta.before((item_fecha_subasta_inicio))
-					&& ofer_fecha_oferta.getTime() < item_fecha_subasta_inicio
-							.getTime()) {
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"Aun no se puede ofertar", null));
-			} else if (ofer_fecha_oferta.after((item_fecha_subasta_fin))
-					&& ofer_fecha_oferta.getTime() > item_fecha_subasta_fin
-							.getTime()) {
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"Ya se ha terminado la oferta", null));
+			if (item == null) {
+				System.out.println("holi");
 			} else {
-				item_id = item.getItemId();
-				item_nombre = item.getItemNombre();
-				item_caracteristicas = item.getItemCaracteristicas();
-				item_descripcion = item.getItemDescripcion();
-				item_imagen = item.getItemImagen();
-				item_valorbase = item.getItemValorBase().toString();
-				item_valorventa = item.getItemValorVenta().toString();
-
-				if (managergest.ValorMaximoXItem(item_id) == null) {
-					valorMaximo = "";
-				} else {
-					valorMaximo = managergest.ValorMaximoXItem(item_id).toString();
-				}
+				fecha = new Date();
+				ofer_fecha_oferta = new Timestamp(System.currentTimeMillis());
 				item_fecha_subasta_inicio = item.getItemFechaSubastaInicio();
 				item_fecha_subasta_fin = item.getItemFechaSubastaFin();
-				fi = item.getItemFechaSubastaInicio();
-				ff = item.getItemFechaSubastaFin();
-				r = "noferta?faces-redirect=true";
+				System.out.println("mi dia: " + ofer_fecha_oferta);
+				System.out.println("dia del tiem inicio: "
+						+ item_fecha_subasta_inicio);
+				System.out.println("mi hora: " + ofer_fecha_oferta.getTime());
+				System.out.println("hora del tiem inicio: "
+						+ item_fecha_subasta_inicio.getTime());
+				System.out.println("hora del tiem fin: "
+						+ item_fecha_subasta_fin.getTime());
+				if (ofer_fecha_oferta.before((item_fecha_subasta_inicio))
+						&& ofer_fecha_oferta.getTime() < item_fecha_subasta_inicio
+								.getTime()) {
+					FacesContext.getCurrentInstance().addMessage(
+							null,
+							new FacesMessage(FacesMessage.SEVERITY_INFO,
+									"Aun no se puede ofertar", null));
+				} else if (ofer_fecha_oferta.after((item_fecha_subasta_fin))
+						&& ofer_fecha_oferta.getTime() > item_fecha_subasta_fin
+								.getTime()) {
+					FacesContext.getCurrentInstance().addMessage(
+							null,
+							new FacesMessage(FacesMessage.SEVERITY_INFO,
+									"Ya se ha terminado la oferta", null));
+				} else {
+					item_id = item.getItemId();
+					item_nombre = item.getItemNombre();
+					item_caracteristicas = item.getItemCaracteristicas();
+					item_descripcion = item.getItemDescripcion();
+					item_imagen = item.getItemImagen();
+					item_valorbase = item.getItemValorBase().toString();
+					item_valorventa = item.getItemValorVenta().toString();
+
+					if (managergest.ValorMaximoXItem(item_id) == null) {
+						valorMaximo = "";
+					} else {
+						valorMaximo = managergest.ValorMaximoXItem(item_id)
+								.toString();
+					}
+					item_fecha_subasta_inicio = item
+							.getItemFechaSubastaInicio();
+					item_fecha_subasta_fin = item.getItemFechaSubastaFin();
+					fi = item.getItemFechaSubastaInicio();
+					ff = item.getItemFechaSubastaFin();
+					r = "noferta?faces-redirect=true";
+				}
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -650,7 +797,7 @@ public class ofertausuBean implements Serializable {
 	 * 
 	 * @return
 	 */
-	public String salir() {
+	public String salirEdPerfil() {
 		// limpiar datos
 		ofer_id = null;
 		ofer_valor_oferta = null;
@@ -709,6 +856,13 @@ public class ofertausuBean implements Serializable {
 					new FacesMessage(FacesMessage.SEVERITY_INFO,
 							"El valor es menor que el de base", null));
 		}
+	}
+
+	/**
+	 * 
+	 */
+	public void abrirDialogEdPerfil() {
+		RequestContext.getCurrentInstance().execute("PF('gu').show();");
 	}
 
 	/**

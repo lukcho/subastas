@@ -19,6 +19,7 @@ and open the template in the editor.
 	<title><ui:insert name="titulo">Template</ui:insert></title>
 	<h:outputStylesheet library="css" name="theme.css" />
 	<h:outputStylesheet library="css" name="style.css" />
+	<h:outputStylesheet library="css" name="estilos.css" />
 </h:head>
 <h:body style="padding-bottom: 50px;">
 	<b:navBar brand="Subastas" inverse="true" brandHref="index.xhtml">
@@ -30,12 +31,12 @@ and open the template in the editor.
 				href="pasofertas.xhtml">
 			</b:navLink>
 			<b:navLink value="Ayuda" rel="nofollow" iconAwesome="fa fa-question"
-				onclick="PF('im').show();" >
+				onclick="PF('im').show();">
 			</b:navLink>
 			<ui:insert name="menu"></ui:insert>
 		</b:navbarLinks>
 		<p class="navbar-text pull-right">
-			<a class="navbar-link" rel="nofollow" onclick="PF('ic').show();">Iniciar
+			<a class="navbar-link" onclick="PF('ic').show();">Iniciar
 				sesión</a>
 		</p>
 	</b:navBar>

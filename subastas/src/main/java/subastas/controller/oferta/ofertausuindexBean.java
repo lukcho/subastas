@@ -73,6 +73,8 @@ public class ofertausuindexBean implements Serializable {
 	
 	private List<String> ValorMaximo;
 
+	private UsuarioHelp session;
+
 	// horario
 	private Date fi;
 	private Date ff;

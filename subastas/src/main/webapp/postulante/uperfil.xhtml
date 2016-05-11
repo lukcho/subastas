@@ -7,7 +7,7 @@
 	xmlns:b="http://bootsfaces.net/ui"
 	xmlns:pe="http://primefaces.org/ui/extensions">
 
-<ui:composition template="template.xhtml">
+<ui:composition template="templateusu.xhtml">
 	<ui:define name="titulo">
            Postulante 
         </ui:define>
@@ -15,36 +15,21 @@
 		<br />
 		<h:form id="frm">
 			<p:growl id="messages" showDetail="false" />
-			<b:panel title="Registro de Postulante" look="primary">
-				<b:row>
-					<b:column span="2">
-						<h:outputLabel value="Fecha registro: "
-							rendered="#{postulantesBean.edicion}" />
-					</b:column>
-					<b:column span="3">
-						<h:outputLabel value="#{postulantesBean.pos_fecha_reg}"
-							rendered="#{postulantesBean.edicion}">
-							<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
-						</h:outputLabel>
-					</b:column>
-				</b:row>
-				<br />
+			<b:panel title="Pefil de Postulante" look="primary">
 				<b:row>
 					<b:column span="2">
 						<h:outputLabel value="Cédula/Pasaporte:* " />
 					</b:column>
 					<b:column span="3">
-						<h:inputText value="#{postulantesBean.pos_id}" required="true"
-							styleClass="form-control"
-							disabled="#{postulantesBean.mostrarpro_id}"
-							requiredMessage="Campo cédula/pasaporte requerido">
+						<h:inputText value="#{ofertausuBean.pos_id}" disabled="true"
+							styleClass="form-control">
 						</h:inputText>
 					</b:column>
 					<b:column span="2">
 						<h:outputLabel value="Nombre:* " />
 					</b:column>
 					<b:column span="3">
-						<h:inputText value="#{postulantesBean.pos_nombre}" required="true"
+						<h:inputText value="#{ofertausuBean.pos_nombre}" required="true"
 							styleClass="form-control"
 							requiredMessage="Campo nombre requerido">
 						</h:inputText>
@@ -56,8 +41,8 @@
 						<h:outputLabel value="Apellido:* " />
 					</b:column>
 					<b:column span="3">
-						<h:inputText value="#{postulantesBean.pos_apellido}"
-							required="true" styleClass="form-control"
+						<h:inputText value="#{ofertausuBean.pos_apellido}" required="true"
+							styleClass="form-control"
 							requiredMessage="Campo apellido requerido">
 						</h:inputText>
 					</b:column>
@@ -65,7 +50,7 @@
 						<h:outputLabel value="Dirección:* " />
 					</b:column>
 					<b:column span="3">
-						<h:inputText value="#{postulantesBean.pos_direccion}"
+						<h:inputText value="#{ofertausuBean.pos_direccion}"
 							required="true" styleClass="form-control"
 							requiredMessage="Campo direccion requerido">
 						</h:inputText>
@@ -80,7 +65,7 @@
 						<h:inputText required="true" styleClass="form-control"
 							requiredMessage="Por favor ingrese su Correo."
 							validatorMessage="Formato de correo inv&aacute;lido"
-							value="#{postulantesBean.pos_correo}">
+							value="#{ofertausuBean.pos_correo}">
 							<f:validateRegex
 								pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
 						</h:inputText>
@@ -89,10 +74,10 @@
 						<h:outputLabel value="Teléfono:* " />
 					</b:column>
 					<b:column span="3">
-						<h:inputText value="#{postulantesBean.pos_telefono}"
-							required="true" styleClass="form-control"
-							requiredMessage="Campo teléfono requerido"
-							validatorMessage="Campo teléfono solo ingrese números">
+						<h:inputText value="#{ofertausuBean.pos_telefono}" required="true"
+							styleClass="form-control"
+							validatorMessage="Campo teléfono solo números"
+							requiredMessage="Campo teléfono requerido">
 							<f:validateRegex pattern="[0-9]+" />
 						</h:inputText>
 					</b:column>
@@ -104,7 +89,7 @@
 					</b:column>
 					<b:column span="3">
 						<h:inputSecret required="true" id="pass" redisplay="true"
-							styleClass="form-control" value="#{postulantesBean.pos_password}"
+							styleClass="form-control" value="#{ofertausuBean.pos_password}"
 							feedback="true" requiredMessage="Requerida Contraseña"
 							goodLabel="Buena" strongLabel="Fuerte" weakLabel="Débil"
 							promptLabel="Por favor ingrese contraseña"
@@ -115,7 +100,7 @@
 						<h:outputLabel value="Institución:* " />
 					</b:column>
 					<b:column span="3">
-						<h:inputText value="#{postulantesBean.pos_institucion}"
+						<h:inputText value="#{ofertausuBean.pos_institucion}"
 							required="true" styleClass="form-control"
 							requiredMessage="Campo institución requerido">
 						</h:inputText>
@@ -127,8 +112,8 @@
 						<h:outputLabel value="Gerencia:* " />
 					</b:column>
 					<b:column span="3">
-						<h:inputText value="#{postulantesBean.pos_gerencia}"
-							required="true" styleClass="form-control"
+						<h:inputText value="#{ofertausuBean.pos_gerencia}" required="true"
+							styleClass="form-control"
 							requiredMessage="Campo gerencia requerido">
 						</h:inputText>
 					</b:column>
@@ -136,34 +121,22 @@
 						<h:outputLabel value="Area:* " />
 					</b:column>
 					<b:column span="3">
-						<h:inputText value="#{postulantesBean.pos_area}" required="true"
+						<h:inputText value="#{ofertausuBean.pos_area}" required="true"
 							styleClass="form-control" requiredMessage="Campo area requerido">
 						</h:inputText>
 					</b:column>
 				</b:row>
 				<br />
 				<b:row>
-					<b:column span="2">
-						<h:outputLabel value="Estado*"
-							rendered="#{postulantesBean.edicion}" />
-					</b:column>
-					<b:column span="3">
-						<b:selectOneMenu value="#{postulantesBean.pos_estado}"
-							rendered="#{postulantesBean.edicion}">
-							<f:selectItems value="#{postulantesBean.listEstados}" />
-						</b:selectOneMenu>
-					</b:column>
-				</b:row>
-				<b:row>
 					<b:column span="5">
-						<p:commandButton value="Guardar" styleClass="btn btn-info"
+						<p:commandButton value="Actualizar" styleClass="btn btn-info"
 							style="padding:7px;"
-							actionListener="#{postulantesBean.abrirDialog()}"
+							actionListener="#{ofertausuBean.abrirDialogEdPerfil()}"
 							update="frm messages">
 						</p:commandButton>&nbsp;&nbsp;&nbsp;
 						<b:commandButton value="Volver"
-							action="#{postulantesBean.salir()}" update="frm" look="info"
-							process="@this">
+							action="#{ofertausuBean.salirEdPerfil()}" update="frm"
+							look="info" process="@this">
 						</b:commandButton>
 					</b:column>
 				</b:row>
@@ -176,7 +149,8 @@
 			showEffect="fade" hideEffect="explode" widgetVar="gu">
 			<h:form>
 				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
-					icon="ui-icon-check" action="#{postulantesBean.crearPostulante()}"
+					icon="ui-icon-check"
+					action="#{ofertausuBean.editarPostulante()}"
 					oncomplete="PF('gu').hide();" update=":frm:messages" />
 				<p:commandButton value="No" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"

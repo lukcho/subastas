@@ -89,7 +89,7 @@ public class ManagerGestion {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<SubItem> findAllItemsOrdenadasPasadas() {
-		return mDAO.findWhere(SubItem.class, " o.itemFechaSubastaFin < now() ",
+		return mDAO.findWhere(SubItem.class, " o.itemFechaSubastaFin < now() or o.itemGanadorDni is not null or o.itemEstado = 'I' ",
 				" o.itemFechaSubastaFin desc");
 	}
 
@@ -332,6 +332,7 @@ public class ManagerGestion {
 			String pos_telefono, String pos_password, String pos_institucion,
 			String pos_gerencia, String pos_area, String pos_estado)
 			throws Exception {
+		System.out.println(pos_id);
 		SubPostulante pos = this.postulanteByID(pos_id);
 		pos.setPosNombre(pos_nombre);
 		pos.setPosApellido(pos_apellido);
@@ -343,6 +344,39 @@ public class ManagerGestion {
 		pos.setPosGerencia(pos_gerencia);
 		pos.setPosArea(pos_area);
 		pos.setPosEstado(pos_estado);
+		mDAO.actualizar(pos);
+	}
+	
+	/**
+	 * Cambiar datos de conductores
+	 * 
+	 * @param pro_id
+	 * @param prodfoto_id
+	 * @param pro_nombre
+	 * @param pro_descripcion
+	 * @param pro_costo
+	 * @param pro_precio
+	 * @param pro_stock
+	 * @param pro_estado
+	 * @param pro_estado_fun
+	 * @throws Exception
+	 */
+	public void editarPostulanteedicion(String pos_id, String pos_nombre,
+			String pos_apellido, String pos_direccion, String pos_correo,
+			String pos_telefono, String pos_password, String pos_institucion,
+			String pos_gerencia, String pos_area)
+			throws Exception {
+		System.out.println(pos_id);
+		SubPostulante pos = this.postulanteByID(pos_id);
+		pos.setPosNombre(pos_nombre);
+		pos.setPosApellido(pos_apellido);
+		pos.setPosDireccion(pos_direccion);
+		pos.setPosCorreo(pos_correo);
+		pos.setPosTelefono(pos_telefono);
+		pos.setPosPassword(pos_password);
+		pos.setPosInstitucion(pos_institucion);
+		pos.setPosGerencia(pos_gerencia);
+		pos.setPosArea(pos_area);
 		mDAO.actualizar(pos);
 	}
 

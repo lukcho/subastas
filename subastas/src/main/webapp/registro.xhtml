@@ -77,7 +77,8 @@
 					<b:column span="3">
 						<h:inputText value="#{postulantesusuBean.pos_telefono}"
 							required="true" styleClass="form-control"
-							requiredMessage="Campo teléfono requerido">
+							requiredMessage="Campo teléfono requerido"
+							validatorMessage="Campo teléfono solo números">
 							<f:validateRegex pattern="[0-9]+" />
 						</h:inputText>
 					</b:column>
@@ -128,18 +129,6 @@
 					</b:column>
 				</b:row>
 				<br />
-				<b:row>
-					<b:column span="2">
-						<h:outputLabel value="Estado*"
-							rendered="#{postulantesusuBean.edicion}" />
-					</b:column>
-					<b:column span="3">
-						<b:selectOneMenu value="#{postulantesusuBean.pos_estado}" 
-							rendered="#{postulantesusuBean.edicion}">
-							<f:selectItems value="#{postulantesusuBean.listEstados}" />
-						</b:selectOneMenu>
-					</b:column>
-				</b:row>
 				<b:row>
 					<b:column span="5">
 						<p:commandButton value="Registrase" styleClass="btn btn-info"

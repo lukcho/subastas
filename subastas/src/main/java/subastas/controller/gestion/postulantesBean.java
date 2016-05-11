@@ -503,7 +503,7 @@ public class postulantesBean implements Serializable {
 			pos_apellido = u.getPosApellido();
 			pos_direccion = u.getPosDireccion();
 			pos_correo = u.getPosCorreo();
-			pos_password = u.getPosPassword();
+			pos_password = Utilidades.Desencriptar(u.getPosPassword());
 			pos_telefono = u.getPosTelefono();
 			pos_institucion = u.getPosInstitucion();
 			pos_gerencia = u.getPosGerencia();

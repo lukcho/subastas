@@ -37,10 +37,10 @@
 								value="Bot&oacute;n para ver el oferta" trackMouse="true" />
 						</p:commandButton>
 					</p:column>
-					<!-- 					<p:column filterBy="#{ofer.oferId}" filterMatchMode="contains" -->
-					<!-- 						headerText="OFERTA NRO." width="50"> -->
-					<!-- 						<h:outputText value="#{ofer.oferId}"></h:outputText> -->
-					<!-- 					</p:column> -->
+					<p:column filterBy="#{ofer.oferId}" filterMatchMode="contains"
+						headerText="OFERTA NRO." width="50">
+						<h:outputText value="#{ofer.oferId}"></h:outputText>
+					</p:column>
 					<p:column filterBy="#{ofer.subItem.itemNombre}"
 						filterMatchMode="contains" headerText="NOMBRE" width="60">
 						<h:outputText value="#{ofer.subItem.itemNombre}"></h:outputText>
