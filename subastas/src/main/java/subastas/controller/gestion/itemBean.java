@@ -615,6 +615,7 @@ public class itemBean implements Serializable {
 				setItem_imagen(g);
 				System.out.println("PAD------> " + carpetaImagenes);
 				System.out.println("name------> " + getItem_imagen());
+				carpetaImagenes = ms.getUrlImg()+ File.separatorChar +"items";
 				outputStream = new FileOutputStream(new File(carpetaImagenes
 						+ File.separatorChar + getItem_imagen()));
 				inputStream = file.getInputstream();

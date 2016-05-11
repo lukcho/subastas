@@ -69,7 +69,7 @@ create table SUB_ITEMS (
    ITEM_VALOR_VENTA     NUMERIC              null,
    ITEM_FECHA_SUBASTA_INICIO TIMESTAMP            null,
    ITEM_FECHA_SUBASTA_FIN TIMESTAMP            null,
-   ITEM_GANADOR_DNI     NUMERIC		          null,
+   ITEM_GANADOR_DNI     INT4		          null,
    ITEM_USUARIO_REGISTRO VARCHAR(255)         null,
    ITEM_ESTADO          CHAR(1)              null,
    constraint PK_SUB_ITEMS primary key (ITEM_ID)
