@@ -467,11 +467,12 @@ public class ofertausuBean implements Serializable {
 		String r = "";
 		try {
 			setPos_password(Utilidades.Encriptar(getPos_password()));// PASS
-			managergest.editarPostulanteedicion(pos_id.trim(), pos_nombre.trim(),
-					pos_apellido.trim(), pos_direccion.trim(),
-					pos_correo.trim(), pos_telefono.trim(),
-					pos_password.trim(), pos_institucion.trim(),
-					pos_gerencia.trim(), pos_area.trim());
+			managergest.editarPostulanteedicion(pos_id.trim(),
+					pos_nombre.trim(), pos_apellido.trim(),
+					pos_direccion.trim(), pos_correo.trim(),
+					pos_telefono.trim(), pos_password.trim(),
+					pos_institucion.trim(), pos_gerencia.trim(),
+					pos_area.trim());
 			Mensaje.crearMensajeINFO("Actualizado - Modificado");
 			FacesContext.getCurrentInstance().addMessage(
 					null,
@@ -670,29 +671,30 @@ public class ofertausuBean implements Serializable {
 				ofer_fecha_oferta = new Timestamp(System.currentTimeMillis());
 				item_fecha_subasta_inicio = item.getItemFechaSubastaInicio();
 				item_fecha_subasta_fin = item.getItemFechaSubastaFin();
-				System.out.println("mi dia: " + ofer_fecha_oferta);
-				System.out.println("dia del tiem inicio: "
-						+ item_fecha_subasta_inicio);
-				System.out.println("mi hora: " + ofer_fecha_oferta.getTime());
-				System.out.println("hora del tiem inicio: "
-						+ item_fecha_subasta_inicio.getTime());
-				System.out.println("hora del tiem fin: "
-						+ item_fecha_subasta_fin.getTime());
-				if (ofer_fecha_oferta.before((item_fecha_subasta_inicio))
+				
+				Date fechaactual = new Date(ofer_fecha_oferta.getTime());
+				Date fechasubini = new Date(item_fecha_subasta_inicio.getTime());
+				Date fechasubfin = new Date(item_fecha_subasta_fin.getTime());
+				
+				compareTwoTimeStamps(item_fecha_subasta_inicio,item_fecha_subasta_fin);
+				System.out.println("midia en date"+fechaactual+"    mi diainicio"+fechasubini+"     mi diafin"+fechasubfin);
+				
+				if (ofer_fecha_oferta.before(item_fecha_subasta_inicio)
 						&& ofer_fecha_oferta.getTime() < item_fecha_subasta_inicio
 								.getTime()) {
 					FacesContext.getCurrentInstance().addMessage(
 							null,
 							new FacesMessage(FacesMessage.SEVERITY_INFO,
 									"Aun no se puede ofertar", null));
-				} else if (ofer_fecha_oferta.after((item_fecha_subasta_fin))
+				}else if (ofer_fecha_oferta.after((item_fecha_subasta_fin))
 						&& ofer_fecha_oferta.getTime() > item_fecha_subasta_fin
 								.getTime()) {
 					FacesContext.getCurrentInstance().addMessage(
 							null,
 							new FacesMessage(FacesMessage.SEVERITY_INFO,
 									"Ya se ha terminado la oferta", null));
-				} else {
+				}else if(fechaactual.getTime() > fechasubini.getTime() && fechaactual.getTime() < fechasubfin.getTime())
+				{
 					item_id = item.getItemId();
 					item_nombre = item.getItemNombre();
 					item_caracteristicas = item.getItemCaracteristicas();
@@ -720,6 +722,28 @@ public class ofertausuBean implements Serializable {
 			e.printStackTrace();
 		}
 		return r;
+	}
+
+	String teimpoeva="";
+	
+	/**
+	 * 
+	 * @param currentTime
+	 * @param oldTime
+	 * @return
+	 */
+	public void compareTwoTimeStamps(java.sql.Timestamp currentTime,java.sql.Timestamp oldTime) {
+		
+		long milliseconds1 = oldTime.getTime();
+		long milliseconds2 = currentTime.getTime();
+
+		long diff = milliseconds2 - milliseconds1;
+		long diffSeconds = diff / 1000;
+		long diffMinutes = diff / (60 * 1000);
+		long diffHours = diff / (60 * 60 * 1000);
+		long diffDays = diff / (24 * 60 * 60 * 1000);
+
+		teimpoeva = diffHours+":"+diffMinutes+":"+diffSeconds;
 	}
 
 	/**

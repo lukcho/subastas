@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui">
+
+<ui:composition template="template.xhtml">
+	<ui:define name="titulo">
+            Ofertas
+        </ui:define>
+	<ui:define name="contenido">
+		<h:form>
+			<center>
+				<h1>Ofertas del Item</h1>
+			</center>
+			<b:row>
+				<b:column span="1">
+					<b:commandButton value="Volver" iconAwesome="angle-left"
+						action="pasofertas?faces-redirect=true" />
+				</b:column>
+			</b:row>
+		</h:form>
+		<br />
+		<h:form id="frm">
+			<p:growl id="messages" showDetail="true" />
+			<b:panel title="Listado de Ofertas X Item" look="primary">
+				<p:dataTable id="tbb" value="#{ofertasBean.listaOfertaXItem}"
+					reflow="true" var="ofer" rows="8" emptyMessage="Sin Datos"
+					paginator="true"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+					<p:column headerText="OPCIONES" width="50">
+						<p:commandButton id="btnE" icon="ui-icon-pencil"
+							action="#{ofertasBean.cargarOfertaXitem(ofer)}">
+							<p:tooltip id="toolTipTrack1" for="btnE"
+								value="Bot&oacute;n para ver el oferta" trackMouse="true" />
+						</p:commandButton>
+					</p:column>
+					<p:column filterBy="#{ofer.oferId}" filterMatchMode="contains"
+						headerText="OFERTA NRO." width="50">
+						<h:outputText value="#{ofer.oferId}"></h:outputText>
+					</p:column>
+					<p:column filterBy="#{ofer.subItem.itemNombre}"
+						filterMatchMode="contains" headerText="NOMBRE" width="60">
+						<h:outputText value="#{ofer.subItem.itemNombre}"></h:outputText>
+					</p:column>
+					<p:column headerText="IMAGEN" width="40">
+						<p:graphicImage width="120" height="120"
+							value="/resources/img/items/#{ofer.subItem.itemImagen}"></p:graphicImage>
+					</p:column>
+					<p:column headerText="POSTULANTE" width="50">
+						<h:outputText
+							value="#{ofer.subPostulante.posNombre} #{ofer.subPostulante.posApellido}"></h:outputText>
+					</p:column>
+					<p:column headerText="FECHA OFERTA" width="60">
+						<h:outputText value="#{ofer.oferFechaOferta}">
+							<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="VALOR OFERTA" width="30">
+						<h:outputText value="#{ofer.oferValorOferta}"></h:outputText>
+					</p:column>
+				</p:dataTable>
+			</b:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

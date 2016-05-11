@@ -54,6 +54,9 @@ public class ofertasBean implements Serializable {
 	private String item_valorbase;
 	private String item_valorventa;
 	private String valorMaximo;
+	private Timestamp item_fecha_subasta_inicio;
+	private Timestamp item_fecha_subasta_fin;
+
 
 	// postulante
 	private String pos_nombre;
@@ -85,7 +88,23 @@ public class ofertasBean implements Serializable {
 	@PostConstruct
 	public void ini() {
 		listaOferta = managergest.findAllofertasOrdenadas();
-		usuario = ms.validarSesion("ofertas.xhtml");
+//		usuario = ms.validarSesion("ofertas.xhtml");
+	}
+	
+	public Timestamp getItem_fecha_subasta_inicio() {
+		return item_fecha_subasta_inicio;
+	}
+
+	public void setItem_fecha_subasta_inicio(Timestamp item_fecha_subasta_inicio) {
+		this.item_fecha_subasta_inicio = item_fecha_subasta_inicio;
+	}
+
+	public Timestamp getItem_fecha_subasta_fin() {
+		return item_fecha_subasta_fin;
+	}
+
+	public void setItem_fecha_subasta_fin(Timestamp item_fecha_subasta_fin) {
+		this.item_fecha_subasta_fin = item_fecha_subasta_fin;
 	}
 
 	public String getItem_valorventa() {
@@ -358,6 +377,113 @@ public class ofertasBean implements Serializable {
 		}
 		return l1;
 	}
+	
+	/**
+	 * metodo para listar las ofertas x usuario
+	 * 
+	 * @return
+	 */
+	public List<SubItem> getlistaSubastasPasadas() {
+		List<SubItem> a = managergest.findAllItemsOrdenadasPasadas();
+		List<SubItem> l1 = new ArrayList<SubItem>();
+		for (SubItem t : a) {
+			l1.add(t);
+		}
+		return l1;
+	}
+	
+	/**
+	 * metodo para listar las ofertas x usuario
+	 * 
+	 * @return
+	 */
+	public List<SubOferta> getListaOfertaXItem() {
+		List<SubOferta> a = managergest.findAllofertasOrdenadasXItem(item_id);
+		List<SubOferta> l1 = new ArrayList<SubOferta>();
+		for (SubOferta t : a) {
+			l1.add(t);
+		}
+		return l1;
+	}
+	
+	/**
+	 * accion para cargar los datos en el formulario
+	 * 
+	 * @param pro_id
+	 * @param prodfoto_id
+	 * @param pro_nombre
+	 * @param pro_descripcion
+	 * @param pro_costo
+	 * @param pro_precio
+	 * @param pro_stock
+	 * @param pro_estado
+	 * @param pro_estado_fun
+	 * @throws Exception
+	 */
+	public String cargarOfertaXitem(SubOferta ofer) {
+		try {
+			managergest.asignarItem(item_id);
+			ofer_id = ofer.getOferId();
+			ofer_valor_oferta = ofer.getOferValorOferta().toString();
+			ofer_fecha_oferta = ofer.getOferFechaOferta();
+			item = ofer.getSubItem();
+			postulante = ofer.getSubPostulante();
+
+			item_nombre = ofer.getSubItem().getItemNombre();
+			item_caracteristicas = ofer.getSubItem().getItemCaracteristicas();
+			item_imagen = ofer.getSubItem().getItemImagen();
+
+			pos_nombre = ofer.getSubPostulante().getPosNombre();
+			pos_apellido = ofer.getSubPostulante().getPosApellido();
+			pos_direccion = ofer.getSubPostulante().getPosDireccion();
+			pos_correo = ofer.getSubPostulante().getPosCorreo();
+			pos_telefono = ofer.getSubPostulante().getPosTelefono();
+			pos_institucion = ofer.getSubPostulante().getPosInstitucion();
+			pos_gerencia = ofer.getSubPostulante().getPosGerencia();
+			pos_area = ofer.getSubPostulante().getPosArea();
+
+			return "pasuoferta?faces-redirect=true";
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	/**
+	 * accion para cargar los datos en el formulario
+	 * 
+	 * @param pro_id
+	 * @param prodfoto_id
+	 * @param pro_nombre
+	 * @param pro_descripcion
+	 * @param pro_costo
+	 * @param pro_precio
+	 * @param pro_stock
+	 * @param pro_estado
+	 * @param pro_estado_fun
+	 * @throws Exception
+	 */
+	public String cargarItem(SubItem item) {
+		try {
+			item_id = item.getItemId();
+			item_nombre = item.getItemNombre();
+			item_caracteristicas = item.getItemCaracteristicas();
+			item_descripcion = item.getItemDescripcion();
+			item_imagen = item.getItemImagen();
+			item_valorbase = item.getItemValorBase().toString();
+			item_valorventa = item.getItemValorVenta().toString();
+			item_fecha_subasta_inicio = item.getItemFechaSubastaInicio();
+			item_fecha_subasta_fin = item.getItemFechaSubastaFin();
+			fi = item.getItemFechaSubastaInicio();
+			ff = item.getItemFechaSubastaFin();
+			return "pasofertasub?faces-redirect=true";
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return "";
+	}
 
 	/**
 	 * accion para cargar los datos en el formulario
@@ -587,6 +713,34 @@ public class ofertasBean implements Serializable {
 		getListaOferta().clear();
 		getListaOferta().addAll(managergest.findAllofertasOrdenadas());
 		return "ofertas?faces-redirect=true";
+	}
+	
+	/**
+	 * limpia la informacion
+	 * 
+	 * @return
+	 */
+	public String salirPasuOferta() {
+		// limpiar datos
+		ofer_id = null;
+		ofer_valor_oferta = null;
+		ofer_fecha_oferta = null;
+		item = null;
+		postulante = null;
+
+		item_nombre = "";
+		item_caracteristicas = "";
+		item_imagen = "";
+
+		pos_nombre = "";
+		pos_apellido = "";
+		pos_direccion = "";
+		pos_correo = "";
+		pos_telefono = "";
+		pos_institucion = "";
+		pos_gerencia = "";
+		pos_area = "";
+		return "pasofertasub?faces-redirect=true";
 	}
 
 	public void abrirDialog() {
