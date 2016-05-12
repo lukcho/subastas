@@ -45,6 +45,7 @@ public class ofertausuBean implements Serializable {
 	private SubItem item;
 	private SubPostulante postulante;
 	private String valorMaximo;
+	private String valorUltimoPostulante;
 
 	// Items
 	private Integer item_id;
@@ -57,6 +58,7 @@ public class ofertausuBean implements Serializable {
 	private Timestamp item_fecha_subasta_inicio;
 	private Timestamp item_fecha_subasta_fin;
 	private Integer faltatiempo;
+	private String colorgana;
 	// postulante
 	private String pos_id;
 	private String pos_nombre;
@@ -74,6 +76,7 @@ public class ofertausuBean implements Serializable {
 	private SubItem itemdelsita;
 	private Integer itemganador;
 	private Integer automatico;
+	private SubOferta ofertavalor; 
 
 	private List<SubItem> listaItem;
 
@@ -96,9 +99,27 @@ public class ofertausuBean implements Serializable {
 	public void ini() {
 		edicion = true;
 		tiempo = "00 : 00 : 00";
+		valorUltimoPostulante ="Ninguno Aún";
+		colorgana = "colorBlack";
 		session = SessionBean.verificarSession();
 		cargarDatosLogeado();
 		listaItem = managergest.findAllItems();
+	}
+	
+	public String getValorUltimoPostulante() {
+		return valorUltimoPostulante;
+	}
+	
+	public void setValorUltimoPostulante(String valorUltimoPostulante) {
+		this.valorUltimoPostulante = valorUltimoPostulante;
+	}
+	
+	public String getColorgana() {
+		return colorgana;
+	}
+	
+	public void setColorgana(String colorgana) {
+		this.colorgana = colorgana;
 	}
 	
 	public String getTiempo() {
@@ -478,16 +499,8 @@ public class ofertausuBean implements Serializable {
 			managergest.asignarItem(item_id);
 			ofer_fecha_oferta = new Timestamp(fecha.getTime());
 			managergest.insertarOferta(valoroferta, ofer_fecha_oferta);
-			item_id = null;
-			item_nombre = "";
-			item_caracteristicas = "";
-			item_descripcion = "";
-			item_imagen = "300.jpg";
-			item_valorbase = "";
-			item_valorventa = "";
+			ofer_valor_oferta="";
 			valoroferta = new BigDecimal(0.00);
-			item_fecha_subasta_inicio = null;
-			item_fecha_subasta_fin = null;
 			getListaItem().clear();
 			getListaItem().addAll(managergest.findAllItems());
 			Mensaje.crearMensajeINFO("Si se alammaceno la oferta");
@@ -495,7 +508,7 @@ public class ofertausuBean implements Serializable {
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO,
 							"Registrado- Se envio la oferta", null));
-			r = "home?faces-redirect=true";
+			r = "";
 
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(
@@ -607,12 +620,30 @@ public class ofertausuBean implements Serializable {
 	 */
 	public String conocerGanador() {
 		try {
-			System.out.println("se actualiza");
-			System.out.println("valormaximo: "+valorMaximo);
 			if (managergest.ValorMaximoXItem(item_id) == null) {
 				valorMaximo = "No se Oferta aún";
 			} else {
+				ofertavalor = managergest.ofertaByID(managergest.ofertaXPost(item_id,pos_id));
+				BigDecimal valoroferta = ofertavalor.getOferValorOferta(); 
+				BigDecimal valormaximo1 = new BigDecimal(managergest.ValorMaximoXItem(item_id));
+				
 				valorMaximo = managergest.ValorMaximoXItem(item_id).toString();
+				
+				valorUltimoPostulante=valoroferta.toString();
+				System.out.println(valorMaximo.toString());
+				System.out.println("valor de mi ultima oferta: "+valoroferta.toString());
+				
+				if (valormaximo1.compareTo(valoroferta) == 1 ) {
+					//valorUltimoPostulante = ofertavalor.getSubPostulante().getPosNombre()+" "+ofertavalor.getSubPostulante().getPosApellido();
+					colorgana = "colorRed";
+				} else if (valormaximo1.compareTo(valoroferta) == -1 ) {
+					//valorUltimoPostulante = ofertavalor.getSubPostulante().getPosNombre()+" "+ofertavalor.getSubPostulante().getPosApellido();
+					colorgana = "colorGreen";
+				}
+				else if (valormaximo1.compareTo(valoroferta) == 0 ) {
+					//valorUltimoPostulante = ofertavalor.getSubPostulante().getPosNombre()+" "+ofertavalor.getSubPostulante().getPosApellido();
+					colorgana = "colorGreen";
+				}
 			}
 			return "";
 		} catch (Exception e) {
@@ -621,7 +652,7 @@ public class ofertausuBean implements Serializable {
 		}
 		return "";
 	}
-
+	
 	// postulante edicion perfil
 	/**
 	 * metodo para listar los registros
@@ -718,17 +749,9 @@ public class ofertausuBean implements Serializable {
 	 */
 	public String salir() {
 		// limpiar datos
-		pos_id = "";
-		pos_nombre = "";
-		pos_apellido = "";
-		pos_direccion = "";
-		pos_correo = "";
-		pos_password = "";
-		pos_telefono = "";
-		pos_institucion = "";
-		pos_gerencia = "";
-		pos_area = "";
-		edicion = false;
+		ofertavalor=null;
+		ofer_valor_oferta=null;
+		valorUltimoPostulante="";
 		getListaItems().clear();
 		getListaItems().addAll(managergest.findAllItems());
 		return "home?faces-redirect=true";
@@ -970,12 +993,12 @@ public class ofertausuBean implements Serializable {
 	 */
 	public void abrirDialog() {
 		if (!verificarValor())
-			RequestContext.getCurrentInstance().execute("PF('gu').show();");
-		else {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO,
 							"El valor es menor que el de base", null));
+		else {
+			RequestContext.getCurrentInstance().execute("PF('gu').show();");
 		}
 	}
 
@@ -995,7 +1018,10 @@ public class ofertausuBean implements Serializable {
 		BigDecimal valoroferta1 = new BigDecimal(ofer_valor_oferta.replace(",",
 				"."));
 		BigDecimal valorbase = new BigDecimal(item_valorbase.replace(",", "."));
-		if (valoroferta1.compareTo(valorbase) < 1) {
+		
+		System.out.println(valoroferta1);
+		System.out.println(valorbase);
+		if (valoroferta1.compareTo(valorbase) > -1) {
 			r = true;
 		} else {
 			r = false;

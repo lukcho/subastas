@@ -89,8 +89,11 @@ public class ManagerGestion {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<SubItem> findAllItemsOrdenadasPasadas() {
-		return mDAO.findWhere(SubItem.class, " o.itemFechaSubastaFin < now() or o.itemGanadorDni is not null or o.itemEstado = 'I' ",
-				" o.itemFechaSubastaFin desc");
+		return mDAO
+				.findWhere(
+						SubItem.class,
+						" o.itemFechaSubastaFin < now() or o.itemGanadorDni is not null or o.itemEstado = 'I' ",
+						" o.itemFechaSubastaFin desc");
 	}
 
 	/**
@@ -217,7 +220,7 @@ public class ManagerGestion {
 	public void ganadorItemAutom(Integer item_id, String item_estado,
 			Integer automatico) throws Exception {
 		SubItem item = this.itemByID(item_id);
-		SubOferta ofer= this.ofertaByID(automatico);
+		SubOferta ofer = this.ofertaByID(automatico);
 		System.out.println("valor id oferta: " + automatico.toString());
 		item.setItemGanadorDni(ofer.getOferId());
 		item.setItemValorVenta(ofer.getOferValorOferta());
@@ -346,7 +349,7 @@ public class ManagerGestion {
 		pos.setPosEstado(pos_estado);
 		mDAO.actualizar(pos);
 	}
-	
+
 	/**
 	 * Cambiar datos de conductores
 	 * 
@@ -364,8 +367,7 @@ public class ManagerGestion {
 	public void editarPostulanteedicion(String pos_id, String pos_nombre,
 			String pos_apellido, String pos_direccion, String pos_correo,
 			String pos_telefono, String pos_password, String pos_institucion,
-			String pos_gerencia, String pos_area)
-			throws Exception {
+			String pos_gerencia, String pos_area) throws Exception {
 		System.out.println(pos_id);
 		SubPostulante pos = this.postulanteByID(pos_id);
 		pos.setPosNombre(pos_nombre);
@@ -503,6 +505,27 @@ public class ManagerGestion {
 	}
 
 	/**
+	 * listar todos las ofertas x item
+	 * 
+	 * @param prod_id
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public Integer ofertaXPost(Integer item_id,String pos_id) {
+		System.out.println("entraaaaa");
+		List<Integer> list = mDAO
+				.findJPQL("SELECT o.oferId FROM SubOferta o WHERE o.oferValorOferta = (SELECT MAX(p.oferValorOferta) FROM SubOferta p where p.subItem.itemId = "
+						+ item_id + " and p.subPostulante.posId = '"+pos_id+"' ) ");
+
+		System.out.println(list.size());
+		System.out.println(list.get(0));
+		if (list.get(0) == null) {
+			return 0;
+		} else
+			return list.get(0);
+	}
+
+	/**
 	 * Agrega conductores
 	 * 
 	 * @param pro_id
@@ -583,18 +606,22 @@ public class ManagerGestion {
 		ofer.setOferFechaOferta(ofer_fecha_oferta);
 		mDAO.actualizar(ofer);
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public List<SubOferta> listadoGanadores(){
-		return mDAO.findWhere(SubOferta.class, 
-				"o.oferId IN (SELECT i.itemGanadorDni FROM SubItem i WHERE i.itemEstado='I')", 
-				null);
+	public List<SubOferta> listadoGanadores() {
+		return mDAO
+				.findWhere(
+						SubOferta.class,
+						"o.oferId IN (SELECT i.itemGanadorDni FROM SubItem i WHERE i.itemEstado='I')",
+						null);
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public List<SubOferta> listadoNoGanadores(){
-		return mDAO.findWhere(SubOferta.class, 	
-				"o.oferId NOT IN (SELECT i.itemGanadorDni FROM SubItem i WHERE i.itemEstado='I')", 
-				null);
+	public List<SubOferta> listadoNoGanadores() {
+		return mDAO
+				.findWhere(
+						SubOferta.class,
+						"o.oferId NOT IN (SELECT i.itemGanadorDni FROM SubItem i WHERE i.itemEstado='I')",
+						null);
 	}
 }

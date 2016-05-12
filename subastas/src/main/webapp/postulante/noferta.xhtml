@@ -14,7 +14,8 @@
 	<ui:define name="contenido">
 		<br />
 		<h:form>
-			<p:poll interval="1" listener="#{ofertausuBean.pollMethod()}" update=":frm:txt_tiempo :frm:actual" />
+			<p:poll interval="1" listener="#{ofertausuBean.pollMethod()}"
+				update=":frm:txt_tiempo :frm:actual :frm:txt_persona" />
 		</h:form>
 		<h:form id="frm">
 			<p:growl id="messages" showDetail="false" />
@@ -77,10 +78,21 @@
 						<h:outputLabel value="Valor Máximo Ofertado: ($) " />
 					</b:column>
 					<b:column span="2">
-						<h:outputText id="actual" value="#{ofertausuBean.valorMaximo}"	style="color:green;"/>
+						<h:outputText id="actual" value="#{ofertausuBean.valorMaximo}"
+							styleClass="#{ofertausuBean.colorgana}" />
+					</b:column>
+					<b:column span="4">
+						<h:outputText id="txt_tiempo" value="#{ofertausuBean.tiempo}" />
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column span="3"></b:column>
+					<b:column span="2">
+						<h:outputLabel value="Valor Ofertado Anterior: " />
 					</b:column>
 					<b:column span="2">
-						<h:outputText id="txt_tiempo" value="#{ofertausuBean.tiempo}" />
+						<h:outputText id="txt_persona"
+							value="#{ofertausuBean.valorUltimoPostulante}" />
 					</b:column>
 				</b:row>
 				<b:row>
