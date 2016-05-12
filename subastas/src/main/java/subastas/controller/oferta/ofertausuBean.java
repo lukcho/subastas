@@ -3,6 +3,7 @@ package subastas.controller.oferta;
 import subastas.entidades.help.UsuarioHelp;
 import subastas.entidades.help.Utilidades;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -55,7 +56,7 @@ public class ofertausuBean implements Serializable {
 	private String item_valorventa;
 	private Timestamp item_fecha_subasta_inicio;
 	private Timestamp item_fecha_subasta_fin;
-
+	private Integer faltatiempo;
 	// postulante
 	private String pos_id;
 	private String pos_nombre;
@@ -70,10 +71,16 @@ public class ofertausuBean implements Serializable {
 	private boolean edicion;
 	private SubOferta ofertadelsita;
 
+	private SubItem itemdelsita;
+	private Integer itemganador;
+	private Integer automatico;
+
 	private List<SubItem> listaItem;
 
 	private List<SubOferta> listaOferta;
-
+	
+	private String tiempo;
+	
 	// horario
 	private Date fi;
 	private Date ff;
@@ -88,9 +95,50 @@ public class ofertausuBean implements Serializable {
 	@PostConstruct
 	public void ini() {
 		edicion = true;
+		tiempo = "00 : 00 : 00";
 		session = SessionBean.verificarSession();
 		cargarDatosLogeado();
 		listaItem = managergest.findAllItems();
+	}
+	
+	public String getTiempo() {
+		return tiempo;
+	}
+	
+	public void setTiempo(String tiempo) {
+		this.tiempo = tiempo;
+	}
+
+	public Integer getItemganador() {
+		return itemganador;
+	}
+
+	public void setItemganador(Integer itemganador) {
+		this.itemganador = itemganador;
+	}
+
+	public Integer getAutomatico() {
+		return automatico;
+	}
+
+	public void setAutomatico(Integer automatico) {
+		this.automatico = automatico;
+	}
+
+	public SubItem getItemdelsita() {
+		return itemdelsita;
+	}
+
+	public void setItemdelsita(SubItem itemdelsita) {
+		this.itemdelsita = itemdelsita;
+	}
+
+	public Integer getFaltatiempo() {
+		return faltatiempo;
+	}
+
+	public void setFaltatiempo(Integer faltatiempo) {
+		this.faltatiempo = faltatiempo;
 	}
 
 	public boolean isEdicion() {
@@ -520,11 +568,12 @@ public class ofertausuBean implements Serializable {
 			item_valorbase = ofer.getSubItem().getItemValorBase().toString();
 
 			if (managergest.ValorMaximoXItem(item_id) == null) {
-				valorMaximo = "";
+				valorMaximo = "No se Oferta aún";
 			} else {
 				valorMaximo = managergest.ValorMaximoXItem(item_id).toString();
 			}
-
+			
+			pollMethod();
 			pos_nombre = ofer.getSubPostulante().getPosNombre();
 			pos_apellido = ofer.getSubPostulante().getPosApellido();
 			pos_direccion = ofer.getSubPostulante().getPosDireccion();
@@ -535,6 +584,37 @@ public class ofertausuBean implements Serializable {
 			pos_area = ofer.getSubPostulante().getPosArea();
 
 			return "uoferta?faces-redirect=true";
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	/**
+	 * accion para cargar los datos en el formulario
+	 * 
+	 * @param pro_id
+	 * @param prodfoto_id
+	 * @param pro_nombre
+	 * @param pro_descripcion
+	 * @param pro_costo
+	 * @param pro_precio
+	 * @param pro_stock
+	 * @param pro_estado
+	 * @param pro_estado_fun
+	 * @throws Exception
+	 */
+	public String conocerGanador() {
+		try {
+			System.out.println("se actualiza");
+			System.out.println("valormaximo: "+valorMaximo);
+			if (managergest.ValorMaximoXItem(item_id) == null) {
+				valorMaximo = "No se Oferta aún";
+			} else {
+				valorMaximo = managergest.ValorMaximoXItem(item_id).toString();
+			}
+			return "";
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -671,14 +751,17 @@ public class ofertausuBean implements Serializable {
 				ofer_fecha_oferta = new Timestamp(System.currentTimeMillis());
 				item_fecha_subasta_inicio = item.getItemFechaSubastaInicio();
 				item_fecha_subasta_fin = item.getItemFechaSubastaFin();
-				
+				System.out.println(item_fecha_subasta_fin);
 				Date fechaactual = new Date(ofer_fecha_oferta.getTime());
 				Date fechasubini = new Date(item_fecha_subasta_inicio.getTime());
 				Date fechasubfin = new Date(item_fecha_subasta_fin.getTime());
 				
-				compareTwoTimeStamps(item_fecha_subasta_inicio,item_fecha_subasta_fin);
-				System.out.println("midia en date"+fechaactual+"    mi diainicio"+fechasubini+"     mi diafin"+fechasubfin);
+				miTiempo();
 				
+				System.out.println("midia en date" + fechaactual
+						+ "    mi diainicio" + fechasubini + "     mi diafin"
+						+ fechasubfin);
+
 				if (ofer_fecha_oferta.before(item_fecha_subasta_inicio)
 						&& ofer_fecha_oferta.getTime() < item_fecha_subasta_inicio
 								.getTime()) {
@@ -686,15 +769,15 @@ public class ofertausuBean implements Serializable {
 							null,
 							new FacesMessage(FacesMessage.SEVERITY_INFO,
 									"Aun no se puede ofertar", null));
-				}else if (ofer_fecha_oferta.after((item_fecha_subasta_fin))
+				} else if (ofer_fecha_oferta.after((item_fecha_subasta_fin))
 						&& ofer_fecha_oferta.getTime() > item_fecha_subasta_fin
 								.getTime()) {
 					FacesContext.getCurrentInstance().addMessage(
 							null,
 							new FacesMessage(FacesMessage.SEVERITY_INFO,
 									"Ya se ha terminado la oferta", null));
-				}else if(fechaactual.getTime() > fechasubini.getTime() && fechaactual.getTime() < fechasubfin.getTime())
-				{
+				} else if (fechaactual.getTime() > fechasubini.getTime()
+						&& fechaactual.getTime() < fechasubfin.getTime()) {
 					item_id = item.getItemId();
 					item_nombre = item.getItemNombre();
 					item_caracteristicas = item.getItemCaracteristicas();
@@ -704,7 +787,7 @@ public class ofertausuBean implements Serializable {
 					item_valorventa = item.getItemValorVenta().toString();
 
 					if (managergest.ValorMaximoXItem(item_id) == null) {
-						valorMaximo = "";
+						valorMaximo = "No se Oferta aún";
 					} else {
 						valorMaximo = managergest.ValorMaximoXItem(item_id)
 								.toString();
@@ -723,27 +806,41 @@ public class ofertausuBean implements Serializable {
 		}
 		return r;
 	}
-
-	String teimpoeva="";
+	
+	public void pollMethod(){
+		miTiempo();
+		conocerGanador();
+	} 
 	
 	/**
 	 * 
-	 * @param currentTime
-	 * @param oldTime
+	 * @param fFin
 	 * @return
 	 */
-	public void compareTwoTimeStamps(java.sql.Timestamp currentTime,java.sql.Timestamp oldTime) {
-		
-		long milliseconds1 = oldTime.getTime();
-		long milliseconds2 = currentTime.getTime();
-
-		long diff = milliseconds2 - milliseconds1;
-		long diffSeconds = diff / 1000;
-		long diffMinutes = diff / (60 * 1000);
-		long diffHours = diff / (60 * 60 * 1000);
-		long diffDays = diff / (24 * 60 * 60 * 1000);
-
-		teimpoeva = diffHours+":"+diffMinutes+":"+diffSeconds;
+	public Integer tiempoRestante(Timestamp fFin){
+		return ((Long) ((fFin.getTime() - (new Timestamp(new Date().getTime())).getTime())/1000)).intValue();
+	}
+	
+	/**
+	 * 
+	 */
+	public void miTiempo(){
+		setFaltatiempo(this.tiempoRestante(item_fecha_subasta_fin));
+		setTiempo(this.tiempoRestanteHMS(getFaltatiempo()));
+		System.out.println("---------------------> FALTA TIEMPO "+getFaltatiempo());
+		if(getFaltatiempo()<=0)
+			 try {
+	                FacesContext.getCurrentInstance().getExternalContext().redirect("/home.xhtml");
+	            } catch (IOException ex) {
+	            	Mensaje.crearMensajeERROR(ex.getMessage());
+	            }
+	}
+	
+	public String tiempoRestanteHMS(Integer segundos){
+		int hor=segundos/3600;
+        int min=(segundos-(3600*hor))/60;
+        int seg=segundos-((hor*3600)+(min*60));
+		return String.format("%02d",hor)+" : "+String.format("%02d",min)+" : "+String.format("%02d",seg);
 	}
 
 	/**
@@ -909,4 +1006,5 @@ public class ofertausuBean implements Serializable {
 	public void cerrarDialog() {
 		RequestContext.getCurrentInstance().execute("PF('veritem').hide();");
 	}
+
 }
