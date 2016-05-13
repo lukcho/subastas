@@ -44,6 +44,17 @@ and open the template in the editor.
 		</p>
 	</b:navBar>
 	<b:container>
+		<b:carousel id="parque" style="width:100%">
+			<b:carouselItem>
+				<b:image  value="/resources/img/a.jpg" styleClass="img-responsive"/>
+			</b:carouselItem>
+			<b:carouselItem>
+				<b:image  value="/resources/img/b.jpg" styleClass="img-responsive"/>
+			</b:carouselItem>
+			<b:carouselItem>
+				<b:image  value="/resources/img/c.jpg" styleClass="img-responsive"/>
+			</b:carouselItem>
+		</b:carousel>
 		<ui:insert name="contenido"></ui:insert>
 		<h:form>
 			<p:confirmDialog header="Confirmación"

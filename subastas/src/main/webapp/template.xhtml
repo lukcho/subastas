@@ -36,11 +36,21 @@ and open the template in the editor.
 			<ui:insert name="menu"></ui:insert>
 		</b:navbarLinks>
 		<p class="navbar-text pull-right">
-			<a class="navbar-link" onclick="PF('ic').show();">Iniciar
-				sesión</a>
+			<a class="navbar-link" onclick="PF('ic').show();">Iniciar sesión</a>
 		</p>
 	</b:navBar>
 	<b:container>
+		<b:carousel id="parque" style="width:100%">
+			<b:carouselItem>
+				<b:image value="/resources/img/a.jpg" styleClass="img-responsive" />
+			</b:carouselItem>
+			<b:carouselItem>
+				<b:image value="/resources/img/b.jpg" styleClass="img-responsive" />
+			</b:carouselItem>
+			<b:carouselItem>
+				<b:image value="/resources/img/c.jpg" styleClass="img-responsive" />
+			</b:carouselItem>
+		</b:carousel>
 		<ui:insert name="contenido"></ui:insert>
 	</b:container>
 	<b:navBar fixed="bottom" inverse="true">
