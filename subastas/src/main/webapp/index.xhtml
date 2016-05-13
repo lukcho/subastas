@@ -11,24 +11,13 @@
             Subastas
         </ui:define>
 	<ui:define name="contenido">
-		<h:form>
-			<div class="ui-grid-row">
-				<div class="ui-grid-col-10" style="padding-left: 20%;">
-					<center>
-						<h1>SUBASTAS YACHAY</h1>
-					</center>
-				</div>
-				<div class="ui-grid-col-2">
-					<h:graphicImage id="logo" value="/resources/img/logoyachay.png"></h:graphicImage>
-				</div>
-			</div>
-		</h:form>
 		<br />
 		<h:form id="frm">
 			<p:growl id="messages" showDetail="false" />
 			<p:layoutUnit position="center" size="450">
 				<p:dataGrid var="item" value="#{ofertausuindexBean.listaItems}"
-					columns="2" layout="grid" rows="12" paginator="true" id="item" emptyMessage="Sin Datos"
+					columns="2" layout="grid" rows="12" paginator="true" id="item"
+					emptyMessage="Sin Datos"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 
 					<p:panel>
@@ -73,8 +62,9 @@
 													<h:outputLabel value="Inicio Subasta:" />
 												</b:column>
 												<b:column col-sm="2" col-md="4">
-													<h:outputText value="#{item.itemFechaSubastaInicio}" >
-														<f:convertDateTime pattern="yyyy/MM/dd HH:mm" timeZone="GMT-5"/>
+													<h:outputText value="#{item.itemFechaSubastaInicio}">
+														<f:convertDateTime pattern="yyyy/MM/dd HH:mm"
+															timeZone="GMT-5" />
 													</h:outputText>
 												</b:column>
 											</b:row>
@@ -85,7 +75,8 @@
 												</b:column>
 												<b:column col-sm="2" col-md="4">
 													<h:outputText value="#{item.itemFechaSubastaFin}">
-														<f:convertDateTime pattern="yyyy/MM/dd HH:mm" timeZone="GMT-5"/>
+														<f:convertDateTime pattern="yyyy/MM/dd HH:mm"
+															timeZone="GMT-5" />
 													</h:outputText>
 												</b:column>
 											</b:row>
@@ -103,10 +94,12 @@
 			resizable="false">
 
 			<div class="form-bottom">
-						<div class="form-box">
-				<h2>Ingreso al Sistema 	<i class="fa fa-gavel fa-2x"></i></h2>
-			</div>
-			
+				<div class="form-box">
+					<h2>
+						Ingreso al Sistema <i class="fa fa-gavel fa-2x"></i>
+					</h2>
+				</div>
+
 				<h:form id="frmlog">
 					<p:messages closable="true" />
 					<b:inputText placeholder="USUARIO" value="#{sessionBean.nick}"

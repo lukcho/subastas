@@ -45,6 +45,7 @@ public class ofertausuBean implements Serializable {
 	private SubItem item;
 	private SubPostulante postulante;
 	private String valorMaximo;
+	private String ganandoperdiendo;
 	private String valorUltimoPostulante;
 
 	// Items
@@ -100,10 +101,19 @@ public class ofertausuBean implements Serializable {
 		edicion = true;
 		tiempo = "00 : 00 : 00";
 		valorUltimoPostulante ="Ninguno Aún";
+		ganandoperdiendo ="";
 		colorgana = "colorBlack";
 		session = SessionBean.verificarSession();
 		cargarDatosLogeado();
 		listaItem = managergest.findAllItems();
+	}
+	
+	public String getGanandoperdiendo() {
+		return ganandoperdiendo;
+	}
+	
+	public void setGanandoperdiendo(String ganandoperdiendo) {
+		this.ganandoperdiendo = ganandoperdiendo;
 	}
 	
 	public String getValorUltimoPostulante() {
@@ -636,13 +646,16 @@ public class ofertausuBean implements Serializable {
 				if (valormaximo1.compareTo(valoroferta) == 1 ) {
 					//valorUltimoPostulante = ofertavalor.getSubPostulante().getPosNombre()+" "+ofertavalor.getSubPostulante().getPosApellido();
 					colorgana = "colorRed";
+					ganandoperdiendo = "Estas Perdiendo";
 				} else if (valormaximo1.compareTo(valoroferta) == -1 ) {
 					//valorUltimoPostulante = ofertavalor.getSubPostulante().getPosNombre()+" "+ofertavalor.getSubPostulante().getPosApellido();
 					colorgana = "colorGreen";
+					ganandoperdiendo = "Estas Ganando";
 				}
 				else if (valormaximo1.compareTo(valoroferta) == 0 ) {
 					//valorUltimoPostulante = ofertavalor.getSubPostulante().getPosNombre()+" "+ofertavalor.getSubPostulante().getPosApellido();
 					colorgana = "colorGreen";
+					ganandoperdiendo = "Estas Ganando";
 				}
 			}
 			return "";

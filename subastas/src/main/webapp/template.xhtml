@@ -21,7 +21,7 @@ and open the template in the editor.
 	<h:outputStylesheet library="css" name="style.css" />
 	<h:outputStylesheet library="css" name="estilos.css" />
 </h:head>
-<h:body style="padding-bottom: 50px;">
+<h:body style="padding-bottom: 10px;">
 	<b:navBar brand="Subastas" inverse="true" brandHref="index.xhtml">
 		<b:navbarLinks>
 			<b:navLink value="Regístrarme" iconAwesome="user"
@@ -40,15 +40,18 @@ and open the template in the editor.
 		</p>
 	</b:navBar>
 	<b:container>
-		<b:carousel id="parque" style="width:100%">
+		<b:carousel id="parque" style="width:100%" showControls="false" interval="1010">
 			<b:carouselItem>
-				<b:image value="/resources/img/a.jpg" styleClass="img-responsive" />
+				<b:image  value="/resources/img/a.png" styleClass="img-responsive"/>
 			</b:carouselItem>
 			<b:carouselItem>
-				<b:image value="/resources/img/b.jpg" styleClass="img-responsive" />
+				<b:image  value="/resources/img/b.png" styleClass="img-responsive"/>
 			</b:carouselItem>
 			<b:carouselItem>
-				<b:image value="/resources/img/c.jpg" styleClass="img-responsive" />
+				<b:image  value="/resources/img/c.png" styleClass="img-responsive"/>
+			</b:carouselItem>
+			<b:carouselItem>
+				<b:image  value="/resources/img/d.png" styleClass="img-responsive"/>
 			</b:carouselItem>
 		</b:carousel>
 		<ui:insert name="contenido"></ui:insert>

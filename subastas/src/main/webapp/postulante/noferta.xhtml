@@ -15,7 +15,7 @@
 		<br />
 		<h:form>
 			<p:poll interval="1" listener="#{ofertausuBean.pollMethod()}"
-				update=":frm:txt_tiempo :frm:actual :frm:txt_persona" />
+				update=":frm:txt_tiempo :frm:actual :frm:txt_persona :frm:actual1 :frm:estas" />
 		</h:form>
 		<h:form id="frm">
 			<p:growl id="messages" showDetail="false" />
@@ -25,15 +25,15 @@
 						value="/resources/img/items/#{ofertausuBean.item_imagen}"
 						width="250" height="250" />
 				</b:column>
-				<b:column span="2">
+				<b:column span="3">
 					<h:outputText value="#{ofertausuBean.item_nombre}"
-						style="color:blue;font-size: 20pt;">
+						style="color:blue;font-size: 20pt;font-weight: bold;">
 					</h:outputText>
 				</b:column>
 				<b:column span="2">
 					<h:outputText value="$" style="color:#f152ff;font-size: 20pt;" />
 					<h:outputText value="#{ofertausuBean.item_valorbase}"
-						style="color:#f152ff;font-size: 20pt;">
+						style="color:#f152ff;font-size: 20pt;font-weight: bold;">
 					</h:outputText>
 				</b:column>
 				<b:column span="2">
@@ -74,27 +74,30 @@
 					<h:outputLabel value="Valor Máximo Ofertado: " />
 				</b:column>
 				<b:column span="2">
-					<h:outputText value="$" styleClass="#{ofertausuBean.colorgana}" />
+					<h:outputText id="actual1" value="$"
+						styleClass="#{ofertausuBean.colorgana}" style="font-weight:bold" />
 					<h:outputText id="actual" value="#{ofertausuBean.valorMaximo}"
+						style="font-weight:bold" styleClass="#{ofertausuBean.colorgana}" />
+						&nbsp;&nbsp;&nbsp;
+					<h:outputText id="estas" value="#{ofertausuBean.ganandoperdiendo}"
 						style="font-weight:bold" styleClass="#{ofertausuBean.colorgana}" />
 				</b:column>
 				<b:column span="5">
-						<h:outputText id="txt_tiempo" value="#{ofertausuBean.tiempo}"
-							style="font: 100%/1.618 sans-serif;color:yellow;font-size: 20pt; background-color:black; border: 2px solid black;
+					<h:outputText id="txt_tiempo" value="#{ofertausuBean.tiempo}"
+						style="font: 100%/1.618 sans-serif;color:yellow;font-size: 20pt; background-color:black; border: 2px solid black;
     				border-radius: 5px;" />
 				</b:column>
 			</b:row>
 			<b:row>
 				<b:column span="3"></b:column>
 				<b:column span="2">
-					<h:outputLabel value="Valor Ofertado Anterior: "
-						style="font-weight:bold" />
+					<h:outputLabel value="Valor Ofertado Anterior: " />
 				</b:column>
 				<b:column span="2">
 					<h:outputText value="$" style="font-weight:bold;color:black;" />
 					<h:outputText id="txt_persona"
-						value="#{ofertausuBean.valorUltimoPostulante}"
-						style="font-weight:bold" />
+						style="font-weight:bold;color:black;"
+						value="#{ofertausuBean.valorUltimoPostulante}" />
 				</b:column>
 			</b:row>
 			<b:row>
