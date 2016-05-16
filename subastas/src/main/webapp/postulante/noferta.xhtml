@@ -25,7 +25,7 @@
 						value="/resources/img/items/#{ofertausuBean.item_imagen}"
 						width="250" height="250" />
 				</b:column>
-				<b:column span="8">
+				<b:column span="7">
 					<h:outputText value="#{ofertausuBean.item_nombre}"
 						style="color:blue;font-size: 20pt;font-weight: bold;">
 					</h:outputText>
@@ -36,11 +36,11 @@
 						style="color:#f152ff;font-size: 20pt;font-weight: bold;">
 					</h:outputText>
 				</b:column>
-				<b:column span="9" style="margin-bottom:5px">
+				<b:column span="8" style="margin-bottom:5px">
 					<h:outputText rows="3" cols="20" disabled="true"
 						style="color:blue;" value="#{ofertausuBean.item_descripcion}" />
 				</b:column>
-				<b:column span="9" style="margin-bottom:5px">
+				<b:column span="8" style="margin-bottom:5px">
 					<h:outputText rows="3" cols="20" disabled="true"
 						value="#{ofertausuBean.item_caracteristicas}" />
 				</b:column>
@@ -57,8 +57,9 @@
 					<h:outputLabel value="Tiempo Subasta:" />
 				</b:column>
 				<b:column span="2">
-					<h:outputText value="#{ofertausuBean.fi} - #{ofertausuBean.ff}">
-						<f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss -" />
+					<h:outputText value="#{ofertausuBean.fi} hasta #{ofertausuBean.ff}"
+						style="font-size: 10px;">
+						<f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss" />
 					</h:outputText>
 				</b:column>
 				<b:column span="2">
@@ -69,7 +70,14 @@
 					<h:outputText id="actual" value="#{ofertausuBean.valorMaximo}"
 						style="font-weight:bold" />
 				</b:column>
-
+				<b:column span="2">
+					<h:outputLabel value="Tiempo Restante: " />
+				</b:column>
+				<b:column span="2">
+					<h:outputText id="txt_tiempo" value="#{ofertausuBean.tiempo}"
+						style="font: 100%/1.618 sans-serif;color:yellow;font-size: 20pt; background-color:black; border: 2px solid black;
+    				border-radius: 5px;" />
+				</b:column>
 				<b:column span="2">
 					<h:outputLabel value="Tu Última Oferta: " />
 				</b:column>
@@ -80,10 +88,15 @@
 						value="#{ofertausuBean.valorUltimoPostulante}" />
 						&nbsp;&nbsp;&nbsp;
 					</b:column>
-				<b:column span="2">
+				<b:column span="4">
 					<h:outputText id="estas" value="#{ofertausuBean.ganandoperdiendo}"
-						styleClass ="#{ofertausuBean.colorgana}" />
+						styleClass="#{ofertausuBean.colorgana}" />
 				</b:column>
+			</b:row>
+		</h:form>
+			<h:form id="frm1">
+			<b:row>
+				<b:column span="3"></b:column>
 				<b:column span="2">
 					<h:outputLabel value="Valor a Ofertar: " />
 				</b:column>
@@ -96,14 +109,6 @@
 						<p:ajax listener="#{ofertausuBean.verificarValor()}" update=":frm"></p:ajax>
 					</b:inputText>
 				</b:column>
-				<b:column span="2">
-					<h:outputLabel value="Tiempo Restante: " />
-				</b:column>
-				<b:column span="2">
-					<h:outputText id="txt_tiempo" value="#{ofertausuBean.tiempo}"
-						style="font: 100%/1.618 sans-serif;color:yellow;font-size: 20pt; background-color:black; border: 2px solid black;
-    				border-radius: 5px;" />
-				</b:column>
 			</b:row>
 			<b:row>
 				<b:column span="3" />
@@ -111,21 +116,21 @@
 					<p:commandButton value="Enviar Oferta" styleClass="btn btn-warning"
 						style="padding:7px;"
 						actionListener="#{ofertausuBean.abrirDialog()}"
-						update="frm messages">
+						update=":frm:messages">
 					</p:commandButton>&nbsp;&nbsp;&nbsp;
 						<b:commandButton value="Volver" action="#{ofertausuBean.salir()}"
-						update="frm" look="info" process="@this">
+						update=":frm" look="info" process="@this">
 					</b:commandButton>
 				</b:column>
 			</b:row>
-		</h:form>
+			</h:form>
 		<p:confirmDialog header="Confirmación"
 			message="Está seguro de guardar la información?" closable="false"
 			showEffect="fade" hideEffect="explode" widgetVar="gu">
 			<h:form>
 				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
 					icon="ui-icon-check" action="#{ofertausuBean.crearOferta()}"
-					oncomplete="PF('gu').hide();" update=":frm:messages" />
+					oncomplete="PF('gu').hide();" update=":frm:messages :frm1" />
 				<p:commandButton value="No" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
 					onclick="PF('gu').hide();" />

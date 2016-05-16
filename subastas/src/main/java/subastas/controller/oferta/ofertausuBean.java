@@ -513,7 +513,6 @@ public class ofertausuBean implements Serializable {
 			valoroferta = new BigDecimal(0.00);
 			getListaItem().clear();
 			getListaItem().addAll(managergest.findAllItems());
-			Mensaje.crearMensajeINFO("Si se alammaceno la oferta");
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO,
@@ -696,18 +695,15 @@ public class ofertausuBean implements Serializable {
 				System.out.println("valor de mi ultima oferta: "+valoroferta.toString());
 				
 				if (valormaximo1.compareTo(valoroferta) == 1 ) {
-					//valorUltimoPostulante = ofertavalor.getSubPostulante().getPosNombre()+" "+ofertavalor.getSubPostulante().getPosApellido();
 					colorgana = "colorRed";
-					ganandoperdiendo = "Deberias pujar";
+					ganandoperdiendo = " Estas Perdiendo, necesitas pujar ";
 				} else if (valormaximo1.compareTo(valoroferta) == -1 ) {
-					//valorUltimoPostulante = ofertavalor.getSubPostulante().getPosNombre()+" "+ofertavalor.getSubPostulante().getPosApellido();
 					colorgana = "colorGreen";
-					ganandoperdiendo = "Estas Ganando";
+					ganandoperdiendo = " Estas Ganando ";
 				}
 				else if (valormaximo1.compareTo(valoroferta) == 0 ) {
-					//valorUltimoPostulante = ofertavalor.getSubPostulante().getPosNombre()+" "+ofertavalor.getSubPostulante().getPosApellido();
 					colorgana = "colorGreen";
-					ganandoperdiendo = "Estas Ganando";
+					ganandoperdiendo = " Estas Ganando ";
 				}
 			}
 			return "";

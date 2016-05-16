@@ -22,19 +22,26 @@
 }
 
 .colorRed {
+	border: 2px solid;
+    padding: 5px; 
 	color: white;
-	font-size:10px;
+	font-size: 20px;
 	background-color: #FF0000;
 }
 
 .colorGreen {
+	border: 2px solid;
+    padding: 5px; 
 	color: white;
-	font-size:10px;
+	font-size: 20px;
 	background-color: #008b00;
+	border-bottom-style: 
 }
 
 .colorBlack {
+	border: 2px solid;
+    padding: 5px; 
 	color: white;
-	font-size:10px;
+	font-size: 20px;
 	background-color: #000000;
 }
