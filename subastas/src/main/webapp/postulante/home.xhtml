@@ -16,7 +16,7 @@
 			<p:growl id="messages" showDetail="false" />
 			<p:layoutUnit position="center" size="450">
 				<p:dataGrid var="item" value="#{ofertausuBean.listaItems}"
-					columns="2" layout="grid" rows="12" paginator="true" id="item"
+					columns="2" layout="grid" rows="6" paginator="true" id="item"
 					emptyMessage="Sin Datos"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 
@@ -31,16 +31,11 @@
 												value="/resources/img/items/#{item.itemImagen}" width="120"
 												height="120" />
 										</b:column>
-										<b:column col-sm="6" col-md="6">
+										<b:column col-sm="8" col-md="8">
 											<b:row>
-												<b:column col-sm="12" col-md="12">
+												<b:column col-sm="10" col-md="10">
 													<h:outputText value="#{item.itemNombre}"
 														style="color:blue;font-size: 12pt;font-weight: bold;">
-													</h:outputText>
-												</b:column>
-												<b:column col-sm="10" col-md="10">
-													<h:outputText value="#{item.itemDescripcion}"
-														style="color:blue;font-size: 10pt;">
 													</h:outputText>
 												</b:column>
 												<b:column col-sm="2" col-md="2">
@@ -48,6 +43,11 @@
 														style="color:#f152ff;font-size: 12pt;" />
 													<h:outputText value="#{item.itemValorBase}"
 														style="color:#f152ff;font-size: 12pt;font-weight: bold;">
+													</h:outputText>
+												</b:column>
+												<b:column col-sm="10" col-md="10">
+													<h:outputText value="#{item.itemDescripcion}"
+														style="color:blue;font-size: 10pt;">
 													</h:outputText>
 												</b:column>
 											</b:row>

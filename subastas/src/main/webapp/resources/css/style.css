@@ -1,46 +1,40 @@
 /*****PRIMEFACES*******/
-.ui-button{
+.ui-button {
 	font-size: 15px;
 }
 
-.ui-table-header-align-left > div > table > tr > th {
+.ui-table-header-align-left>div>table>tr>th {
 	text-align: right;
 }
 
-.outLabel{
+.outLabel {
 	color: #317EAC;
 	font-size: 15px;
 }
 
 .ecuador-iso {
-	width:400px;
-	max-width:100%;
+	width: 400px;
+	max-width: 100%;
 	position: absolute;
 	left: -9%;
 	top: -2.2%;
 	z-index: -1;
 }
 
-.colorRed{
-	color : red;
+.colorRed {
+	color: white;
+	font-size:10px;
+	background-color: #FF0000;
 }
 
-.colorGreen{
-	color : white;
-	style="font-weight:bold;
-	color:yellow;
-	font-size: 20pt;
-	background-color:green;
-	border: 2px solid green;
-    border-radius: 5px;
+.colorGreen {
+	color: white;
+	font-size:10px;
+	background-color: #008b00;
 }
 
-.colorBlack{
-	color : black;
-	style="font-weight:bold;
-	color:yellow;
-	font-size: 20pt;
-	background-color:red;
-	border: 2px solid red;
-    border-radius: 5px;
+.colorBlack {
+	color: white;
+	font-size:10px;
+	background-color: #000000;
 }

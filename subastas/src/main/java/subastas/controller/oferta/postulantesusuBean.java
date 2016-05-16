@@ -369,8 +369,10 @@ public class postulantesusuBean implements Serializable {
 	public String crearPostulante() {
 		String r = "";
 		try {
+				fecha = new Date();
+				Timestamp fecha_ahora = new Timestamp(fecha.getTime());
 				setPos_password(Utilidades.Encriptar(getPos_password()));// PASS
-				managergest.insertarPostulante(pos_id.trim(), pos_fecha_reg,
+				managergest.insertarPostulante(pos_id.trim(), fecha_ahora,
 						pos_nombre.trim(), pos_apellido.trim(),
 						pos_direccion.trim(), pos_correo.trim(),
 						pos_telefono.trim(), pos_password.trim(),
