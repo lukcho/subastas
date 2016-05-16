@@ -26,9 +26,21 @@
 }
 
 .colorGreen{
-	color : green;
+	color : white;
+	style="font-weight:bold;
+	color:yellow;
+	font-size: 20pt;
+	background-color:green;
+	border: 2px solid green;
+    border-radius: 5px;
 }
 
 .colorBlack{
 	color : black;
+	style="font-weight:bold;
+	color:yellow;
+	font-size: 20pt;
+	background-color:red;
+	border: 2px solid red;
+    border-radius: 5px;
 }

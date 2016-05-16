@@ -88,7 +88,7 @@ public class ofertasBean implements Serializable {
 	@PostConstruct
 	public void ini() {
 		listaOferta = managergest.findAllofertasOrdenadas();
-//		usuario = ms.validarSesion("ofertas.xhtml");
+		usuario = ms.validarSesion("ofertas.xhtml");
 	}
 	
 	public Timestamp getItem_fecha_subasta_inicio() {

@@ -1,6 +1,5 @@
 package subastas.controller.oferta;
 
-import subastas.entidades.help.UsuarioHelp;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -18,11 +17,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import org.primefaces.context.RequestContext;
-import org.primefaces.event.ResizeEvent;
 
 import subastas.model.dao.entities.SubItem;
 import subastas.model.dao.entities.SubOferta;
-import subastas.controller.gestion.SessionBean;
 import subastas.model.dao.entities.SubPostulante;
 import subastas.model.generic.Funciones;
 import subastas.model.generic.Mensaje;
@@ -74,7 +71,6 @@ public class ofertausuindexBean implements Serializable {
 
 	private List<String> ValorMaximo;
 
-	private UsuarioHelp session;
 
 	// horario
 	private Date fi;
@@ -715,5 +711,9 @@ public class ofertausuindexBean implements Serializable {
 
 	public void cerrarDialog() {
 		RequestContext.getCurrentInstance().execute("PF('veritem').hide();");
+	}
+	
+	public void abrirLogin(){
+		RequestContext.getCurrentInstance().execute("PF('ic').show();");
 	}
 }

@@ -104,7 +104,7 @@ public class ofertausuBean implements Serializable {
 		ganandoperdiendo ="";
 		colorgana = "colorBlack";
 		session = SessionBean.verificarSession();
-		cargarDatosLogeado();
+    	cargarDatosLogeado();
 		listaItem = managergest.findAllItems();
 	}
 	
@@ -606,6 +606,58 @@ public class ofertausuBean implements Serializable {
 			pos_gerencia = ofer.getSubPostulante().getPosGerencia();
 			pos_area = ofer.getSubPostulante().getPosArea();
 
+			return "uoferta?faces-redirect=true";
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	/**
+	 * accion para cargar los datos en el formulario
+	 * 
+	 * @param pro_id
+	 * @param prodfoto_id
+	 * @param pro_nombre
+	 * @param pro_descripcion
+	 * @param pro_costo
+	 * @param pro_precio
+	 * @param pro_stock
+	 * @param pro_estado
+	 * @param pro_estado_fun
+	 * @throws Exception
+	 */
+	public String cargarOfertaPas(SubOferta ofer) {
+		try {
+			ofer_id = ofer.getOferId();
+			ofer_valor_oferta = ofer.getOferValorOferta().toString();
+			ofer_fecha_oferta = ofer.getOferFechaOferta();
+			item = ofer.getSubItem();
+			postulante = ofer.getSubPostulante();
+
+			item_id = ofer.getSubItem().getItemId();
+			item_nombre = ofer.getSubItem().getItemNombre();
+			item_caracteristicas = ofer.getSubItem().getItemCaracteristicas();
+			item_descripcion = ofer.getSubItem().getItemDescripcion();
+			item_imagen = ofer.getSubItem().getItemImagen();
+			item_valorbase = ofer.getSubItem().getItemValorBase().toString();
+			item_valorventa = ofer.getSubItem().getItemValorVenta().toString();
+
+			if (managergest.ValorMaximoXItem(item_id) == null) {
+				valorMaximo = "";
+			} else {
+				valorMaximo = managergest.ValorMaximoXItem(item_id).toString();
+			}
+
+			pos_nombre = ofer.getSubPostulante().getPosNombre();
+			pos_apellido = ofer.getSubPostulante().getPosApellido();
+			pos_direccion = ofer.getSubPostulante().getPosDireccion();
+			pos_correo = ofer.getSubPostulante().getPosCorreo();
+			pos_telefono = ofer.getSubPostulante().getPosTelefono();
+			pos_institucion = ofer.getSubPostulante().getPosInstitucion();
+			pos_gerencia = ofer.getSubPostulante().getPosGerencia();
+			pos_area = ofer.getSubPostulante().getPosArea();
 			return "uoferta?faces-redirect=true";
 		} catch (Exception e) {
 			// TODO: handle exception

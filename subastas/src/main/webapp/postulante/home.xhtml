@@ -14,10 +14,10 @@
 		<br />
 		<h:form id="frm">
 			<p:growl id="messages" showDetail="false" />
-				<p:layoutUnit position="center" size="450">
-					
-					<p:dataGrid var="item" value="#{ofertausuBean.listaItems}"
-					columns="2" layout="grid" rows="12" paginator="true" id="item" emptyMessage="Sin Datos"
+			<p:layoutUnit position="center" size="450">
+				<p:dataGrid var="item" value="#{ofertausuBean.listaItems}"
+					columns="2" layout="grid" rows="12" paginator="true" id="item"
+					emptyMessage="Sin Datos"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 
 					<p:panel>
@@ -31,33 +31,24 @@
 												value="/resources/img/items/#{item.itemImagen}" width="120"
 												height="120" />
 										</b:column>
-
 										<b:column col-sm="6" col-md="6">
 											<b:row>
-												<b:column col-sm="3" col-md="5">
-													<h:outputLabel value="Nombre: " />
-												</b:column>
-												<b:column col-sm="2" col-md="5">
-													<h:outputText value="#{item.itemNombre}">
+												<b:column col-sm="12" col-md="12">
+													<h:outputText value="#{item.itemNombre}"
+														style="color:blue;font-size: 12pt;font-weight: bold;">
 													</h:outputText>
 												</b:column>
-											</b:row>
-											<b:row>
-												<b:column col-sm="3" col-md="5">
-													<h:outputLabel value="Valor Base: (USD) " />
-												</b:column>
-												<b:column col-sm="2" col-md="4">
-													<h:outputText value="#{item.itemValorBase}">
+												<b:column col-sm="10" col-md="10">
+													<h:outputText value="#{item.itemDescripcion}"
+														style="color:blue;font-size: 10pt;">
 													</h:outputText>
 												</b:column>
 												<b:column col-sm="2" col-md="2">
-													<p:commandButton value="Ofertar"
-														styleClass="btn btn-default" disabled="false"
-														action="#{ofertausuBean.irComprar()}" style="padding:7px;"
-														update=":frm:messages">
-														<f:setPropertyActionListener value="#{item}"
-															target="#{ofertausuBean.item}" />
-													</p:commandButton>
+													<h:outputText value="$"
+														style="color:#f152ff;font-size: 12pt;" />
+													<h:outputText value="#{item.itemValorBase}"
+														style="color:#f152ff;font-size: 12pt;font-weight: bold;">
+													</h:outputText>
 												</b:column>
 											</b:row>
 											<b:row>
@@ -66,19 +57,29 @@
 												</b:column>
 												<b:column col-sm="2" col-md="4">
 													<h:outputText value="#{item.itemFechaSubastaInicio}">
-														<f:convertDateTime pattern="yyyy/MM/dd HH:mm" timeZone="GMT-5"/>
+														<f:convertDateTime pattern="yyyy/MM/dd HH:mm"
+															timeZone="GMT-5" />
 													</h:outputText>
 												</b:column>
 											</b:row>
-
 											<b:row>
 												<b:column col-sm="3" col-md="5">
 													<h:outputLabel value="Fin Subasta:" />
 												</b:column>
 												<b:column col-sm="2" col-md="4">
 													<h:outputText value="#{item.itemFechaSubastaFin}">
-														<f:convertDateTime pattern="yyyy/MM/dd HH:mm" timeZone="GMT-5"/>
+														<f:convertDateTime pattern="yyyy/MM/dd HH:mm"
+															timeZone="GMT-5" />
 													</h:outputText>
+												</b:column>
+												<b:column col-sm="3" col-md="3">
+													<p:commandButton iconAwesome="fa fa-gavel"
+														style="padding:7px;" value="Ofertar"
+													     update=":frm:messages"
+														action="#{ofertausuBean.irComprar()}">
+														<f:setPropertyActionListener value="#{item}"
+															target="#{ofertausuBean.item}" />
+														</p:commandButton>
 												</b:column>
 											</b:row>
 										</b:column>
@@ -88,7 +89,7 @@
 						</h:panelGrid>
 					</p:panel>
 				</p:dataGrid>
-				</p:layoutUnit>
+			</p:layoutUnit>
 		</h:form>
 		<p:dialog header="Imágen de Flujo de Ofertas" widgetVar="im"
 			modal="true" showEffect="fade" hideEffect="fade" resizable="false">
@@ -103,6 +104,6 @@
 				</div>
 			</div>
 		</p:dialog>
-	</ui:define>
-</ui:composition>
+	</ui:define>   
+</ui:composition> 
 </html>
