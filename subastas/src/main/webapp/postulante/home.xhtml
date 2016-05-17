@@ -22,6 +22,7 @@
 
 					<p:panel>
 						<h:panelGrid columns="3" style="width:100%"
+							styleClass="label-justified"
 							columnClasses="Imagen,detalle,ofertar">
 							<p:outputPanel>
 								<b:column col-sm="12" col-md="12">
@@ -38,48 +39,55 @@
 														style="color:blue;font-size: 12pt;font-weight: bold;">
 													</h:outputText>
 												</b:column>
-												<b:column col-sm="2" col-md="2">
-													<h:outputText value="$"
-														style="color:#f152ff;font-size: 12pt;" />
-													<h:outputText value="#{item.itemValorBase}"
-														style="color:#f152ff;font-size: 12pt;font-weight: bold;">
-													</h:outputText>
-												</b:column>
+
 												<b:column col-sm="10" col-md="10">
 													<h:outputText value="#{item.itemDescripcion}"
-														style="color:blue;font-size: 10pt;">
+														style="color:blue;font-size: 7pt;font-weight: bold;">
+													</h:outputText>
+												</b:column>
+												<b:column col-sm="2" col-md="2">
+													<h:outputText value="$"
+														style="color:#ca3886;font-size: 20pt;" />
+													<h:outputText value="#{item.itemValorBase}"
+														style="color:#ca3886;font-size: 20pt;font-weight: bold;">
 													</h:outputText>
 												</b:column>
 											</b:row>
+											<br />
 											<b:row>
 												<b:column col-sm="3" col-md="5">
-													<h:outputLabel value="Inicio Subasta:" />
+													<h:outputLabel value="Inicio Subasta:" style="font-weight:bold;color:black;font-size: 8pt;" />
 												</b:column>
-												<b:column col-sm="2" col-md="4">
+												</b:row>
+												<b:row>
+												<b:column col-sm="4" col-md="6">
 													<h:outputText value="#{item.itemFechaSubastaInicio}">
-														<f:convertDateTime pattern="yyyy/MM/dd HH:mm"
+														<f:convertDateTime pattern="dd/MMM/yyyy - HH'H'mm"
 															timeZone="GMT-5" />
 													</h:outputText>
 												</b:column>
 											</b:row>
 											<b:row>
 												<b:column col-sm="3" col-md="5">
-													<h:outputLabel value="Fin Subasta:" />
+													<h:outputLabel value="Fin Subasta:"
+														style="font-weight:bold;color:black;font-size: 8pt;" />
 												</b:column>
-												<b:column col-sm="2" col-md="4">
+												</b:row>
+											<b:row>
+												<b:column col-sm="7" col-md="9">
 													<h:outputText value="#{item.itemFechaSubastaFin}">
-														<f:convertDateTime pattern="yyyy/MM/dd HH:mm"
+														<f:convertDateTime pattern="dd/MMM/yyyy - HH'H'mm"
 															timeZone="GMT-5" />
 													</h:outputText>
 												</b:column>
 												<b:column col-sm="3" col-md="3">
 													<p:commandButton iconAwesome="fa fa-gavel"
 														style="padding:7px;" value="Ofertar"
-													     update=":frm:messages"
+														update=":frm:messages"
 														action="#{ofertausuBean.irComprar()}">
 														<f:setPropertyActionListener value="#{item}"
 															target="#{ofertausuBean.item}" />
-														</p:commandButton>
+													</p:commandButton>
 												</b:column>
 											</b:row>
 										</b:column>
@@ -104,6 +112,6 @@
 				</div>
 			</div>
 		</p:dialog>
-	</ui:define>   
-</ui:composition> 
+	</ui:define>
+</ui:composition>
 </html>

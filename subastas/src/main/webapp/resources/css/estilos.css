@@ -47,3 +47,7 @@
 	line-height: 100px;
 	text-align: right;
 }
+
+.label-justified{
+	text-align: justify;
+}
