@@ -608,16 +608,8 @@ public class itemBean implements Serializable {
 		if (file != null) {
 			try {
 				// Tomar PAD REAL
-				ServletContext servletContext = (ServletContext) FacesContext
-						.getCurrentInstance().getExternalContext().getContext();
-				String carpetaImagenes = (String) servletContext
-						.getRealPath(File.separatorChar + "resources" + File.separatorChar + "img" + File.separatorChar + "items");
 				setItem_imagen(g);
-				System.out.println("PAD------> " + carpetaImagenes);
-				System.out.println("name------> " + getItem_imagen());
-				carpetaImagenes = ms.getUrlImg()+ File.separatorChar +"items";
-				outputStream = new FileOutputStream(new File(carpetaImagenes
-						+ File.separatorChar + getItem_imagen()));
+				outputStream = new FileOutputStream(new File(ms.getUrlImg()+File.separatorChar+getItem_imagen()));
 				inputStream = file.getInputstream();
 
 				int read = 0;

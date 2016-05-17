@@ -97,9 +97,9 @@ public class SesionBean implements Serializable{
 				Mensaje.crearMensajeWARN("Campos usuario y contraseña requeridos");
 				return "";
 			}else{
-//				urlImg = ConsumeREST
-//						.consumeGetRestEasyObject("http://yachay-ws.yachay.gob.ec/data/WSParametrosEntity/SRV_IMG_SYS_SUBASTAS")
-//						.get("parValor").toString();
+				urlImg = ConsumeREST
+						.consumeGetRestEasyObject("http://yachay-ws.yachay.gob.ec/data/WSParametrosEntity/SRV_IMG_SYS_SUBASTAS")
+						.get("parValor").toString();
 				setMenu(mngAcc.loginWS(getUsuario(), getPass(), "SUB"));
 				setPass(null);
 				return "/admin/views/index?faces-redirect=true";
