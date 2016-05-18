@@ -27,31 +27,32 @@ and open the template in the editor.
 			<b:navLink value="Regístrarme" iconAwesome="user"
 				href="registro.xhtml">
 			</b:navLink>
+
 			<b:navLink value="Subastas Pasadas" iconAwesome="fa fa-gavel"
 				href="pasofertas.xhtml">
-			</b:navLink>
-			<b:navLink value="Ayuda" rel="nofollow" iconAwesome="fa fa-question"
-				onclick="PF('im').show();">
 			</b:navLink>
 			<ui:insert name="menu"></ui:insert>
 		</b:navbarLinks>
 		<p class="navbar-text pull-right">
-			<a class="navbar-link" onclick="PF('ic').show();">Iniciar sesión</a>
+			<a class="navbar-link" onclick="PF('im').show();">Ayuda</a>&nbsp;&nbsp;
+			<a class="navbar-link" onclick="PF('rc').show();">Recuperar Contraseña</a>&nbsp;&nbsp;
+			<a class="navbar-link" onclick="PF('ic').show();">Iniciar Sesión</a>
 		</p>
 	</b:navBar>
 	<b:container>
-		<b:carousel id="parque" style="width:100%" showControls="false" interval="1010">
+		<b:carousel id="parque" style="width:100%" showControls="false"
+			interval="1010">
 			<b:carouselItem>
-				<b:image  value="/resources/img/a.png" styleClass="img-responsive"/>
+				<b:image value="/resources/img/a.png" styleClass="img-responsive" />
 			</b:carouselItem>
 			<b:carouselItem>
-				<b:image  value="/resources/img/b.png" styleClass="img-responsive"/>
+				<b:image value="/resources/img/b.png" styleClass="img-responsive" />
 			</b:carouselItem>
 			<b:carouselItem>
-				<b:image  value="/resources/img/c.png" styleClass="img-responsive"/>
+				<b:image value="/resources/img/c.png" styleClass="img-responsive" />
 			</b:carouselItem>
 			<b:carouselItem>
-				<b:image  value="/resources/img/d.png" styleClass="img-responsive"/>
+				<b:image value="/resources/img/d.png" styleClass="img-responsive" />
 			</b:carouselItem>
 		</b:carousel>
 		<ui:insert name="contenido"></ui:insert>

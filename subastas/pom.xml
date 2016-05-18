@@ -21,18 +21,24 @@
 		<dependency>
 			<groupId>org.primefaces.extensions</groupId>
 			<artifactId>primefaces-extensions</artifactId>
-			<version>4.0.0</version>
+			<version>3.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.primefaces.themes</groupId>
 			<artifactId>bootstrap</artifactId>
 			<version>1.0.10</version>
 		</dependency>
+		<!-- POSTGRES -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>9.4-1201-jdbc41</version>
+		</dependency>
 		<!-- BOOTSFACES -->
 		<dependency>
 			<groupId>net.bootsfaces</groupId>
 			<artifactId>bootsfaces</artifactId>
-			<version>0.8.5</version>
+			<version>0.8.1</version>
 			<scope>compile</scope>
 		</dependency>
 		<!-- JSON -->
@@ -52,12 +58,6 @@
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
 			<version>1.4.7</version>
-		</dependency>
-		<!-- POSTGRES -->
-		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>9.4-1201-jdbc41</version>
 		</dependency>
 		<!-- DATA EXPORT -->
 		<dependency>
@@ -87,7 +87,6 @@
 			<artifactId>commons-codec</artifactId>
 			<version>1.5</version>
 		</dependency>
-
 	</dependencies>
 	<build>
 		<finalName>subastas</finalName>

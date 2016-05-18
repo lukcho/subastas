@@ -28,9 +28,8 @@
 								<b:column col-sm="12" col-md="12">
 									<b:row>
 										<b:column col-sm="3" col-md="3">
-											<p:graphicImage
-												value="/resources/img/#{item.itemImagen}" width="120"
-												height="120" />
+											<p:graphicImage value="/resources/img/#{item.itemImagen}"
+												width="120" height="120" />
 										</b:column>
 										<b:column col-sm="8" col-md="8">
 											<b:row>
@@ -56,10 +55,11 @@
 											<br />
 											<b:row>
 												<b:column col-sm="3" col-md="5">
-													<h:outputLabel value="Inicio Subasta:" style="font-weight:bold;color:black;font-size: 8pt;" />
+													<h:outputLabel value="Inicio Subasta:"
+														style="font-weight:bold;color:black;font-size: 8pt;" />
 												</b:column>
-												</b:row>
-												<b:row>
+											</b:row>
+											<b:row>
 												<b:column col-sm="4" col-md="6">
 													<h:outputText value="#{item.itemFechaSubastaInicio}">
 														<f:convertDateTime pattern="dd/MMM/yyyy - HH'H'mm"
@@ -72,7 +72,7 @@
 													<h:outputLabel value="Fin Subasta:"
 														style="font-weight:bold;color:black;font-size: 8pt;" />
 												</b:column>
-												</b:row>
+											</b:row>
 											<b:row>
 												<b:column col-sm="7" col-md="9">
 													<h:outputText value="#{item.itemFechaSubastaFin}">
@@ -81,9 +81,9 @@
 													</h:outputText>
 												</b:column>
 												<b:column col-sm="3" col-md="3">
-													<p:commandButton iconAwesome="fa fa-gavel"
-														style="padding:7px;" value="Ofertar"
-														update=":frm:messages"
+													<p:commandButton
+														style="padding:10px;color: #ffffff;background: #033c73;border-radius: 90px 90px 80px 80px !important;" 
+														value="Ofertar" update=":frm:messages"
 														action="#{ofertausuBean.irComprar()}">
 														<f:setPropertyActionListener value="#{item}"
 															target="#{ofertausuBean.item}" />

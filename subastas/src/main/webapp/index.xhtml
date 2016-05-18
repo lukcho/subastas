@@ -28,9 +28,8 @@
 								<b:column col-sm="12" col-md="12">
 									<b:row>
 										<b:column col-sm="3" col-md="3">
-											<p:graphicImage
-												value="/resources/img/#{item.itemImagen}" width="120"
-												height="120" />
+											<p:graphicImage value="/resources/img/#{item.itemImagen}"
+												width="120" height="120" />
 										</b:column>
 										<b:column col-sm="8" col-md="8">
 											<b:row>
@@ -83,8 +82,8 @@
 												</b:column>
 												<b:column col-sm="3" col-md="3">
 													<b:commandButton iconAwesome="fa fa-gavel"
-														style="padding:7px;" value="Ofertar"
-														styleClass="btn btn-info"
+														style="padding:14px;border-radius: 90px 90px 80px 80px !important;"
+														value="Ofertar" styleClass="btn btn-info"
 														actionListener="#{ofertausuindexBean.abrirLogin()}" />
 												</b:column>
 											</b:row>
@@ -123,16 +122,46 @@
 				</h:form>
 			</div>
 		</p:dialog>
+		<p:dialog header="Recuperar contraseña" resizable="false"
+			closable="true" closeOnEscape="true" widgetVar="rc" modal="true"
+			showEffect="explode" hideEffect="bounce" height="150">
+			<div class="div1" style="width: 100%">
+				<h:form id="form3">
+					<h:outputText
+						value="Al momento de enviar el mensaje para la recuperación de la contraseña," />
+					<br />
+					<h:outputText value="espere la alerta de confimación." />
+					<p:panelGrid columns="2">
+						<h:outputText value="Ingrese su correo: " />
+						<p:inputText required="true" value="#{sessionBean.correocontra}"
+							style="width:230px" requiredMessage="Requerido Correo"
+							validatorMessage="Formato de correo inv&aacute;lido">
+							<f:validateRegex
+								pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+						</p:inputText>
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<p:commandButton id="trackcer1" icon="ui-icon-key"
+							value="Enviar contraseña" onclick="start()"
+							widgetVar="startButton1" update=":frm:messages"
+							action="#{sessionBean.devolvercontra}">
+							<p:tooltip id="toolTipTrack8" for="trackcer1"
+								value="Enviar mensaje para recuperar contraseña"
+								trackMouse="true" />
+						</p:commandButton>
+					</p:panelGrid>
+				</h:form>
+			</div>
+		</p:dialog>
+
 		<p:dialog header="Imágen de Flujo de Ofertas" widgetVar="im"
 			modal="true" showEffect="fade" hideEffect="fade" resizable="false">
 			<div class="row topForm">
 				<div class="col-sm-8 col-sm-offset-2 form-box">
-					<div class="form-bottom">
 						<h:panelGrid>
-							<p:graphicImage value="#{facesContex}/imgevent/300.jpg"
-								width="150" height="150" />
+							<p:graphicImage value="/resources/img/300.jpg"
+								width="200" height="200" />
 						</h:panelGrid>
-					</div>
 				</div>
 			</div>
 		</p:dialog>

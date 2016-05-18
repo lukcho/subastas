@@ -30,6 +30,7 @@ import org.primefaces.model.UploadedFile;
 
 import subastas.model.dao.entities.SubItem;
 import subastas.model.dao.entities.SubOferta;
+import subastas.model.generic.ConsumeREST;
 import subastas.model.generic.Funciones;
 import subastas.model.generic.Mensaje;
 import subastas.model.manager.ManagerGestion;
@@ -95,6 +96,7 @@ public class itemBean implements Serializable {
 	private Persona per;
 	private Persona per1;
 	private ManagerCarga mc;
+	private String img="";
 
 	public itemBean() {
 	}
@@ -120,8 +122,21 @@ public class itemBean implements Serializable {
 		mostrarfoto = false;
 		listaItem = managergest.findAllItems();
 		usuario = ms.validarSesion("items.xhtml");
+		consumirURL();
 	}
 	
+	private void consumirURL() {
+		try {
+			img = ConsumeREST
+			.consumeGetRestEasyObject("http://yachay-ws.yachay.gob.ec/data/WSParametrosEntity/SRV_IMG_SYS_SUBASTAS")
+			.get("parValor").toString();
+		} catch (Exception e) {
+			Mensaje.crearMensajeERROR("ERROR AL CONSUMIR EL WS");
+			e.printStackTrace();
+		}
+		
+	}
+
 	public Integer getAutomatico() {
 		return automatico;
 	}
@@ -609,7 +624,7 @@ public class itemBean implements Serializable {
 			try {
 				// Tomar PAD REAL
 				setItem_imagen(g);
-				outputStream = new FileOutputStream(new File(ms.getUrlImg()+File.separatorChar+getItem_imagen()));
+				outputStream = new FileOutputStream(new File(img+File.separatorChar+getItem_imagen()));
 				inputStream = file.getInputstream();
 
 				int read = 0;

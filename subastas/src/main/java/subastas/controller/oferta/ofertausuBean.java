@@ -696,7 +696,7 @@ public class ofertausuBean implements Serializable {
 				
 				if (valormaximo1.compareTo(valoroferta) == 1 ) {
 					colorgana = "colorRed";
-					ganandoperdiendo = " Estas Perdiendo, necesitas pujar ";
+					ganandoperdiendo = " Estas Perdiendo, mejora tu oferta";
 				} else if (valormaximo1.compareTo(valoroferta) == -1 ) {
 					colorgana = "colorGreen";
 					ganandoperdiendo = " Estas Ganando ";

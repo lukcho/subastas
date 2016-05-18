@@ -2,13 +2,11 @@ package subastas.controller.gestion;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import subastas.entidades.help.UsuarioHelp;
 import subastas.entidades.help.Utilidades;
-import subastas.model.dao.entities.SubItem;
 import subastas.model.dao.entities.SubPostulante;
 import subastas.model.generic.Mail;
 import subastas.model.generic.Mensaje;
@@ -20,8 +18,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
-
-import org.primefaces.context.RequestContext;
 
 @SessionScoped
 @ManagedBean
@@ -442,14 +438,10 @@ public class SessionBean {
 					smscor="";
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Enviado correctamente al correo su contraseña", null));
 			}
-			else if(correoveri.equals(correocontra))
-			{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Ya se ha enviado al correo su contraseña", null));				
-			}
 			} catch (Exception e) {
 				e.printStackTrace();
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Error al enviar correo", null));
 			}
-    		return "home?faces-redirect=true";
+    		return "index?faces-redirect=true";
 		}			    
 }

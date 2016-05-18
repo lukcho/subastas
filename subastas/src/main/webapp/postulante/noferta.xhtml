@@ -14,16 +14,16 @@
 	<ui:define name="contenido">
 		<br />
 		<h:form>
-						<p:poll interval="1" listener="#{ofertausuBean.pollMethod()}"
-							update=":frm:txt_tiempo :frm:actual :frm:txt_persona :frm:actual1 :frm:estas" />
+			<p:poll interval="1" listener="#{ofertausuBean.pollMethod()}"
+				update=":frm:txt_tiempo :frm:actual :frm:txt_persona :frm:actual1 :frm:estas" />
 		</h:form>
 		<h:form id="frm" styleClass="label-justified">
 			<p:growl id="messages" showDetail="false" />
 			<b:row>
 				<b:column span="3">
 					<p:graphicImage id="imagen"
-						value="/resources/img/#{ofertausuBean.item_imagen}"
-						width="250" height="250" />
+						value="/resources/img/#{ofertausuBean.item_imagen}" width="250"
+						height="250" />
 				</b:column>
 
 				<b:column span="9">
@@ -66,9 +66,9 @@
 						<b:column span="1">
 						</b:column>
 						<b:column span="4">
-							<h:outputText value="   $" style="color:#f152ff;font-size: 20pt;" />
+							<h:outputText value="   $" style="color:#ca3886;font-size: 20pt;" />
 							<h:outputText value="#{ofertausuBean.item_valorbase}"
-								style="color:#f152ff;font-size: 20pt;font-weight: bold;">
+								style="color:#ca3886;font-size: 20pt;font-weight: bold;">
 							</h:outputText>
 						</b:column>
 						<b:column span="3">
@@ -108,7 +108,7 @@
 							<h:outputLabel value="Tu última oferta: "
 								style="font-weight:bold;color:black;" />
 						</b:column>
-						<b:column span="4">
+						<b:column span="6">
 							<h:outputText id="estas"
 								value="#{ofertausuBean.ganandoperdiendo}"
 								styleClass="#{ofertausuBean.colorgana}" />
@@ -139,7 +139,8 @@
 						</b:column>
 						<b:column span="2">
 							<b:inputText value="#{ofertausuBean.ofer_valor_oferta}"
-								required="true" placeholder="$0.00" style="font-weight:bold;color:black;font-size: 20pt;"
+								required="true" placeholder="$0.00"
+								style="font-weight:bold;color:black;font-size: 20pt;"
 								requiredMessage="Campo valor venta requerido"
 								validatorMessage="Ingrese solo dígitos Ej. 0.00">
 								<f:validateRegex pattern="[0-9.]+" />
@@ -148,20 +149,22 @@
 							</b:inputText>
 						</b:column>
 					</b:row>
-					</b:column>
-					<b:row>
-						<b:column span="3" />
-						<b:column span="4">
-							<p:commandButton value="Enviar Oferta"
-								styleClass="btn btn-warning" style="padding:7px;"
-								actionListener="#{ofertausuBean.abrirDialog()}"
-								update=":frm:messages">
-							</p:commandButton>&nbsp;&nbsp;&nbsp;
+				</b:column>
+				<b:row>
+					<b:column span="3" />
+					<b:column span="4">
+						<p:commandButton value="Enviar Oferta"
+							styleClass="btn btn-warning"
+							style="padding:7px;border-radius: 90px 90px 80px 80px !important;"
+							actionListener="#{ofertausuBean.abrirDialog()}"
+							update=":frm:messages">
+						</p:commandButton>&nbsp;&nbsp;&nbsp; 
 						<b:commandButton value="Volver" action="#{ofertausuBean.salir()}"
-								update=":frm" look="info" process="@this">
-							</b:commandButton>
-						</b:column>
-					</b:row>
+							style="padding:7px;border-radius: 90px 90px 80px 80px !important;"
+							update=":frm" look="info" process="@this">
+						</b:commandButton>
+					</b:column>
+				</b:row>
 			</b:row>
 		</h:form>
 		<p:confirmDialog header="Confirmación"
