@@ -66,7 +66,7 @@ public class itemBean implements Serializable {
 	private String item_estado;
 	private boolean mostrarfoto;
 	private String valorMaximo;
-	
+
 	private boolean mostrarpro_id;
 	private boolean edicion;
 	private boolean ediciontipo;
@@ -84,7 +84,7 @@ public class itemBean implements Serializable {
 	private List<SubItem> listaItem;
 
 	private SubOferta ofertadelsita;
-	
+
 	// horario
 	private Date fi;
 	private Date ff;
@@ -96,7 +96,7 @@ public class itemBean implements Serializable {
 	private Persona per;
 	private Persona per1;
 	private ManagerCarga mc;
-	private String img="";
+	private String img = "";
 
 	public itemBean() {
 	}
@@ -112,7 +112,7 @@ public class itemBean implements Serializable {
 		item_estado = "A";
 		item_nombre = "";
 		item_valorbase = null;
-		automatico=0;
+		automatico = 0;
 		item_valorventa = "0.00";
 		edicion = false;
 		ediciontipo = false;
@@ -124,27 +124,28 @@ public class itemBean implements Serializable {
 		usuario = ms.validarSesion("items.xhtml");
 		consumirURL();
 	}
-	
+
 	private void consumirURL() {
 		try {
 			img = ConsumeREST
-			.consumeGetRestEasyObject("http://yachay-ws.yachay.gob.ec/data/WSParametrosEntity/SRV_IMG_SYS_SUBASTAS")
-			.get("parValor").toString();
+					.consumeGetRestEasyObject(
+							"http://yachay-ws.yachay.gob.ec/data/WSParametrosEntity/SRV_IMG_SYS_SUBASTAS")
+					.get("parValor").toString();
 		} catch (Exception e) {
 			Mensaje.crearMensajeERROR("ERROR AL CONSUMIR EL WS");
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public Integer getAutomatico() {
 		return automatico;
 	}
-	
+
 	public void setAutomatico(Integer automatico) {
 		this.automatico = automatico;
 	}
-	
+
 	public SubOferta getOfertadelsita() {
 		return ofertadelsita;
 	}
@@ -160,7 +161,7 @@ public class itemBean implements Serializable {
 	public void setNombre_usuario(String nombre_usuario) {
 		this.nombre_usuario = nombre_usuario;
 	}
-	
+
 	public String getValorMaximo() {
 		return valorMaximo;
 	}
@@ -391,8 +392,7 @@ public class itemBean implements Serializable {
 		}
 		return l1;
 	}
-	
-	
+
 	/**
 	 * accion para cargar los datos en el formulario
 	 * 
@@ -411,9 +411,9 @@ public class itemBean implements Serializable {
 		try {
 			item_id = itemdelsita.getItemId();
 			automatico = managergest.ofertaXItem(item_id);
-			System.out.println("coge el id del mayor: "+automatico);
-			managergest.ganadorItemAutom(item_id, "I",automatico);
-			item_id=null;
+			System.out.println("coge el id del mayor: " + automatico);
+			managergest.ganadorItemAutom(item_id, "I", automatico);
+			item_id = null;
 			getListaItem().clear();
 			getListaItem().addAll(managergest.findAllItems());
 			Mensaje.crearMensajeINFO("Actualizado - Modificado");
@@ -428,7 +428,7 @@ public class itemBean implements Serializable {
 		}
 		return "";
 	}
-	
+
 	/**
 	 * activar y desactivar estado producto
 	 * 
@@ -566,13 +566,13 @@ public class itemBean implements Serializable {
 			item_fecha_subasta_fin = item.getItemFechaSubastaFin();
 			fi = item.getItemFechaSubastaInicio();
 			ff = item.getItemFechaSubastaFin();
-			
+
 			if (managergest.ValorMaximoXItem(item_id) == null) {
 				valorMaximo = "";
 			} else {
 				valorMaximo = managergest.ValorMaximoXItem(item_id).toString();
 			}
-			
+
 			item_ganador_dni = item.getItemGanadorDni();
 			item_usuario_registro = item.getItemUsuarioRegistro();
 			System.out.println("usuario que hizo: " + item_usuario_registro);
@@ -623,10 +623,16 @@ public class itemBean implements Serializable {
 		if (file != null) {
 			try {
 				// Tomar PAD REAL
+				ServletContext servletContext = (ServletContext) FacesContext
+						.getCurrentInstance().getExternalContext().getContext();
+//				String carpetaImagenes = "C:/Users/lcorrea/Desktop/wildfly-8.2.1.Final/standalone/img/img_subastas/items";
+				String carpetaImagenes = "/opt/wildfly/standalone/img/img_subastas/items/";
 				setItem_imagen(g);
-				outputStream = new FileOutputStream(new File(img+File.separatorChar+getItem_imagen()));
+				System.out.println("PAD------> " + carpetaImagenes);
+				System.out.println("name------> " + getItem_imagen());
+				outputStream = new FileOutputStream(new File(carpetaImagenes
+						+ File.separatorChar + getItem_imagen()));
 				inputStream = file.getInputstream();
-
 				int read = 0;
 				byte[] bytes = new byte[1024];
 
@@ -637,12 +643,13 @@ public class itemBean implements Serializable {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"Correcto: Carga Correcta", null));
+								"Correcto:", "Carga correcta"));
 
 			} catch (Exception e) {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: no se pudo subir la imagen",null));
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:",
+								"no se pudo subir la imagen"));
 				e.printStackTrace();
 			} finally {
 				if (inputStream != null) {
@@ -661,11 +668,60 @@ public class itemBean implements Serializable {
 		}
 	}
 
+	// // metodo para guardar la imagen en el servidor
+	// public void ImagenServ(FileUploadEvent event) throws IOException {
+	// file = event.getFile();
+	// InputStream inputStream = null;
+	// OutputStream outputStream = null;
+	//
+	// if (file != null) {
+	// try {
+	// // Tomar PAD REAL
+	// setItem_imagen(g);
+	// outputStream = new FileOutputStream(new
+	// File(img+File.separatorChar+getItem_imagen()));
+	// inputStream = file.getInputstream();
+	//
+	// int read = 0;
+	// byte[] bytes = new byte[1024];
+	//
+	// while ((read = inputStream.read(bytes)) != -1) {
+	// outputStream.write(bytes, 0, read);
+	// }
+	//
+	// FacesContext.getCurrentInstance().addMessage(
+	// null,
+	// new FacesMessage(FacesMessage.SEVERITY_INFO,
+	// "Correcto: Carga Correcta", null));
+	//
+	// } catch (Exception e) {
+	// FacesContext.getCurrentInstance().addMessage(
+	// null,
+	// new FacesMessage(FacesMessage.SEVERITY_ERROR,
+	// "Error: no se pudo subir la imagen",null));
+	// e.printStackTrace();
+	// } finally {
+	// if (inputStream != null) {
+	// inputStream.close();
+	// }
+	//
+	// if (outputStream != null) {
+	// outputStream.close();
+	// }
+	// }
+	// } else {
+	// FacesContext.getCurrentInstance().addMessage(
+	// null,
+	// new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:",
+	// "no se pudo seleccionar la imagen"));
+	// }
+	// }
+
 	// metodo para poner el nombre a la imagen
 	public void asignarNombreImagen() {
 		if (getItem_nombre().trim().isEmpty()) {
 			System.out.println("Vacio");
-		}else {
+		} else {
 			DateFormat dateFormat = new SimpleDateFormat("_ddMMyyyy");
 			g = "img_" + getItem_nombre() + dateFormat.format(new Date())
 					+ ".jpg";
