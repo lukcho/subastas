@@ -28,8 +28,9 @@
 								<b:column col-sm="12" col-md="12">
 									<b:row>
 										<b:column col-sm="3" col-md="3">
-											<p:graphicImage value="/resources/img/items/#{item.itemImagen}"
-												width="120" height="120" />
+											<p:graphicImage
+												value="/resources/img/items/#{item.itemImagen}" width="120"
+												height="120" />
 										</b:column>
 										<b:column col-sm="8" col-md="8">
 											<b:row>
@@ -82,7 +83,7 @@
 												</b:column>
 												<b:column col-sm="3" col-md="3">
 													<p:commandButton
-														style="padding:10px;color: #ffffff;background: #033c73;border-radius: 90px 90px 80px 80px !important;" 
+														style="padding:10px;color: #ffffff;background: #033c73;border-radius: 90px 90px 80px 80px !important;"
 														value="Ofertar" update=":frm:messages"
 														action="#{ofertausuBean.irComprar()}">
 														<f:setPropertyActionListener value="#{item}"
@@ -103,12 +104,10 @@
 			modal="true" showEffect="fade" hideEffect="fade" resizable="false">
 			<div class="row topForm">
 				<div class="col-sm-8 col-sm-offset-2 form-box">
-					<div class="form-bottom">
-						<h:panelGrid>
-							<p:graphicImage value="#{facesContex}/imgevent/300.jpg"
-								width="150" height="150" />
-						</h:panelGrid>
-					</div>
+					<h:panelGrid>
+						<p:graphicImage value="/resources/img/300.jpg" width="200"
+							height="200" />
+					</h:panelGrid>
 				</div>
 			</div>
 		</p:dialog>

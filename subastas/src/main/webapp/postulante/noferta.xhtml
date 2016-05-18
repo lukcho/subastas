@@ -22,8 +22,8 @@
 			<b:row>
 				<b:column span="3">
 					<p:graphicImage id="imagen"
-						value="/resources/img/items/#{ofertausuBean.item_imagen}" width="250"
-						height="250" />
+						value="/resources/img/items/#{ofertausuBean.item_imagen}"
+						width="250" height="250" />
 				</b:column>
 
 				<b:column span="9">
@@ -36,15 +36,15 @@
 					</b:row>
 					<b:row>
 						<b:column span="11">
-							<h:outputText rows="3" cols="20" disabled="true"
+							<h:outputText rows="3" cols="20" disabled="true"  maxlength="500"
 								style="color:blue;font-size: 10pt;"
 								value="#{ofertausuBean.item_descripcion}" />
 						</b:column>
 					</b:row>
 					<b:row>
 						<b:column span="11">
-							<h:outputText rows="3" cols="20" disabled="true"
-								value="#{ofertausuBean.item_caracteristicas}" />
+							<h:outputText rows="3" cols="20" disabled="true" 
+								value="#{ofertausuBean.item_caracteristicas}" maxlength="500"/>
 						</b:column>
 					</b:row>
 					<br />
@@ -179,6 +179,17 @@
 					onclick="PF('gu').hide();" />
 			</h:form>
 		</p:confirmDialog>
+		<p:dialog header="Imágen de Flujo de Ofertas" widgetVar="im"
+			modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+			<div class="row topForm">
+				<div class="col-sm-8 col-sm-offset-2 form-box">
+					<h:panelGrid>
+						<p:graphicImage value="/resources/img/300.jpg" width="200"
+							height="200" />
+					</h:panelGrid>
+				</div>
+			</div>
+		</p:dialog>
 	</ui:define>
 </ui:composition>
 </html>

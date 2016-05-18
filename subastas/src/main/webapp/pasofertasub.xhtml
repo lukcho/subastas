@@ -64,6 +64,75 @@
 				</p:dataTable>
 			</b:panel>
 		</h:form>
+		<p:dialog widgetVar="ic" modal="true" showEffect="fade"
+			header="Sistema de Subastas Yachay" hideEffect="fade"
+			resizable="false">
+
+			<div class="form-bottom">
+				<div class="form-box">
+					<h2>
+						Ingreso al Sistema <i class="fa fa-gavel fa-2x"></i>
+					</h2>
+				</div>
+
+				<h:form id="frmlog">
+					<p:messages closable="true" />
+					<b:inputText placeholder="USUARIO" value="#{sessionBean.nick}"
+						disabled="false">
+						<p:ajax listener="#{sessionBean.veri()}" update=":frm"></p:ajax>
+					</b:inputText>
+					<b:inputSecret placeholder="CONTRASE&Ntilde;A" disabled="false"
+						value="#{sessionBean.pass}">
+					</b:inputSecret>
+					<b:commandButton value="Ingresar" iconAwesome="check-square-o"
+						action="#{sessionBean.login}" styleClass="btn-block btnSend"
+						look="primary" update="frmlog" />
+				</h:form>
+			</div>
+		</p:dialog>
+		<p:dialog header="Recuperar contraseña" resizable="false"
+			closable="true" closeOnEscape="true" widgetVar="rc" modal="true"
+			showEffect="explode" hideEffect="bounce" height="150">
+			<div class="div1" style="width: 100%">
+				<h:form id="form3">
+					<h:outputText
+						value="Al momento de enviar el mensaje para la recuperación de la contraseña," />
+					<br />
+					<h:outputText value="espere la alerta de confimación." />
+					<p:panelGrid columns="2">
+						<h:outputText value="Ingrese su correo: " />
+						<p:inputText required="true" value="#{sessionBean.correocontra}"
+							style="width:230px" requiredMessage="Requerido Correo"
+							validatorMessage="Formato de correo inv&aacute;lido">
+							<f:validateRegex
+								pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+						</p:inputText>
+						<h:outputText value="" />
+						<h:outputText value="" />
+						<p:commandButton id="trackcer1" icon="ui-icon-key"
+							value="Enviar contraseña" onclick="start()"
+							widgetVar="startButton1" update=":frm:messages"
+							action="#{sessionBean.devolvercontra}">
+							<p:tooltip id="toolTipTrack8" for="trackcer1"
+								value="Enviar mensaje para recuperar contraseña"
+								trackMouse="true" />
+						</p:commandButton>
+					</p:panelGrid>
+				</h:form>
+			</div>
+		</p:dialog>
+
+		<p:dialog header="Imágen de Flujo de Ofertas" widgetVar="im"
+			modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+			<div class="row topForm">
+				<div class="col-sm-8 col-sm-offset-2 form-box">
+						<h:panelGrid>
+							<p:graphicImage value="/resources/img/300.jpg"
+								width="200" height="200" />
+						</h:panelGrid>
+				</div>
+			</div>
+		</p:dialog>
 	</ui:define>
 </ui:composition>
 </html>

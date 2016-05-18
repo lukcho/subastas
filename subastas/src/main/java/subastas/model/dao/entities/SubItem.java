@@ -23,10 +23,10 @@ public class SubItem implements Serializable {
 	@Column(name="item_id")
 	private Integer itemId;
 
-	@Column(name="item_caracteristicas", length=255)
+	@Column(name="item_caracteristicas", length=500)
 	private String itemCaracteristicas;
 
-	@Column(name="item_descripcion", length=255)
+	@Column(name="item_descripcion", length=500)
 	private String itemDescripcion;
 
 	@Column(name="item_estado", columnDefinition="bpchar", length=1)

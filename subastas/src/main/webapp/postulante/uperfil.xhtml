@@ -149,14 +149,24 @@
 			showEffect="fade" hideEffect="explode" widgetVar="gu">
 			<h:form>
 				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
-					icon="ui-icon-check"
-					action="#{ofertausuBean.editarPostulante()}"
+					icon="ui-icon-check" action="#{ofertausuBean.editarPostulante()}"
 					oncomplete="PF('gu').hide();" update=":frm:messages" />
 				<p:commandButton value="No" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
 					onclick="PF('gu').hide();" />
 			</h:form>
 		</p:confirmDialog>
+		<p:dialog header="Imágen de Flujo de Ofertas" widgetVar="im"
+			modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+			<div class="row topForm">
+				<div class="col-sm-8 col-sm-offset-2 form-box">
+					<h:panelGrid>
+						<p:graphicImage value="/resources/img/300.jpg" width="200"
+							height="200" />
+					</h:panelGrid>
+				</div>
+			</div>
+		</p:dialog>
 	</ui:define>
 </ui:composition>
 </html>

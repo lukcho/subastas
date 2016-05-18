@@ -29,32 +29,32 @@ and open the template in the editor.
 				<b:navLink value="Ver su Perfil" iconAwesome="fa fa-user"
 					href="uperfil.xhtml">
 				</b:navLink>
-				<b:navLink value="Ayuda" iconAwesome="fa fa-question"
-					onclick="PF('im').show();">
-				</b:navLink>
 				<ui:insert name="menu"></ui:insert>
 			</b:navbarLinks>
 			<ui:insert name="menu"></ui:insert>
 		</b:navbarLinks>
 		<p class="navbar-text pull-right">
 			<strong>#{sessionBean.nom}</strong>&nbsp;|&nbsp; <a
-				class="navbar-link" rel="nofollow" onclick="PF('cs').show();">Cerrar
+				class="navbar-link" onclick="PF('im').show();">Ayuda</a>&nbsp;&nbsp;
+			<a class="navbar-link" rel="nofollow" onclick="PF('cs').show();">Cerrar
 				sesión</a>
 		</p>
 	</b:navBar>
 	<b:container>
-		<b:carousel id="parque" style="margin-top:0; padding-top:0; width:100%" showControls="false" interval="1010">
+		<b:carousel id="parque"
+			style="margin-top:0; padding-top:0; width:100%" showControls="false"
+			interval="1010">
 			<b:carouselItem>
-				<b:image  value="/resources/img/a.png" styleClass="img-responsive"/>
+				<b:image value="/resources/img/a.png" styleClass="img-responsive" />
 			</b:carouselItem>
 			<b:carouselItem>
-				<b:image  value="/resources/img/b.png" styleClass="img-responsive"/>
+				<b:image value="/resources/img/b.png" styleClass="img-responsive" />
 			</b:carouselItem>
 			<b:carouselItem>
-				<b:image  value="/resources/img/c.png" styleClass="img-responsive"/>
+				<b:image value="/resources/img/c.png" styleClass="img-responsive" />
 			</b:carouselItem>
 			<b:carouselItem>
-				<b:image  value="/resources/img/d.png" styleClass="img-responsive"/>
+				<b:image value="/resources/img/d.png" styleClass="img-responsive" />
 			</b:carouselItem>
 		</b:carousel>
 		<ui:insert name="contenido"></ui:insert>
@@ -73,7 +73,7 @@ and open the template in the editor.
 	</b:container>
 	<b:navBar fixed="bottom" inverse="true">
 		<center>
-			<span style="color: white;"> Sistema Desarrollado por: <a
+			<span style="color: white;font-size: 8pt;"> Sistema Desarrollado por: <a
 				href="http://www.yachay.gob.ec/">Yachay EP</a>; Amazonas N26-146 y
 				la Niña Tel: (593 2 3949100).<br /> Este se sistema debe ejecutar
 				en los navegadores Google Chrome o Mozilla Firefox para un correcto

@@ -4437,10 +4437,10 @@ LABL 0 Arial,8,N</a:FontList>
 <a:Code>ITEM_DESCRIPCION</a:Code>
 <a:CreationDate>1462204841</a:CreationDate>
 <a:Creator>lcorrea</a:Creator>
-<a:ModificationDate>1462205096</a:ModificationDate>
+<a:ModificationDate>1463602829</a:ModificationDate>
 <a:Modifier>lcorrea</a:Modifier>
-<a:DataType>VARCHAR(255)</a:DataType>
-<a:Length>255</a:Length>
+<a:DataType>VARCHAR(500)</a:DataType>
+<a:Length>500</a:Length>
 </o:Column>
 <o:Column Id="o24">
 <a:ObjectID>DC9B2AB4-4B7A-4D75-9DB7-6933D9481409</a:ObjectID>
@@ -4448,10 +4448,10 @@ LABL 0 Arial,8,N</a:FontList>
 <a:Code>ITEM_CARACTERISTICAS</a:Code>
 <a:CreationDate>1462204841</a:CreationDate>
 <a:Creator>lcorrea</a:Creator>
-<a:ModificationDate>1462216356</a:ModificationDate>
+<a:ModificationDate>1463602829</a:ModificationDate>
 <a:Modifier>lcorrea</a:Modifier>
-<a:DataType>VARCHAR(255)</a:DataType>
-<a:Length>255</a:Length>
+<a:DataType>VARCHAR(500)</a:DataType>
+<a:Length>500</a:Length>
 </o:Column>
 <o:Column Id="o25">
 <a:ObjectID>E9C5EE64-17F8-44DB-95A0-AF108183E3FB</a:ObjectID>

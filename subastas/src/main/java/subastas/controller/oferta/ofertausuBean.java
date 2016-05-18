@@ -813,6 +813,8 @@ public class ofertausuBean implements Serializable {
 		ofertavalor=null;
 		ofer_valor_oferta=null;
 		valorUltimoPostulante="";
+		ganandoperdiendo ="";
+		valorUltimoPostulante ="Ninguno Aún";
 		getListaItems().clear();
 		getListaItems().addAll(managergest.findAllItems());
 		return "home?faces-redirect=true";
