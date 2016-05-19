@@ -98,6 +98,7 @@ create table SUB_POSTULANTES (
    POS_DIRECCION        VARCHAR(200)         null,
    POS_CORREO           VARCHAR(200)         null,
    POS_TELEFONO         VARCHAR(20)          null,
+   POS_CELULAR          VARCHAR(20)          null,
    POS_PASSWORD         VARCHAR(200)         null,
    POS_INSTITUCION      VARCHAR(200)         null,
    POS_GERENCIA         VARCHAR(200)         null,

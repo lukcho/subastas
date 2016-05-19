@@ -63,6 +63,7 @@ public class ofertasBean implements Serializable {
 	private String pos_apellido;
 	private String pos_correo;
 	private String pos_telefono;
+	private String pos_celular;
 	private String pos_institucion;
 	private String pos_gerencia;
 	private String pos_area;
@@ -177,6 +178,14 @@ public class ofertasBean implements Serializable {
 
 	public void setPos_telefono(String pos_telefono) {
 		this.pos_telefono = pos_telefono;
+	}
+	
+	public String getPos_celular() {
+		return pos_celular;
+	}
+	
+	public void setPos_celular(String pos_celular) {
+		this.pos_celular = pos_celular;
 	}
 
 	public String getPos_institucion() {
@@ -438,6 +447,7 @@ public class ofertasBean implements Serializable {
 			pos_direccion = ofer.getSubPostulante().getPosDireccion();
 			pos_correo = ofer.getSubPostulante().getPosCorreo();
 			pos_telefono = ofer.getSubPostulante().getPosTelefono();
+			pos_celular =ofer.getSubPostulante().getPosCelular();
 			pos_institucion = ofer.getSubPostulante().getPosInstitucion();
 			pos_gerencia = ofer.getSubPostulante().getPosGerencia();
 			pos_area = ofer.getSubPostulante().getPosArea();
@@ -526,6 +536,7 @@ public class ofertasBean implements Serializable {
 			pos_direccion = ofer.getSubPostulante().getPosDireccion();
 			pos_correo = ofer.getSubPostulante().getPosCorreo();
 			pos_telefono = ofer.getSubPostulante().getPosTelefono();
+			pos_celular = ofer.getSubPostulante().getPosCelular();
 			pos_institucion = ofer.getSubPostulante().getPosInstitucion();
 			pos_gerencia = ofer.getSubPostulante().getPosGerencia();
 			pos_area = ofer.getSubPostulante().getPosArea();
@@ -577,6 +588,7 @@ public class ofertasBean implements Serializable {
 			pos_direccion = ofertadelsita.getSubPostulante().getPosDireccion();
 			pos_correo = ofertadelsita.getSubPostulante().getPosCorreo();
 			pos_telefono = ofertadelsita.getSubPostulante().getPosTelefono();
+			pos_celular = ofertadelsita.getSubPostulante().getPosCelular();
 			pos_institucion = ofertadelsita.getSubPostulante()
 					.getPosInstitucion();
 			pos_gerencia = ofertadelsita.getSubPostulante().getPosGerencia();
@@ -659,6 +671,7 @@ public class ofertasBean implements Serializable {
 		pos_direccion = "";
 		pos_correo = "";
 		pos_telefono = "";
+		pos_celular="";
 		pos_institucion = "";
 		pos_gerencia = "";
 		pos_area = "";
@@ -707,6 +720,7 @@ public class ofertasBean implements Serializable {
 		pos_direccion = "";
 		pos_correo = "";
 		pos_telefono = "";
+		pos_celular="";
 		pos_institucion = "";
 		pos_gerencia = "";
 		pos_area = "";
@@ -737,6 +751,7 @@ public class ofertasBean implements Serializable {
 		pos_direccion = "";
 		pos_correo = "";
 		pos_telefono = "";
+		pos_celular="";
 		pos_institucion = "";
 		pos_gerencia = "";
 		pos_area = "";

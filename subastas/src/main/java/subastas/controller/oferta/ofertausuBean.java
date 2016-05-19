@@ -46,6 +46,7 @@ public class ofertausuBean implements Serializable {
 	private SubPostulante postulante;
 	private String valorMaximo;
 	private String ganandoperdiendo;
+	private String ganandoperdiendo1;
 	private String valorUltimoPostulante;
 
 	// Items
@@ -60,12 +61,14 @@ public class ofertausuBean implements Serializable {
 	private Timestamp item_fecha_subasta_fin;
 	private Integer faltatiempo;
 	private String colorgana;
+	private String colorgana1;
 	// postulante
 	private String pos_id;
 	private String pos_nombre;
 	private String pos_apellido;
 	private String pos_correo;
 	private String pos_telefono;
+	private String pos_celular;
 	private String pos_institucion;
 	private String pos_gerencia;
 	private String pos_area;
@@ -77,14 +80,17 @@ public class ofertausuBean implements Serializable {
 	private SubItem itemdelsita;
 	private Integer itemganador;
 	private Integer automatico;
-	private SubOferta ofertavalor; 
+	private SubOferta ofertavalor;
 
 	private List<SubItem> listaItem;
 
 	private List<SubOferta> listaOferta;
-	
+
 	private String tiempo;
-	
+
+	private boolean ocultarColorGana;
+	private boolean ocultarColorGana1;
+
 	// horario
 	private Date fi;
 	private Date ff;
@@ -100,42 +106,76 @@ public class ofertausuBean implements Serializable {
 	public void ini() {
 		edicion = true;
 		tiempo = "00 : 00 : 00";
-		valorUltimoPostulante ="Ninguno Aún";
-		ganandoperdiendo ="";
+		valorUltimoPostulante = "0.00";
+		ganandoperdiendo = "";
+		ganandoperdiendo1 = "";
 		colorgana = "colorBlack";
+		colorgana1 = "colorBlack";
 		session = SessionBean.verificarSession();
-    	cargarDatosLogeado();
+		cargarDatosLogeado();
 		listaItem = managergest.findAllItems();
+	}
+
+	public String getGanandoperdiendo1() {
+		return ganandoperdiendo1;
+	}
+	
+	public void setGanandoperdiendo1(String ganandoperdiendo1) {
+		this.ganandoperdiendo1 = ganandoperdiendo1;
 	}
 	
 	public String getGanandoperdiendo() {
 		return ganandoperdiendo;
 	}
-	
+
 	public void setGanandoperdiendo(String ganandoperdiendo) {
 		this.ganandoperdiendo = ganandoperdiendo;
 	}
+
+	public boolean isOcultarColorGana1() {
+		return ocultarColorGana1;
+	}
 	
+	public void setOcultarColorGana1(boolean ocultarColorGana1) {
+		this.ocultarColorGana1 = ocultarColorGana1;
+	}
+	
+	public boolean isOcultarColorGana() {
+		return ocultarColorGana;
+	}
+
+	public void setOcultarColorGana(boolean ocultarColorGana) {
+		this.ocultarColorGana = ocultarColorGana;
+	}
+
 	public String getValorUltimoPostulante() {
 		return valorUltimoPostulante;
 	}
-	
+
 	public void setValorUltimoPostulante(String valorUltimoPostulante) {
 		this.valorUltimoPostulante = valorUltimoPostulante;
 	}
 	
+	public String getColorgana1() {
+		return colorgana1;
+	}
+	
+	public void setColorgana1(String colorgana1) {
+		this.colorgana1 = colorgana1;
+	}
+
 	public String getColorgana() {
 		return colorgana;
 	}
-	
+
 	public void setColorgana(String colorgana) {
 		this.colorgana = colorgana;
 	}
-	
+
 	public String getTiempo() {
 		return tiempo;
 	}
-	
+
 	public void setTiempo(String tiempo) {
 		this.tiempo = tiempo;
 	}
@@ -282,6 +322,14 @@ public class ofertausuBean implements Serializable {
 
 	public void setPos_telefono(String pos_telefono) {
 		this.pos_telefono = pos_telefono;
+	}
+
+	public String getPos_celular() {
+		return pos_celular;
+	}
+
+	public void setPos_celular(String pos_celular) {
+		this.pos_celular = pos_celular;
 	}
 
 	public String getPos_institucion() {
@@ -509,7 +557,7 @@ public class ofertausuBean implements Serializable {
 			managergest.asignarItem(item_id);
 			ofer_fecha_oferta = new Timestamp(fecha.getTime());
 			managergest.insertarOferta(valoroferta, ofer_fecha_oferta);
-			ofer_valor_oferta="";
+			ofer_valor_oferta = "";
 			valoroferta = new BigDecimal(0.00);
 			getListaItem().clear();
 			getListaItem().addAll(managergest.findAllItems());
@@ -540,9 +588,8 @@ public class ofertausuBean implements Serializable {
 			managergest.editarPostulanteedicion(pos_id.trim(),
 					pos_nombre.trim(), pos_apellido.trim(),
 					pos_direccion.trim(), pos_correo.trim(),
-					pos_telefono.trim(), pos_password.trim(),
-					pos_institucion.trim(), pos_gerencia.trim(),
-					pos_area.trim());
+					pos_telefono.trim(), pos_celular.trim(),
+					pos_password.trim());
 			Mensaje.crearMensajeINFO("Actualizado - Modificado");
 			FacesContext.getCurrentInstance().addMessage(
 					null,
@@ -594,13 +641,14 @@ public class ofertausuBean implements Serializable {
 			} else {
 				valorMaximo = managergest.ValorMaximoXItem(item_id).toString();
 			}
-			
+
 			pollMethod();
 			pos_nombre = ofer.getSubPostulante().getPosNombre();
 			pos_apellido = ofer.getSubPostulante().getPosApellido();
 			pos_direccion = ofer.getSubPostulante().getPosDireccion();
 			pos_correo = ofer.getSubPostulante().getPosCorreo();
 			pos_telefono = ofer.getSubPostulante().getPosTelefono();
+			pos_celular = ofer.getSubPostulante().getPosCelular();
 			pos_institucion = ofer.getSubPostulante().getPosInstitucion();
 			pos_gerencia = ofer.getSubPostulante().getPosGerencia();
 			pos_area = ofer.getSubPostulante().getPosArea();
@@ -612,7 +660,7 @@ public class ofertausuBean implements Serializable {
 		}
 		return "";
 	}
-	
+
 	/**
 	 * accion para cargar los datos en el formulario
 	 * 
@@ -654,6 +702,7 @@ public class ofertausuBean implements Serializable {
 			pos_direccion = ofer.getSubPostulante().getPosDireccion();
 			pos_correo = ofer.getSubPostulante().getPosCorreo();
 			pos_telefono = ofer.getSubPostulante().getPosTelefono();
+			pos_celular = ofer.getSubPostulante().getPosCelular();
 			pos_institucion = ofer.getSubPostulante().getPosInstitucion();
 			pos_gerencia = ofer.getSubPostulante().getPosGerencia();
 			pos_area = ofer.getSubPostulante().getPosArea();
@@ -664,7 +713,7 @@ public class ofertausuBean implements Serializable {
 		}
 		return "";
 	}
-	
+
 	/**
 	 * accion para cargar los datos en el formulario
 	 * 
@@ -684,26 +733,37 @@ public class ofertausuBean implements Serializable {
 			if (managergest.ValorMaximoXItem(item_id) == null) {
 				valorMaximo = "No se Oferta aún";
 			} else {
-				ofertavalor = managergest.ofertaByID(managergest.ofertaXPost(item_id,pos_id));
-				BigDecimal valoroferta = ofertavalor.getOferValorOferta(); 
-				BigDecimal valormaximo1 = new BigDecimal(managergest.ValorMaximoXItem(item_id));
-				
-				valorMaximo = managergest.ValorMaximoXItem(item_id).toString();
-				
-				valorUltimoPostulante=valoroferta.toString();
-				System.out.println(valorMaximo.toString());
-				System.out.println("valor de mi ultima oferta: "+valoroferta.toString());
-				
-				if (valormaximo1.compareTo(valoroferta) == 1 ) {
-					colorgana = "colorRed";
-					ganandoperdiendo = " Estas Perdiendo, mejora tu oferta";
-				} else if (valormaximo1.compareTo(valoroferta) == -1 ) {
-					colorgana = "colorGreen";
-					ganandoperdiendo = " Estas Ganando ";
-				}
-				else if (valormaximo1.compareTo(valoroferta) == 0 ) {
-					colorgana = "colorGreen";
-					ganandoperdiendo = " Estas Ganando ";
+
+				if (managergest.ofertaXPost(item_id, pos_id) == 0) {
+					ofertavalor = null;
+				} else {
+					ofertavalor = managergest.ofertaByID(managergest
+							.ofertaXPost(item_id, pos_id));
+					BigDecimal valoroferta = ofertavalor.getOferValorOferta();
+					BigDecimal valormaximo1 = new BigDecimal(
+							managergest.ValorMaximoXItem(item_id));
+
+					valorMaximo = managergest.ValorMaximoXItem(item_id)
+							.toString();
+					valorUltimoPostulante = valoroferta.toString();
+
+					if (valormaximo1.compareTo(valoroferta) == 1) {
+						colorgana = "colorRed";
+						ganandoperdiendo = "  Tu oferta  "+valorUltimoPostulante;
+						colorgana1 = "colorGreen";
+						ganandoperdiendo1 = "  Ultima Mejor Oferta:  $"+valorMaximo;
+						setOcultarColorGana1(true);
+					} else if (valormaximo1.compareTo(valoroferta) == -1) {
+						colorgana = "colorGreen";
+						ganandoperdiendo = " Estas Ganando: $"+valorUltimoPostulante;
+						setOcultarColorGana1(false);
+					} else if (valormaximo1.compareTo(valoroferta) == 0) {
+						colorgana = "colorGreen";
+						ganandoperdiendo = " Estas Ganando: $"+valorUltimoPostulante;
+						setOcultarColorGana1(false);
+					}
+					setOcultarColorGana(true);
+					
 				}
 			}
 			return "";
@@ -713,7 +773,7 @@ public class ofertausuBean implements Serializable {
 		}
 		return "";
 	}
-	
+
 	// postulante edicion perfil
 	/**
 	 * metodo para listar los registros
@@ -743,8 +803,7 @@ public class ofertausuBean implements Serializable {
 				managergest.editarPostulante(pos_id.trim(), pos_nombre.trim(),
 						pos_apellido.trim(), pos_direccion.trim(),
 						pos_correo.trim(), pos_telefono.trim(),
-						pos_password.trim(), pos_institucion.trim(),
-						pos_gerencia.trim(), pos_area.trim(), "A");
+						pos_celular.trim(), pos_password.trim(), "A");
 				pos_id = "";
 				pos_nombre = "";
 				pos_apellido = "";
@@ -752,6 +811,7 @@ public class ofertausuBean implements Serializable {
 				pos_correo = "";
 				pos_password = "";
 				pos_telefono = "";
+				pos_celular = "";
 				pos_institucion = "";
 				pos_gerencia = "";
 				pos_area = "";
@@ -787,6 +847,7 @@ public class ofertausuBean implements Serializable {
 				pos_correo = usr.getPosCorreo();
 				pos_password = Utilidades.Desencriptar(usr.getPosPassword());
 				pos_telefono = usr.getPosTelefono();
+				pos_celular = usr.getPosCelular();
 				pos_institucion = usr.getPosInstitucion();
 				pos_gerencia = usr.getPosGerencia();
 				pos_area = usr.getPosArea();
@@ -810,11 +871,10 @@ public class ofertausuBean implements Serializable {
 	 */
 	public String salir() {
 		// limpiar datos
-		ofertavalor=null;
-		ofer_valor_oferta=null;
-		valorUltimoPostulante="";
-		ganandoperdiendo ="";
-		valorUltimoPostulante ="Ninguno Aún";
+		ofertavalor = null;
+		ofer_valor_oferta = null;
+		ganandoperdiendo = "";
+		valorUltimoPostulante = "0.00";
 		getListaItems().clear();
 		getListaItems().addAll(managergest.findAllItems());
 		return "home?faces-redirect=true";
@@ -833,6 +893,7 @@ public class ofertausuBean implements Serializable {
 			if (item == null) {
 				System.out.println("holi");
 			} else {
+				setOcultarColorGana(false);
 				fecha = new Date();
 				ofer_fecha_oferta = new Timestamp(System.currentTimeMillis());
 				item_fecha_subasta_inicio = item.getItemFechaSubastaInicio();
@@ -841,9 +902,9 @@ public class ofertausuBean implements Serializable {
 				Date fechaactual = new Date(ofer_fecha_oferta.getTime());
 				Date fechasubini = new Date(item_fecha_subasta_inicio.getTime());
 				Date fechasubfin = new Date(item_fecha_subasta_fin.getTime());
-				
+
 				miTiempo();
-				
+
 				System.out.println("midia en date" + fechaactual
 						+ "    mi diainicio" + fechasubini + "     mi diafin"
 						+ fechasubfin);
@@ -892,41 +953,45 @@ public class ofertausuBean implements Serializable {
 		}
 		return r;
 	}
-	
-	public void pollMethod(){
+
+	public void pollMethod() {
 		miTiempo();
 		conocerGanador();
-	} 
-	
+	}
+
 	/**
 	 * 
 	 * @param fFin
 	 * @return
 	 */
-	public Integer tiempoRestante(Timestamp fFin){
-		return ((Long) ((fFin.getTime() - (new Timestamp(new Date().getTime())).getTime())/1000)).intValue();
+	public Integer tiempoRestante(Timestamp fFin) {
+		return ((Long) ((fFin.getTime() - (new Timestamp(new Date().getTime()))
+				.getTime()) / 1000)).intValue();
 	}
-	
+
 	/**
 	 * 
 	 */
-	public void miTiempo(){
+	public void miTiempo() {
 		setFaltatiempo(this.tiempoRestante(item_fecha_subasta_fin));
 		setTiempo(this.tiempoRestanteHMS(getFaltatiempo()));
-		System.out.println("---------------------> FALTA TIEMPO "+getFaltatiempo());
-		if(getFaltatiempo()<=0)
-			 try {
-	                FacesContext.getCurrentInstance().getExternalContext().redirect("/home.xhtml");
-	            } catch (IOException ex) {
-	            	Mensaje.crearMensajeERROR(ex.getMessage());
-	            }
+		System.out.println("---------------------> FALTA TIEMPO "
+				+ getFaltatiempo());
+		if (getFaltatiempo() <= 0)
+			try {
+				FacesContext.getCurrentInstance().getExternalContext()
+						.redirect("/home.xhtml");
+			} catch (IOException ex) {
+				Mensaje.crearMensajeERROR(ex.getMessage());
+			}
 	}
-	
-	public String tiempoRestanteHMS(Integer segundos){
-		int hor=segundos/3600;
-        int min=(segundos-(3600*hor))/60;
-        int seg=segundos-((hor*3600)+(min*60));
-		return String.format("%02d",hor)+" : "+String.format("%02d",min)+" : "+String.format("%02d",seg);
+
+	public String tiempoRestanteHMS(Integer segundos) {
+		int hor = segundos / 3600;
+		int min = (segundos - (3600 * hor)) / 60;
+		int seg = segundos - ((hor * 3600) + (min * 60));
+		return String.format("%02d", hor) + " : " + String.format("%02d", min)
+				+ " : " + String.format("%02d", seg);
 	}
 
 	/**
@@ -975,6 +1040,7 @@ public class ofertausuBean implements Serializable {
 		pos_direccion = "";
 		pos_correo = "";
 		pos_telefono = "";
+		pos_celular = "";
 		pos_institucion = "";
 		pos_gerencia = "";
 		pos_area = "";
@@ -1021,6 +1087,7 @@ public class ofertausuBean implements Serializable {
 		pos_direccion = "";
 		pos_correo = "";
 		pos_telefono = "";
+		pos_celular = "";
 		pos_institucion = "";
 		pos_gerencia = "";
 		pos_area = "";
@@ -1056,10 +1123,14 @@ public class ofertausuBean implements Serializable {
 	 */
 	public void abrirDialog() {
 		if (!verificarValor())
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"El valor es menor que el de base", null));
+			FacesContext
+					.getCurrentInstance()
+					.addMessage(
+							null,
+							new FacesMessage(
+									FacesMessage.SEVERITY_INFO,
+									"El valor es menor que el de base y de tu ultima oferta",
+									null));
 		else {
 			RequestContext.getCurrentInstance().execute("PF('gu').show();");
 		}
@@ -1078,13 +1149,20 @@ public class ofertausuBean implements Serializable {
 	 */
 	public boolean verificarValor() {
 		boolean r;
+
 		BigDecimal valoroferta1 = new BigDecimal(ofer_valor_oferta.replace(",",
 				"."));
 		BigDecimal valorbase = new BigDecimal(item_valorbase.replace(",", "."));
-		
-		System.out.println(valoroferta1);
-		System.out.println(valorbase);
-		if (valoroferta1.compareTo(valorbase) > -1) {
+
+		BigDecimal valorultimopostulante = new BigDecimal(
+				valorUltimoPostulante.replace(",", "."));
+
+		System.out.println("el valor que se ingresa: " + valoroferta1);
+		System.out.println("el valor del item: " + valorbase);
+		System.out.println("el ultimo valor postu: " + valorultimopostulante);
+		if (valoroferta1 == valorultimopostulante
+				|| (valoroferta1.compareTo(valorbase) == 1 && valoroferta1
+						.compareTo(valorultimopostulante) == 1)) {
 			r = true;
 		} else {
 			r = false;

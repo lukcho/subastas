@@ -38,6 +38,7 @@ public class postulantesusuBean implements Serializable {
 	private String pos_direccion;
 	private String pos_correo;
 	private String pos_telefono;
+	private String pos_celular;
 	private String pos_password;
 	private String pos_institucion;
 	private String pos_gerencia;
@@ -75,6 +76,7 @@ public class postulantesusuBean implements Serializable {
 		pos_password = "";
 		rpassword = "";
 		pos_telefono = "";
+		pos_celular="";
 		pos_institucion = "";
 		pos_gerencia = "";
 		pos_area = "";
@@ -208,6 +210,14 @@ public class postulantesusuBean implements Serializable {
 
 	public void setPos_telefono(String pos_telefono) {
 		this.pos_telefono = pos_telefono;
+	}
+	
+	public String getPos_celular() {
+		return pos_celular;
+	}
+	
+	public void setPos_celular(String pos_celular) {
+		this.pos_celular = pos_celular;
 	}
 
 	public String getPos_password() {
@@ -377,18 +387,15 @@ public class postulantesusuBean implements Serializable {
 			managergest.insertarPostulante(pos_id.trim(), fecha_ahora,
 					pos_nombre.trim(), pos_apellido.trim(),
 					pos_direccion.trim(), pos_correo.trim(),
-					pos_telefono.trim(), pos_password.trim(),
-					pos_institucion.trim(), pos_gerencia.trim(),
-					pos_area.trim());
+					pos_telefono.trim(),pos_celular.trim(), pos_password.trim());
 			
-			smscorusu = "Sr/ra.  "+pos_nombre+" "+pos_apellido+", su petici&oacute;n de acceso al sistema Subastas Yachay<br/>"
-					 +"sus datos son: "
-		             + "<br/> C&eacute;dula: "+pos_id+""
-		             + "<br/> Nombre: "+pos_nombre+""
-		             + "<br/> Apellido: "+pos_apellido+""
+			smscorusu = "Estimad(a) "+pos_nombre+" "+pos_apellido+", <br/>"
+					 + "Se creó con éxito sus credenciales para ingreso al sistema de subastas: <br/>"
+		             + "<br/> Usuario: "+pos_id+""
+		           //  + "<br/> Contraseña: "+Utilidades.Desencriptar(pos_password)+" "
 		             + "<br/> Correo: "+pos_correo+""
-		             + "<br/> para ingresar su usuario es: "+pos_id+", y su contrase&ntildea es: "+Utilidades.Desencriptar(pos_password)+" "
-		             + "<br/> ";
+		             + "<br/> Saludos cordiales, "
+		             + "<br/> Sistema de Subastas Yachay EP";
 			Mail.generateAndSendEmail(pos_correo, "Notificación de Subastas", smscorusu);
 			
 			getListaPostulante().clear();
@@ -402,6 +409,7 @@ public class postulantesusuBean implements Serializable {
 			pos_password = "";
 			rpassword = "";
 			pos_telefono = "";
+			pos_celular="";
 			pos_institucion = "";
 			pos_gerencia = "";
 			pos_area = "";
@@ -431,9 +439,8 @@ public class postulantesusuBean implements Serializable {
 			setPos_password(Utilidades.Encriptar(getPos_password()));// PASS
 			managergest.editarPostulante(pos_id.trim(), pos_nombre.trim(),
 					pos_apellido.trim(), pos_direccion.trim(),
-					pos_correo.trim(), pos_telefono.trim(),
-					pos_password.trim(), pos_institucion.trim(),
-					pos_gerencia.trim(), pos_area.trim(), pos_estado);
+					pos_correo.trim(), pos_telefono.trim(),pos_celular.trim(),
+					pos_password.trim(), pos_estado);
 			getListaPostulante().clear();
 			getListaPostulante().addAll(managergest.findAllpostulantes());
 			Mensaje.crearMensajeINFO("Actualizado - Modificado");
@@ -465,6 +472,7 @@ public class postulantesusuBean implements Serializable {
 				pos_correo = usr.getPosCorreo();
 				pos_password = usr.getPosPassword();
 				pos_telefono = usr.getPosTelefono();
+				pos_celular = usr.getPosCelular();
 				pos_institucion = usr.getPosInstitucion();
 				pos_gerencia = usr.getPosGerencia();
 				pos_area = usr.getPosArea();
@@ -552,6 +560,7 @@ public class postulantesusuBean implements Serializable {
 		pos_correo = "";
 		pos_password = "";
 		pos_telefono = "";
+		pos_celular="";
 		pos_institucion = "";
 		pos_gerencia = "";
 		pos_area = "";

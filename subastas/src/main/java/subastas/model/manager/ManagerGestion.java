@@ -297,8 +297,7 @@ public class ManagerGestion {
 	 */
 	public void insertarPostulante(String pos_id, Timestamp pos_fecha_reg,
 			String pos_nombre, String pos_apellido, String pos_direccion,
-			String pos_correo, String pos_telefono, String pos_password,
-			String pos_institucion, String pos_gerencia, String pos_area)
+			String pos_correo, String pos_telefono, String pos_celular, String pos_password)
 			throws Exception {
 		SubPostulante pos = new SubPostulante();
 		pos.setPosId(pos_id);
@@ -308,10 +307,8 @@ public class ManagerGestion {
 		pos.setPosDireccion(pos_direccion);
 		pos.setPosCorreo(pos_correo);
 		pos.setPosTelefono(pos_telefono);
+		pos.setPosCelular(pos_celular);
 		pos.setPosPassword(pos_password);
-		pos.setPosInstitucion(pos_institucion);
-		pos.setPosGerencia(pos_gerencia);
-		pos.setPosArea(pos_area);
 		pos.setPosEstado("A");
 		mDAO.insertar(pos);
 	}
@@ -332,8 +329,7 @@ public class ManagerGestion {
 	 */
 	public void editarPostulante(String pos_id, String pos_nombre,
 			String pos_apellido, String pos_direccion, String pos_correo,
-			String pos_telefono, String pos_password, String pos_institucion,
-			String pos_gerencia, String pos_area, String pos_estado)
+			String pos_telefono, String pos_celular, String pos_password, String pos_estado)
 			throws Exception {
 		System.out.println(pos_id);
 		SubPostulante pos = this.postulanteByID(pos_id);
@@ -342,10 +338,8 @@ public class ManagerGestion {
 		pos.setPosDireccion(pos_direccion);
 		pos.setPosCorreo(pos_correo);
 		pos.setPosTelefono(pos_telefono);
+		pos.setPosCelular(pos_celular);
 		pos.setPosPassword(pos_password);
-		pos.setPosInstitucion(pos_institucion);
-		pos.setPosGerencia(pos_gerencia);
-		pos.setPosArea(pos_area);
 		pos.setPosEstado(pos_estado);
 		mDAO.actualizar(pos);
 	}
@@ -366,8 +360,7 @@ public class ManagerGestion {
 	 */
 	public void editarPostulanteedicion(String pos_id, String pos_nombre,
 			String pos_apellido, String pos_direccion, String pos_correo,
-			String pos_telefono, String pos_password, String pos_institucion,
-			String pos_gerencia, String pos_area) throws Exception {
+			String pos_telefono, String pos_celular, String pos_password) throws Exception {
 		System.out.println(pos_id);
 		SubPostulante pos = this.postulanteByID(pos_id);
 		pos.setPosNombre(pos_nombre);
@@ -376,9 +369,7 @@ public class ManagerGestion {
 		pos.setPosCorreo(pos_correo);
 		pos.setPosTelefono(pos_telefono);
 		pos.setPosPassword(pos_password);
-		pos.setPosInstitucion(pos_institucion);
-		pos.setPosGerencia(pos_gerencia);
-		pos.setPosArea(pos_area);
+		pos.setPosCelular(pos_celular);
 		mDAO.actualizar(pos);
 	}
 
@@ -512,14 +503,15 @@ public class ManagerGestion {
 	 */
 	@SuppressWarnings("unchecked")
 	public Integer ofertaXPost(Integer item_id,String pos_id) {
-		System.out.println("entraaaaa");
+		//System.out.println("entraaaaa");
 		List<Integer> list = mDAO
 				.findJPQL("SELECT o.oferId FROM SubOferta o WHERE o.oferValorOferta = (SELECT MAX(p.oferValorOferta) FROM SubOferta p where p.subItem.itemId = "
 						+ item_id + " and p.subPostulante.posId = '"+pos_id+"' ) ");
 
-		System.out.println(list.size());
-		System.out.println(list.get(0));
-		if (list.get(0) == null) {
+		//System.out.println(list.size());
+		//System.out.println(list.get(0));
+		
+		if (list.size() == 0) {
 			return 0;
 		} else
 			return list.get(0);

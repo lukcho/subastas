@@ -90,8 +90,8 @@
 								</b:column>
 								<b:column span="3">
 									<p:graphicImage id="imagen"
-										value="/resources/img/items/#{ofertasBean.item_imagen}" width="150"
-										height="150" />
+										value="/resources/img/items/#{ofertasBean.item_imagen}"
+										width="150" height="150" />
 								</b:column>
 								<b:column span="2">
 									<h:outputLabel value="Descripción Item: " />
@@ -102,12 +102,12 @@
 										styleClass="form-control">
 									</h:inputTextarea>
 								</b:column>
-								<br/>
-								<br/>
-								<br/>
-								<br/>
-								<br/>
-								<br/>
+								<br />
+								<br />
+								<br />
+								<br />
+								<br />
+								<br />
 								<b:column span="2">
 									<h:outputLabel value="Valor Base Item: " />
 								</b:column>
@@ -164,24 +164,13 @@
 							<br />
 							<b:row>
 								<b:column span="2">
-									<h:outputLabel value="Intitución Postulante: " />
+									<h:outputLabel value="Celular Postulante: " />
 								</b:column>
 								<b:column span="3">
-									<h:outputLabel value="#{ofertasBean.pos_institucion}"
+									<h:outputLabel value="#{ofertasBean.pos_celular}"
 										styleClass="form-control" disabled="true">
 									</h:outputLabel>
 								</b:column>
-								<b:column span="2">
-									<h:outputLabel value="Gerencia Postulante: " />
-								</b:column>
-								<b:column span="3">
-									<h:outputLabel value="#{ofertasBean.pos_gerencia}"
-										styleClass="form-control" disabled="true">
-									</h:outputLabel>
-								</b:column>
-							</b:row>
-							<br />
-							<b:row>
 								<b:column span="2">
 									<h:outputLabel value="Dirección Postulante: " />
 								</b:column>
@@ -190,15 +179,8 @@
 										styleClass="form-control" disabled="true">
 									</h:outputLabel>
 								</b:column>
-								<b:column span="2">
-									<h:outputLabel value="Área Postulante: " />
-								</b:column>
-								<b:column span="3">
-									<h:outputLabel value="#{ofertasBean.pos_area}"
-										styleClass="form-control" disabled="true">
-									</h:outputLabel>
-								</b:column>
 							</b:row>
+							<br />
 						</b:thumbnail>
 					</b:column>
 				</b:row>
@@ -206,8 +188,8 @@
 				<b:row>
 					<b:column span="5">
 						<b:commandButton value="Volver"
-							action="#{ofertasBean.salirPasuOferta()}" update="frm" look="info"
-							process="@this">
+							action="#{ofertasBean.salirPasuOferta()}" update="frm"
+							look="info" process="@this">
 						</b:commandButton>
 					</b:column>
 				</b:row>

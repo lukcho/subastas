@@ -31,12 +31,12 @@
 					paginator="true"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 					<p:column headerText="OPCIONES" width="50">
-						<p:commandButton id="btnE" icon="ui-icon-pencil"
+						<b:commandButton id="btnE" iconAwesome="fa fa-search"
 							action="#{catalogosBean.cargarCatalogoItem(cati)}">
 							<p:tooltip id="toolTipTrack1" for="btnE"
 								value="Bot&oacute;n para modificar el cat&aacute;logo"
 								trackMouse="true" />
-						</p:commandButton>
+						</b:commandButton>
 							&nbsp;&nbsp;&nbsp;
 							<p:commandButton id="trackcamb" icon="ui-icon-refresh"
 							action="#{catalogosBean.cambiarEstadocati(cati)}">

@@ -394,17 +394,18 @@ public class SessionBean {
  			if (y.getPosCorreo().equals(correocontra)){
  				System.out.println("si entra1");
  				enviarmensajerecuperarcontra(y); 				
- 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Enviado correctamente a su correo", null));	  						  							
+ 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Enviado correctamente revise su correo", null));	  						  							
 
  				t=1;
  			}
  		}
  		if (t==0){ 			
  			FacesContext context = FacesContext.getCurrentInstance();
- 			context.addMessage(null, new FacesMessage("Error..!!!","Su correo no existe o es incorrecto."));
+ 			context.addMessage(null, new FacesMessage("Error..!!! su correo no existe o es incorrecto",null));
  		} 		
  		return r;
  	}
+   
     String correoveri="";
     //Tomar el id de estado general id_estadoSolicitud
 		public String enviarmensajerecuperarcontra(SubPostulante usr){
@@ -417,15 +418,19 @@ public class SessionBean {
 					apellido = usr.getPosApellido();
 					correo = usr.getPosCorreo();
 					password = usr.getPosPassword();
-					passwordnuevo=Utilidades.Desencriptar(password);	
+					System.out.println(password);
+					passwordnuevo=Utilidades.Desencriptar(password);
+					System.out.println(passwordnuevo);
 					
-					smscor = "Sr/ra. "+nombre+" "+apellido+",sus datos son los siguientes: "
-				             + "<br/> C&eacute;dula: "+cedula+""
-				             + "<br/> Nombre: "+nombre+""
-				             + "<br/> Apellido: "+apellido+""
-				             + "<br/> Correo: "+correo+""				             
-							 + "<br/> para ingresar su usuario es: "+cedula+" o su correo "+correo+", y su contrase&ntildea es: "+passwordnuevo+"";
-	
+					
+					smscor = "Estimado(a) "+nombre+" "+apellido+", <br/>"
+							 + "Sus credenciales para ingreso al sistema de subastas: <br/>"
+				             + "<br/> Usuario: "+cedula+""
+				             + "<br/> Contraseña: "+passwordnuevo+" "
+				             + "<br/> Correo: "+correo+""
+				             + "<br/> Saludos cordiales, "
+				             + "<br/> Sistema de Subastas Yachay EP";
+
 					Mail.generateAndSendEmail(correo, "Recuperación de contraseña Subastas", smscor);
 				    //limpiamos los datos
 					cedula="";
@@ -436,7 +441,6 @@ public class SessionBean {
 					password="";	
 					passwordnuevo="";
 					smscor="";
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Enviado correctamente al correo su contraseña", null));
 			}
 			} catch (Exception e) {
 				e.printStackTrace();

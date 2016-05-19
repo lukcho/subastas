@@ -228,7 +228,7 @@
 
 				<h:form id="frmlog">
 					<p:messages closable="true" />
-					<b:inputText placeholder="USUARIO" value="#{sessionBean.nick}"
+					<b:inputText placeholder="CÉDULA" value="#{sessionBean.nick}"
 						disabled="false">
 						<p:ajax listener="#{sessionBean.veri()}" update=":frm"></p:ajax>
 					</b:inputText>
@@ -238,6 +238,7 @@
 					<b:commandButton value="Ingresar" iconAwesome="check-square-o"
 						action="#{sessionBean.login}" styleClass="btn-block btnSend"
 						look="primary" update="frmlog" />
+						<a class="navbar-link" onclick="PF('rc').show();">¿Olvidó su contraseña?</a>
 				</h:form>
 			</div>
 		</p:dialog>

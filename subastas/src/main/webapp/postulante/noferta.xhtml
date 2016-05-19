@@ -14,8 +14,8 @@
 	<ui:define name="contenido">
 		<br />
 		<h:form>
-			<p:poll interval="1" listener="#{ofertausuBean.pollMethod()}"
-				update=":frm:txt_tiempo :frm:actual :frm:txt_persona :frm:actual1 :frm:estas" />
+						<p:poll interval="1" listener="#{ofertausuBean.pollMethod()}"
+							update=":frm:txt_tiempo :frm:actual :frm:txt_persona :frm:actual1 :frm:estas" />
 		</h:form>
 		<h:form id="frm" styleClass="label-justified">
 			<p:growl id="messages" showDetail="false" />
@@ -25,31 +25,37 @@
 						value="/resources/img/items/#{ofertausuBean.item_imagen}"
 						width="250" height="250" />
 				</b:column>
-
 				<b:column span="9">
 					<b:row>
-						<b:column span="12">
+						<b:column span="7">
 							<h:outputText value="#{ofertausuBean.item_nombre}"
 								style="color:blue;font-size: 20pt;font-weight: bold;">
+							</h:outputText>
+						</b:column>
+						<b:column span="5">
+							<b>Subasta vigente hasta:</b>&nbsp;&nbsp;     
+								<h:outputText value="#{ofertausuBean.ff}"
+								style="font-size: 12px;">
+								<f:convertDateTime pattern="dd/MMM/yyyy-HH'H'mm" />
 							</h:outputText>
 						</b:column>
 					</b:row>
 					<b:row>
 						<b:column span="11">
-							<h:outputText rows="3" cols="20" disabled="true"  maxlength="500"
+							<h:outputText rows="3" cols="20" disabled="true" maxlength="500"
 								style="color:blue;font-size: 10pt;"
 								value="#{ofertausuBean.item_descripcion}" />
 						</b:column>
 					</b:row>
 					<b:row>
 						<b:column span="11">
-							<h:outputText rows="3" cols="20" disabled="true" 
-								value="#{ofertausuBean.item_caracteristicas}" maxlength="500"/>
+							<h:outputText rows="3" cols="20" disabled="true"
+								value="#{ofertausuBean.item_caracteristicas}" maxlength="500" />
 						</b:column>
 					</b:row>
 					<br />
 					<b:row>
-						<b:column span="5">
+						<b:column span="4">
 							<h:outputLabel value="Precio Base: "
 								style="font-weight:bold;color:black;font-size: 10pt;" />
 						</b:column>
@@ -61,10 +67,7 @@
 								style="color:black;font-size: 8pt;" />
 						</b:column>
 					</b:row>
-
 					<b:row>
-						<b:column span="1">
-						</b:column>
 						<b:column span="4">
 							<h:outputText value="   $" style="color:#ca3886;font-size: 20pt;" />
 							<h:outputText value="#{ofertausuBean.item_valorbase}"
@@ -76,51 +79,45 @@
 								style="font: 100%/1.618 sans-serif;color:yellow;font-size: 20pt; background-color:black; border: 2px solid black;
     							border-radius: 5px;" />
 						</b:column>
-						<b:column span="2">
-							<h:outputText value="#{ofertausuBean.fi}"
-								style="font-size: 10px;">
-								<f:convertDateTime pattern="dd/MMM/yyyy-HH'H'mm" />
-							</h:outputText>&nbsp;
-							<h:outputText value="#{ofertausuBean.ff}"
-								style="font-size: 10px;">
-								<f:convertDateTime pattern="dd/MMM/yyyy-HH'H'mm" />
-							</h:outputText>
-						</b:column>
 					</b:row>
-
 					<b:row>
-
 						<b:column span="3">
 							<h:outputLabel value="La mejor Oferta: "
 								style="font-weight:bold;color:black;font-size: 10pt;" />
 						</b:column>
 					</b:row>
 					<b:row>
-
 						<b:column span="3">
 							<h:outputText id="actual1" value="$" />
 							<h:outputText id="actual" value="#{ofertausuBean.valorMaximo}" />
 						</b:column>
-
 					</b:row>
-					<b:row>
-						<b:column span="5">
+					<b:row id="estas">
+						<b:column span="4">
 							<h:outputLabel value="Tu última oferta: "
 								style="font-weight:bold;color:black;" />
 						</b:column>
+
 						<b:column span="6">
-							<h:outputText id="estas"
+							<h:outputText rendered="#{ofertausuBean.ocultarColorGana}"
 								value="#{ofertausuBean.ganandoperdiendo}"
 								styleClass="#{ofertausuBean.colorgana}" />
 						</b:column>
 					</b:row>
 					<b:row>
-						<b:column span="3">
+						<b:column span="4">
 							<h:outputText value="$" />
 							<h:outputText id="txt_persona"
 								value="#{ofertausuBean.valorUltimoPostulante}" />
 							&nbsp;&nbsp;&nbsp;
-					</b:column>
+						</b:column>
+						<br/>
+						<b:column span="4"></b:column>
+						<b:column span="6">
+							<h:outputText rendered="#{ofertausuBean.ocultarColorGana1}"
+								value="#{ofertausuBean.ganandoperdiendo1}"
+								styleClass="#{ofertausuBean.colorgana1}" />
+						</b:column>
 
 					</b:row>
 				</b:column>
@@ -167,8 +164,20 @@
 				</b:row>
 			</b:row>
 		</h:form>
+		<h:form>
+			<p:confirmDialog header="Confirmación"
+				message="Está seguro de salir del sistema?" closable="false"
+				showEffect="fade" hideEffect="explode" widgetVar="cs">
+				<p:commandButton value="Yes" styleClass="ui-confirmdialog-yes"
+					icon="ui-icon-check" action="#{sessionBean.logout}"
+					oncomplete="PF('cs').hide();" />
+				<p:commandButton value="No" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+					onclick="PF('cs').hide();" />
+			</p:confirmDialog>
+		</h:form>
 		<p:confirmDialog header="Confirmación"
-			message="Está seguro de guardar la información?" closable="false"
+			message="Estás seguro de enviar la oferta?" closable="false"
 			showEffect="fade" hideEffect="explode" widgetVar="gu">
 			<h:form>
 				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"

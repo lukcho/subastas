@@ -30,8 +30,8 @@
 						<h:outputLabel value="Nombre:* " />
 					</b:column>
 					<b:column span="3">
-						<h:inputText value="#{postulantesusuBean.pos_nombre}" required="true"
-							styleClass="form-control"
+						<h:inputText value="#{postulantesusuBean.pos_nombre}"
+							required="true" styleClass="form-control"
 							requiredMessage="Campo nombre requerido">
 						</h:inputText>
 					</b:column>
@@ -72,6 +72,22 @@
 						</h:inputText>
 					</b:column>
 					<b:column span="2">
+						<h:outputLabel value="Contraseña:* " />
+					</b:column>
+					<b:column span="3">
+						<h:inputSecret required="true" id="pass" redisplay="true"
+							styleClass="form-control"
+							value="#{postulantesusuBean.pos_password}" feedback="true"
+							requiredMessage="Requerida Contraseña" goodLabel="Buena"
+							strongLabel="Fuerte" weakLabel="Débil"
+							promptLabel="Por favor ingrese contraseña"
+							validatorMessage="Password contiene caracteres no permitidos o posee un tamaño menor a 8">
+						</h:inputSecret>
+					</b:column>
+				</b:row>
+				<br />
+				<b:row>
+					<b:column span="2">
 						<h:outputLabel value="Teléfono:* " />
 					</b:column>
 					<b:column span="3">
@@ -82,52 +98,27 @@
 							<f:validateRegex pattern="[0-9]+" />
 						</h:inputText>
 					</b:column>
-				</b:row>
-				<br />
-				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Contraseña:* " />
+						<h:outputLabel value="Celular:* " />
 					</b:column>
 					<b:column span="3">
-						<h:inputSecret required="true" id="pass" redisplay="true" styleClass="form-control"
-							value="#{postulantesusuBean.pos_password}" feedback="true"
-							requiredMessage="Requerida Contraseña" goodLabel="Buena"
-							strongLabel="Fuerte" weakLabel="Débil"
-							promptLabel="Por favor ingrese contraseña"
-							validatorMessage="Password contiene caracteres no permitidos o posee un tamaño menor a 8">
-						</h:inputSecret>
-					</b:column>
-					<b:column span="2">
-						<h:outputLabel value="Institución:* " />
-					</b:column>
-					<b:column span="3">
-						<h:inputText value="#{postulantesusuBean.pos_institucion}"
-							required="true" styleClass="form-control"
-							requiredMessage="Campo institución requerido">
+						<h:inputText value="#{postulantesusuBean.pos_celular}"
+							required="true" styleClass="form-control" maxlength="10"
+							requiredMessage="Campo celular requerido"
+							validatorMessage="Campo celular solo números">
+							<f:validateRegex pattern="[0-9]+" />
 						</h:inputText>
 					</b:column>
 				</b:row>
 				<br />
-				<b:row>
-					<b:column span="2">
-						<h:outputLabel value="Gerencia:* " />
-					</b:column>
-					<b:column span="3">
-						<h:inputText value="#{postulantesusuBean.pos_gerencia}"
-							required="true" styleClass="form-control"
-							requiredMessage="Campo gerencia requerido">
-						</h:inputText>
-					</b:column>
-					<b:column span="2">
-						<h:outputLabel value="Area:* " />
-					</b:column>
-					<b:column span="3">
-						<h:inputText value="#{postulantesusuBean.pos_area}"
-							required="true" styleClass="form-control"
-							requiredMessage="Campo area requerido">
-						</h:inputText>
-					</b:column>
-				</b:row>
+				<h:outputLabel style="font-weight:bold;color:black;font-size: 10pt;"
+					value="Restricciones del caso Cualquier persona que tenga capacidad para hacerlo y 
+					no tenga impedimento o restricción legal. No podrán hacerlo los funcionarios y personal 
+					directamente relacionado con el expediente de dicha subasta (excepto el ejecutante).
+					Se puede participar en estas subastas públicas en nombre propio o a través de un representante con los debidos poderes.
+					El ejecutante o deudor no puede participar directamente en la subasta, pero en según que 
+					condiciones, puede presentar a otra persona que lo haga." />
+				<br />
 				<br />
 				<b:row>
 					<b:column span="5">
@@ -147,11 +138,12 @@
 			</b:panel>
 		</h:form>
 		<p:confirmDialog header="Confirmación"
-			message="Está seguro de guardar la información?" closable="false"
+			message="Está seguro de confirmar su registro?" closable="false"
 			showEffect="fade" hideEffect="explode" widgetVar="gu">
 			<h:form>
 				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
-					icon="ui-icon-check" action="#{postulantesusuBean.crearPostulante()}"
+					icon="ui-icon-check"
+					action="#{postulantesusuBean.crearPostulante()}"
 					oncomplete="PF('gu').hide();" update=":frm:messages" />
 				<p:commandButton value="No" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
@@ -171,7 +163,7 @@
 
 				<h:form id="frmlog">
 					<p:messages closable="true" />
-					<b:inputText placeholder="USUARIO" value="#{sessionBean.nick}"
+					<b:inputText placeholder="CÉDULA" value="#{sessionBean.nick}"
 						disabled="false">
 						<p:ajax listener="#{sessionBean.veri()}" update=":frm"></p:ajax>
 					</b:inputText>
@@ -181,6 +173,8 @@
 					<b:commandButton value="Ingresar" iconAwesome="check-square-o"
 						action="#{sessionBean.login}" styleClass="btn-block btnSend"
 						look="primary" update="frmlog" />
+					<a class="navbar-link" onclick="PF('rc').show();">¿Olvidó su
+						contraseña?</a>
 				</h:form>
 			</div>
 		</p:dialog>
@@ -220,10 +214,10 @@
 			modal="true" showEffect="fade" hideEffect="fade" resizable="false">
 			<div class="row topForm">
 				<div class="col-sm-8 col-sm-offset-2 form-box">
-						<h:panelGrid>
-							<p:graphicImage value="/resources/img/300.jpg"
-								width="200" height="200" />
-						</h:panelGrid>
+					<h:panelGrid>
+						<p:graphicImage value="/resources/img/300.jpg" width="200"
+							height="200" />
+					</h:panelGrid>
 				</div>
 			</div>
 		</p:dialog>

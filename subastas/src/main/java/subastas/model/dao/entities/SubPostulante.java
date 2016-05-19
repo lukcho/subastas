@@ -52,6 +52,9 @@ public class SubPostulante implements Serializable {
 
 	@Column(name="pos_telefono", length=20)
 	private String posTelefono;
+	
+	@Column(name="pos_celular", length=20)
+	private String posCelular;
 
 	//bi-directional many-to-one association to SubOferta
 	@OneToMany(mappedBy="subPostulante")
@@ -154,6 +157,14 @@ public class SubPostulante implements Serializable {
 
 	public void setPosTelefono(String posTelefono) {
 		this.posTelefono = posTelefono;
+	}
+	
+	public String getPosCelular() {
+		return posCelular;
+	}
+	
+	public void setPosCelular(String posCelular) {
+		this.posCelular = posCelular;
 	}
 
 	public List<SubOferta> getSubOfertas() {

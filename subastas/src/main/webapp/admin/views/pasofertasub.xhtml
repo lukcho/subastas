@@ -31,11 +31,11 @@
 					paginator="true"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 					<p:column headerText="OPCIONES" width="50">
-						<p:commandButton id="btnE" icon="ui-icon-pencil"
+						<b:commandButton id="btnE" iconAwesome="fa fa-search"
 							action="#{ofertasBean.cargarOfertaXitem(ofer)}">
 							<p:tooltip id="toolTipTrack1" for="btnE"
 								value="Bot&oacute;n para ver el oferta" trackMouse="true" />
-						</p:commandButton>
+						</b:commandButton>
 					</p:column>
 					<p:column filterBy="#{ofer.oferId}" filterMatchMode="contains"
 						headerText="OFERTA NRO." width="50">

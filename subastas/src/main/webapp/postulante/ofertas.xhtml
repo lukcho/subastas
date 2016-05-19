@@ -31,11 +31,11 @@
 					paginator="true"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 					<p:column headerText="OPCIONES" width="50">
-						<p:commandButton id="btnE" icon="ui-icon-pencil"
+						<b:commandButton id="btnE" iconAwesome="fa fa-search"
 							action="#{ofertausuBean.cargarOfertaPas(ofer)}">
 							<p:tooltip id="toolTipTrack1" for="btnE"
 								value="Bot&oacute;n para ver el oferta" trackMouse="true" />
-						</p:commandButton>
+						</b:commandButton>
 					</p:column>
 					<!-- 					<p:column filterBy="#{ofer.oferId}" filterMatchMode="contains" -->
 					<!-- 						headerText="OFERTA NRO." width="50"> -->
@@ -87,6 +87,18 @@
 				</div>
 			</div>
 		</p:dialog>
+		<h:form>
+			<p:confirmDialog header="Confirmación"
+				message="Está seguro de salir del sistema?" closable="false"
+				showEffect="fade" hideEffect="explode" widgetVar="cs">
+				<p:commandButton value="Yes" styleClass="ui-confirmdialog-yes"
+					icon="ui-icon-check" action="#{sessionBean.logout}"
+					oncomplete="PF('cs').hide();" />
+				<p:commandButton value="No" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+					onclick="PF('cs').hide();" />
+			</p:confirmDialog>
+		</h:form>
 	</ui:define>
 </ui:composition>
 </html>

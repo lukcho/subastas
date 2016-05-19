@@ -35,19 +35,23 @@
 					paginator="true"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 					<p:column headerText="OPCIONES" width="40">
-						<p:commandButton id="btnE" icon="ui-icon-pencil"
+						<b:commandButton id="btnE" iconAwesome="fa fa-pencil"
 							action="#{postulantesBean.cargarPostulante(pos)}">
 							<p:tooltip id="toolTipTrack1" for="btnE"
 								value="Bot&oacute;n para modificar el postulante"
 								trackMouse="true" />
-						</p:commandButton>
+						</b:commandButton>
 							&nbsp;&nbsp;&nbsp;
-							<p:commandButton id="trackcamb" icon="ui-icon-refresh"
+							<b:commandButton id="trackcamb" iconAwesome="fa fa-refresh"
 							action="#{postulantesBean.cambiarEstadoPostulante(pos)}">
 							<p:tooltip id="toolTipTrack2" for="trackcamb"
 								value="Bot&oacute;n para cambiar el estado del postulante"
 								trackMouse="true" />
-						</p:commandButton>
+						</b:commandButton>
+					</p:column>
+					<p:column filterBy="#{pos.posId}" filterMatchMode="contains"
+						headerText="CÉDULA" width="80">
+						<h:outputText value="#{pos.posId}"></h:outputText>
 					</p:column>
 					<p:column filterBy="#{pos.posNombre}" filterMatchMode="contains"
 						headerText="NOMBRE" width="80">
@@ -64,8 +68,8 @@
 					<p:column headerText="TELÉFONO" width="60">
 						<h:outputText value="#{pos.posTelefono}"></h:outputText>
 					</p:column>
-					<p:column headerText="INSTITUCIÓN" width="60">
-						<h:outputText value="#{pos.posInstitucion}"></h:outputText>
+					<p:column headerText="CELULAR" width="60">
+						<h:outputText value="#{pos.posCelular}"></h:outputText>
 					</p:column>
 					<p:column headerText="ESTADO" width="60">
 						<h:outputText value="#{pos.posEstado}"></h:outputText>
@@ -79,7 +83,7 @@
 			<h:form>
 				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
 					icon="ui-icon-check" action="#{postulantesBean.cambiarEstado()}"
-					oncomplete="PF('ce').hide();" update=":frm:messages" />
+					oncomplete="PF('ce').hide();" update=":frm:messages :frm:tbb" />
 				<p:commandButton value="No" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
 					onclick="PF('ce').hide();" />

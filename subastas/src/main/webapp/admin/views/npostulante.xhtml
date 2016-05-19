@@ -31,7 +31,7 @@
 				<br />
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Cédula/Pasaporte:* " />
+						<h:outputLabel value="Cédula:* " />
 					</b:column>
 					<b:column span="3">
 						<h:inputText value="#{postulantesBean.pos_id}" required="true"
@@ -86,20 +86,6 @@
 						</h:inputText>
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Teléfono:* " />
-					</b:column>
-					<b:column span="3">
-						<h:inputText value="#{postulantesBean.pos_telefono}"
-							required="true" styleClass="form-control"
-							requiredMessage="Campo teléfono requerido"
-							validatorMessage="Campo teléfono solo ingrese números">
-							<f:validateRegex pattern="[0-9]+" />
-						</h:inputText>
-					</b:column>
-				</b:row>
-				<br />
-				<b:row>
-					<b:column span="2">
 						<h:outputLabel value="Contraseña:* " />
 					</b:column>
 					<b:column span="3">
@@ -111,35 +97,32 @@
 							validatorMessage="Password contiene caracteres no permitidos o posee un tamaño menor a 8">
 						</h:inputSecret>
 					</b:column>
-					<b:column span="2">
-						<h:outputLabel value="Institución:* " />
-					</b:column>
-					<b:column span="3">
-						<h:inputText value="#{postulantesBean.pos_institucion}"
-							required="true" styleClass="form-control"
-							requiredMessage="Campo institución requerido">
-						</h:inputText>
-					</b:column>
 				</b:row>
 				<br />
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Gerencia:* " />
+						<h:outputLabel value="Teléfono:* " />
 					</b:column>
 					<b:column span="3">
-						<h:inputText value="#{postulantesBean.pos_gerencia}"
+						<h:inputText value="#{postulantesBean.pos_telefono}"
 							required="true" styleClass="form-control"
-							requiredMessage="Campo gerencia requerido">
+							requiredMessage="Campo teléfono requerido"
+							validatorMessage="Campo teléfono solo ingrese números">
+							<f:validateRegex pattern="[0-9]+" />
 						</h:inputText>
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Area:* " />
+						<h:outputLabel value="Celular:* " />
 					</b:column>
 					<b:column span="3">
-						<h:inputText value="#{postulantesBean.pos_area}" required="true"
-							styleClass="form-control" requiredMessage="Campo area requerido">
+						<h:inputText value="#{postulantesBean.pos_celular}"
+							required="true" styleClass="form-control" maxlength="10"
+							requiredMessage="Campo celular requerido"
+							validatorMessage="Campo celular solo números">
+							<f:validateRegex pattern="[0-9]+" />
 						</h:inputText>
 					</b:column>
+
 				</b:row>
 				<br />
 				<b:row>
@@ -154,6 +137,16 @@
 						</b:selectOneMenu>
 					</b:column>
 				</b:row>
+				<br />
+				<h:outputLabel style="font-weight:bold;color:black;font-size: 10pt;"
+					value="Restricciones del caso Cualquier persona que tenga capacidad para hacerlo y 
+					no tenga impedimento o restricción legal. No podrán hacerlo los funcionarios y personal 
+					directamente relacionado con el expediente de dicha subasta (excepto el ejecutante).
+					Se puede participar en estas subastas públicas en nombre propio o a través de un representante con los debidos poderes.
+					El ejecutante o deudor no puede participar directamente en la subasta, pero en según que 
+					condiciones, puede presentar a otra persona que lo haga." />
+				<br />
+				<br />
 				<b:row>
 					<b:column span="5">
 						<p:commandButton value="Guardar" styleClass="btn btn-info"
@@ -172,7 +165,7 @@
 			</b:panel>
 		</h:form>
 		<p:confirmDialog header="Confirmación"
-			message="Está seguro de guardar la información?" closable="false"
+			message="Está seguro de registrar la información?" closable="false"
 			showEffect="fade" hideEffect="explode" widgetVar="gu">
 			<h:form>
 				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"

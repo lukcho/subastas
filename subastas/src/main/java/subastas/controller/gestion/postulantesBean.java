@@ -43,6 +43,7 @@ public class postulantesBean implements Serializable {
 	private String pos_direccion;
 	private String pos_correo;
 	private String pos_telefono;
+	private String pos_celular;
 	private String pos_password;
 	private String pos_institucion;
 	private String pos_gerencia;
@@ -81,6 +82,7 @@ public class postulantesBean implements Serializable {
 		pos_password = "";
 		rpassword = "";
 		pos_telefono = "";
+		pos_celular="";
 		pos_institucion = "";
 		pos_gerencia = "";
 		pos_area = "";
@@ -215,6 +217,14 @@ public class postulantesBean implements Serializable {
 
 	public void setPos_telefono(String pos_telefono) {
 		this.pos_telefono = pos_telefono;
+	}
+	
+	public String getPos_celular() {
+		return pos_celular;
+	}
+	
+	public void setPos_celular(String pos_celular) {
+		this.pos_celular = pos_celular;
 	}
 
 	public String getPos_password() {
@@ -368,9 +378,8 @@ public class postulantesBean implements Serializable {
 				setPos_password(Utilidades.Encriptar(getPos_password()));// PASS
 				managergest.editarPostulante(pos_id.trim(), pos_nombre.trim(),
 						pos_apellido.trim(), pos_direccion.trim(),
-						pos_correo.trim(), pos_telefono.trim(),
-						pos_password.trim(), pos_institucion.trim(),
-						pos_gerencia.trim(), pos_area.trim(), pos_estado);
+						pos_correo.trim(), pos_telefono.trim(),pos_celular.trim(),
+						pos_password.trim(), pos_estado);
 				getListaPostulante().clear();
 				getListaPostulante().addAll(managergest.findAllpostulantes());
 				pos_id = "";
@@ -382,6 +391,7 @@ public class postulantesBean implements Serializable {
 				pos_password = "";
 				rpassword = "";
 				pos_telefono = "";
+				pos_celular="";
 				pos_institucion = "";
 				pos_gerencia = "";
 				pos_estado = "A";
@@ -408,9 +418,8 @@ public class postulantesBean implements Serializable {
 					managergest.insertarPostulante(pos_id.trim(),
 							pos_fecha_reg, pos_nombre.trim(),
 							pos_apellido.trim(), pos_direccion.trim(),
-							pos_correo.trim(), pos_telefono.trim(),
-							pos_password.trim(), pos_institucion.trim(),
-							pos_gerencia.trim(), pos_area.trim());
+							pos_correo.trim(), pos_telefono.trim(),pos_celular.trim(),
+							pos_password.trim());
 					getListaPostulante().clear();
 					getListaPostulante().addAll(
 							managergest.findAllpostulantes());
@@ -423,6 +432,7 @@ public class postulantesBean implements Serializable {
 					pos_password = "";
 					rpassword = "";
 					pos_telefono = "";
+					pos_celular="";
 					pos_institucion = "";
 					pos_gerencia = "";
 					pos_area = "";
@@ -505,6 +515,7 @@ public class postulantesBean implements Serializable {
 			pos_correo = u.getPosCorreo();
 			pos_password = Utilidades.Desencriptar(u.getPosPassword());
 			pos_telefono = u.getPosTelefono();
+			pos_celular = u.getPosCelular();
 			pos_institucion = u.getPosInstitucion();
 			pos_gerencia = u.getPosGerencia();
 			pos_area = u.getPosArea();
@@ -551,6 +562,7 @@ public class postulantesBean implements Serializable {
 		pos_password = "";
 		rpassword = "";
 		pos_telefono = "";
+		pos_celular="";
 		pos_institucion = "";
 		pos_gerencia = "";
 		pos_area = "";
@@ -581,6 +593,7 @@ public class postulantesBean implements Serializable {
 		pos_password = "";
 		rpassword = "";
 		pos_telefono = "";
+		pos_celular="";
 		pos_institucion = "";
 		pos_gerencia = "";
 		pos_area = "";
