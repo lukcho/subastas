@@ -14,8 +14,8 @@
 	<ui:define name="contenido">
 		<br />
 		<h:form>
-						<p:poll interval="1" listener="#{ofertausuBean.pollMethod()}"
-							update=":frm:txt_tiempo :frm:actual :frm:txt_persona :frm:actual1 :frm:estas" />
+			<p:poll interval="1" listener="#{ofertausuBean.pollMethod()}"
+				update=":frm:txt_tiempo :frm:actual :frm:txt_persona :frm:actual1 :frm:estas" />
 		</h:form>
 		<h:form id="frm" styleClass="label-justified">
 			<p:growl id="messages" showDetail="false" />
@@ -111,7 +111,7 @@
 								value="#{ofertausuBean.valorUltimoPostulante}" />
 							&nbsp;&nbsp;&nbsp;
 						</b:column>
-						<br/>
+						<br />
 						<b:column span="4"></b:column>
 						<b:column span="6">
 							<h:outputText rendered="#{ofertausuBean.ocultarColorGana1}"
@@ -165,7 +165,7 @@
 			</b:row>
 		</h:form>
 		<h:form>
-			<p:confirmDialog header="Confirmación"
+			<p:confirmDialog header="Subasta"
 				message="Está seguro de salir del sistema?" closable="false"
 				showEffect="fade" hideEffect="explode" widgetVar="cs">
 				<p:commandButton value="Yes" styleClass="ui-confirmdialog-yes"
@@ -174,6 +174,13 @@
 				<p:commandButton value="No" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
 					onclick="PF('cs').hide();" />
+			</p:confirmDialog>
+			<p:confirmDialog header="Advertencia" 
+				message="El valor de la oferta es menor que el valor base o el valor de tu última oferta" closable="false"
+				showEffect="fade" hideEffect="explode" widgetVar="vm">
+				<p:commandButton value="Cerrar" type="button" 
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+					onclick="PF('vm').hide();" />
 			</p:confirmDialog>
 		</h:form>
 		<p:confirmDialog header="Confirmación"

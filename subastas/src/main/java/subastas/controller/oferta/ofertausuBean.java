@@ -1122,16 +1122,17 @@ public class ofertausuBean implements Serializable {
 	 * 
 	 */
 	public void abrirDialog() {
-		if (!verificarValor())
+		if (!verificarValor()){
 			FacesContext
 					.getCurrentInstance()
 					.addMessage(
 							null,
 							new FacesMessage(
 									FacesMessage.SEVERITY_INFO,
-									"El valor es menor que el de base y de tu ultima oferta",
+									"El valor es menor que el de base o de tu última oferta",
 									null));
-		else {
+		RequestContext.getCurrentInstance().execute("PF('vm').show();");
+		}else {
 			RequestContext.getCurrentInstance().execute("PF('gu').show();");
 		}
 	}
