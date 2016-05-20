@@ -749,9 +749,9 @@ public class ofertausuBean implements Serializable {
 
 					if (valormaximo1.compareTo(valoroferta) == 1) {
 						colorgana = "colorRed";
-						ganandoperdiendo = "  Tu oferta  "+valorUltimoPostulante;
+						ganandoperdiendo = "  Tu oferta: $"+valorUltimoPostulante;
 						colorgana1 = "colorGreen";
-						ganandoperdiendo1 = "  Ultima Mejor Oferta:  $"+valorMaximo;
+						ganandoperdiendo1 = "  Ultima Mejor Oferta: $"+valorMaximo;
 						setOcultarColorGana1(true);
 					} else if (valormaximo1.compareTo(valoroferta) == -1) {
 						colorgana = "colorGreen";
@@ -873,7 +873,10 @@ public class ofertausuBean implements Serializable {
 		// limpiar datos
 		ofertavalor = null;
 		ofer_valor_oferta = null;
+		ocultarColorGana=true;
+		ocultarColorGana1=true;
 		ganandoperdiendo = "";
+		ganandoperdiendo1 = "";
 		valorUltimoPostulante = "0.00";
 		getListaItems().clear();
 		getListaItems().addAll(managergest.findAllItems());
@@ -894,6 +897,7 @@ public class ofertausuBean implements Serializable {
 				System.out.println("holi");
 			} else {
 				setOcultarColorGana(false);
+				setOcultarColorGana1(false);
 				fecha = new Date();
 				ofer_fecha_oferta = new Timestamp(System.currentTimeMillis());
 				item_fecha_subasta_inicio = item.getItemFechaSubastaInicio();

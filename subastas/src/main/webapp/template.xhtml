@@ -22,7 +22,12 @@ and open the template in the editor.
 	<h:outputStylesheet library="css" name="estilos.css" />
 	<ui:insert name="estilos"></ui:insert>
 </h:head>
-<h:body style="padding-bottom: 10px;">
+<h:body>
+	    <style>
+		    .ui-widget-header { border: 1px solid #FFFFFF;background: #FFFFFF;}
+			.ui-widget-content { border: 1px solid #FFFFFF;}
+			.navbar {   margin-bottom: 0px;}
+		</style>
 	<b:navBar brand="Subastas" inverse="true" brandHref="index.xhtml">
 		<b:navbarLinks>
 			<b:navLink value="Subastas Pasadas" iconAwesome="fa fa-gavel"
@@ -37,7 +42,7 @@ and open the template in the editor.
 		</p>
 	</b:navBar>
 	<b:container>
-		<b:carousel id="parque" style="width:100%" showControls="false"
+		<b:carousel id="parque" style="width:100%" showControls="false" 
 			interval="5000">
 			<b:carouselItem>
 				<b:image value="/resources/img/a.png" styleClass="img-responsive" />

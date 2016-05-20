@@ -12,10 +12,15 @@
            Ofertar 
         </ui:define>
 	<ui:define name="contenido">
+		    <style>
+		    .ui-widget-header { border: 1px solid #FFFFFF;background: #FFFFFF;}
+			.ui-widget-content { border: 1px solid #FFFFFF;}
+			.navbar {   margin-bottom: 0px;}
+		</style>
 		<br />
 		<h:form>
 			<p:poll interval="1" listener="#{ofertausuBean.pollMethod()}"
-				update=":frm:txt_tiempo :frm:actual :frm:txt_persona :frm:actual1 :frm:estas" />
+				update=":frm:txt_tiempo :frm:actual :frm:txt_persona :frm:actual1 :frm:estas :frm:estas1 " />
 		</h:form>
 		<h:form id="frm" styleClass="label-justified">
 			<p:growl id="messages" showDetail="false" />
@@ -104,7 +109,7 @@
 								styleClass="#{ofertausuBean.colorgana}" />
 						</b:column>
 					</b:row>
-					<b:row>
+					<b:row id="estas1">
 						<b:column span="4">
 							<h:outputText value="$" />
 							<h:outputText id="txt_persona"

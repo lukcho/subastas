@@ -420,7 +420,7 @@ public class postulantesusuBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Registrado - Creado", null));
+							"Creado con exitoso - Se envió una notificación su correo", null));
 			r = "index?faces-redirect=true";
 
 		} catch (Exception e) {
