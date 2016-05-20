@@ -30,22 +30,12 @@
 					reflow="true" var="item" rows="8" emptyMessage="Sin Datos"
 					paginator="true"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
-					<p:column headerText="OPCIONES" width="50">
-						<b:commandButton id="btnE" iconAwesome="fa fa-search"
-							action="#{ofertausuindexBean.cargarItem(item)}">
-							<p:tooltip id="toolTipTrack1" for="btnE"
-								value="Bot&oacute;n para ver la información" trackMouse="true" />
-						</b:commandButton>
-					</p:column>
 					<p:column filterBy="#{item.itemNombre}" filterMatchMode="contains"
 						headerText="NOMBRE" width="50">
 						<h:outputText value="#{item.itemNombre}"></h:outputText>
 					</p:column>
 					<p:column headerText="DESCRIPCIÓN" width="60">
 						<h:outputText value="#{item.itemDescripcion}"></h:outputText>
-					</p:column>
-					<p:column headerText="USUARIO REGISTRO" width="40">
-						<h:outputText value="#{item.itemUsuarioRegistro}"></h:outputText>
 					</p:column>
 					<p:column headerText="VALOR BASE" width="30">
 						<h:outputText value="#{item.itemValorBase}"></h:outputText>
@@ -66,12 +56,6 @@
 						<h:outputText value="#{item.itemFechaSubastaFin}">
 							<f:convertDateTime pattern="yyyy/MM/dd HH:mm" timeZone="GMT-5" />
 						</h:outputText>
-					</p:column>
-					<p:column headerText="ESTADO" width="30">
-						<h:outputText value="#{item.itemEstado}"></h:outputText>
-					</p:column>
-					<p:column headerText="GANADOR" width="30">
-						<h:outputText value="#{item.itemGanadorDni}"></h:outputText>
 					</p:column>
 				</p:dataTable>
 			</b:panel>

@@ -12,11 +12,20 @@
            Ofertar 
         </ui:define>
 	<ui:define name="contenido">
-		    <style>
-		    .ui-widget-header { border: 1px solid #FFFFFF;background: #FFFFFF;}
-			.ui-widget-content { border: 1px solid #FFFFFF;}
-			.navbar {   margin-bottom: 0px;}
-		</style>
+		<style>
+.ui-widget-header {
+	border: 1px solid #FFFFFF;
+	background: #FFFFFF;
+}
+
+.ui-widget-content {
+	border: 1px solid #FFFFFF;
+}
+
+.navbar {
+	margin-bottom: 0px;
+}
+</style>
 		<br />
 		<h:form>
 			<p:poll interval="1" listener="#{ofertausuBean.pollMethod()}"
@@ -87,20 +96,24 @@
 					</b:row>
 					<b:row>
 						<b:column span="3">
-							<h:outputLabel value="La mejor Oferta: "
-								style="font-weight:bold;color:black;font-size: 10pt;" />
+							<h:outputLabel value="Tu última oferta: "
+								style="font-weight:bold;color:black;" />
 						</b:column>
+
 					</b:row>
 					<b:row>
 						<b:column span="3">
-							<h:outputText id="actual1" value="$" />
-							<h:outputText id="actual" value="#{ofertausuBean.valorMaximo}" />
+							<h:outputText value="$" />
+							<h:outputText id="txt_persona"
+								value="#{ofertausuBean.valorUltimoPostulante}" />
+							&nbsp;&nbsp;&nbsp;
 						</b:column>
+
 					</b:row>
 					<b:row id="estas">
 						<b:column span="4">
-							<h:outputLabel value="Tu última oferta: "
-								style="font-weight:bold;color:black;" />
+							<h:outputLabel value="La mejor Oferta: "
+								style="font-weight:bold;color:black;font-size: 10pt;" />
 						</b:column>
 
 						<b:column span="6">
@@ -111,10 +124,8 @@
 					</b:row>
 					<b:row id="estas1">
 						<b:column span="4">
-							<h:outputText value="$" />
-							<h:outputText id="txt_persona"
-								value="#{ofertausuBean.valorUltimoPostulante}" />
-							&nbsp;&nbsp;&nbsp;
+							<h:outputText id="actual1" value="$" />
+							<h:outputText id="actual" value="#{ofertausuBean.valorMaximo}" />
 						</b:column>
 						<br />
 						<b:column span="4"></b:column>
@@ -160,7 +171,7 @@
 							style="padding:7px;border-radius: 90px 90px 80px 80px !important;"
 							actionListener="#{ofertausuBean.abrirDialog()}"
 							update=":frm:messages">
-						</p:commandButton>&nbsp;&nbsp;&nbsp; 
+						</p:commandButton>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 						<b:commandButton value="Volver" action="#{ofertausuBean.salir()}"
 							style="padding:7px;border-radius: 90px 90px 80px 80px !important;"
 							update=":frm" look="info" process="@this">
@@ -168,6 +179,8 @@
 					</b:column>
 				</b:row>
 			</b:row>
+			<br />
+			<br />
 		</h:form>
 		<h:form>
 			<p:confirmDialog header="Subasta"
@@ -180,10 +193,11 @@
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
 					onclick="PF('cs').hide();" />
 			</p:confirmDialog>
-			<p:confirmDialog header="Advertencia" 
-				message="El valor de la oferta es menor que el valor base o el valor de tu última oferta" closable="false"
-				showEffect="fade" hideEffect="explode" widgetVar="vm">
-				<p:commandButton value="Cerrar" type="button" 
+			<p:confirmDialog header="Advertencia"
+				message="El valor de la oferta es menor que el valor base o el valor de tu última oferta"
+				closable="false" showEffect="fade" hideEffect="explode"
+				widgetVar="vm">
+				<p:commandButton value="Cerrar" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
 					onclick="PF('vm').hide();" />
 			</p:confirmDialog>

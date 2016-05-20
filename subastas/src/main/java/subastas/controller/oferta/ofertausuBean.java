@@ -637,7 +637,7 @@ public class ofertausuBean implements Serializable {
 			item_valorbase = ofer.getSubItem().getItemValorBase().toString();
 
 			if (managergest.ValorMaximoXItem(item_id) == null) {
-				valorMaximo = "No se Oferta aún";
+				valorMaximo = "0.00";
 			} else {
 				valorMaximo = managergest.ValorMaximoXItem(item_id).toString();
 			}
@@ -731,7 +731,7 @@ public class ofertausuBean implements Serializable {
 	public String conocerGanador() {
 		try {
 			if (managergest.ValorMaximoXItem(item_id) == null) {
-				valorMaximo = "No se Oferta aún";
+				valorMaximo = "0.00";
 			} else {
 
 				if (managergest.ofertaXPost(item_id, pos_id) == 0) {
@@ -751,7 +751,7 @@ public class ofertausuBean implements Serializable {
 						colorgana = "colorRed";
 						ganandoperdiendo = "  Tu oferta: $"+valorUltimoPostulante;
 						colorgana1 = "colorGreen";
-						ganandoperdiendo1 = "  Ultima Mejor Oferta: $"+valorMaximo;
+						ganandoperdiendo1 = "  Última Mejor Oferta: $"+valorMaximo;
 						setOcultarColorGana1(true);
 					} else if (valormaximo1.compareTo(valoroferta) == -1) {
 						colorgana = "colorGreen";
@@ -938,7 +938,7 @@ public class ofertausuBean implements Serializable {
 					item_valorventa = item.getItemValorVenta().toString();
 
 					if (managergest.ValorMaximoXItem(item_id) == null) {
-						valorMaximo = "No se Oferta aún";
+						valorMaximo = "0.00";
 					} else {
 						valorMaximo = managergest.ValorMaximoXItem(item_id)
 								.toString();
