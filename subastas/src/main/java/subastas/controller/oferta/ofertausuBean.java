@@ -984,7 +984,7 @@ public class ofertausuBean implements Serializable {
 		if (getFaltatiempo() <= 0)
 			try {
 				FacesContext.getCurrentInstance().getExternalContext()
-						.redirect("/home.xhtml");
+						.redirect("home.xhtml");
 			} catch (IOException ex) {
 				Mensaje.crearMensajeERROR(ex.getMessage());
 			}
