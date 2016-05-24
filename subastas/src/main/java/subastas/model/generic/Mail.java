@@ -15,6 +15,8 @@ public class Mail {
 
 	public static void generateAndSendEmail(String destinatario, String asunto,
 			String mensaje) throws Exception {
+		try
+		{
 		String origen = "scvtalentohumano@yachay.gob.ec";
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "mail.yachay.gob.ec");
@@ -54,5 +56,11 @@ public class Mail {
 		transport.sendMessage(msg, msg.getAllRecipients());
 		transport.close();
 		System.out.println("ENVIO DE MENSAJE CORRECTO PARA " + destinatario);
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			System.out.println("Error en el correo" + destinatario);
+		}
 	}
 }

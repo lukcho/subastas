@@ -55,6 +55,9 @@ public class SubItem implements Serializable {
 
 	@Column(name="item_valor_venta")
 	private BigDecimal itemValorVenta;
+	
+	@Column(name="item_sms", length=30)
+	private String itemSms;
 
 	//bi-directional many-to-one association to SubOferta
 	@OneToMany(mappedBy="subItem")
@@ -157,6 +160,14 @@ public class SubItem implements Serializable {
 
 	public void setItemValorVenta(BigDecimal itemValorVenta) {
 		this.itemValorVenta = itemValorVenta;
+	}
+	
+	public String getItemSms() {
+		return itemSms;
+	}
+	
+	public void setItemSms(String itemSms) {
+		this.itemSms = itemSms;
 	}
 
 	public List<SubOferta> getSubOfertas() {

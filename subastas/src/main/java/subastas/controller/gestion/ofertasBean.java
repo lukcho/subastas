@@ -22,6 +22,7 @@ import subastas.model.dao.entities.SubItem;
 import subastas.model.dao.entities.SubOferta;
 import subastas.model.dao.entities.SubPostulante;
 import subastas.model.generic.Funciones;
+import subastas.model.generic.Mail;
 import subastas.model.generic.Mensaje;
 import subastas.model.manager.ManagerGestion;
 
@@ -80,6 +81,11 @@ public class ofertasBean implements Serializable {
 	private Date ff;
 	private Date date;
 	private Date fecha;
+	
+	
+	//mensaje
+	private String smscorreoganador;
+
 
 	private String usuario;
 
@@ -371,6 +377,8 @@ public class ofertasBean implements Serializable {
 	public List<SubOferta> getListaOfertasGanadores() {
 		return managergest.listadoGanadores();
 	}
+	
+
 
 	/**
 	 * metodo para listar las ofertas
@@ -540,12 +548,62 @@ public class ofertasBean implements Serializable {
 			pos_institucion = ofer.getSubPostulante().getPosInstitucion();
 			pos_gerencia = ofer.getSubPostulante().getPosGerencia();
 			pos_area = ofer.getSubPostulante().getPosArea();
-			Mensaje.crearMensajeINFO("Actualizado - Modificado");
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Editado - Modificado", null));
+			
 			return "noferta?faces-redirect=true";
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	/**
+	 * accion para cargar los datos en el formulario
+	 * 
+	 * @param pro_id
+	 * @param prodfoto_id
+	 * @param pro_nombre
+	 * @param pro_descripcion
+	 * @param pro_costo
+	 * @param pro_precio
+	 * @param pro_stock
+	 * @param pro_estado
+	 * @param pro_estado_fun
+	 * @throws Exception
+	 */
+	public String cargarOfertaGanador(SubOferta ofer) {
+		try {
+			ofer_id = ofer.getOferId();
+			ofer_valor_oferta = ofer.getOferValorOferta().toString();
+			ofer_fecha_oferta = ofer.getOferFechaOferta();
+			item = ofer.getSubItem();
+			postulante = ofer.getSubPostulante();
+
+			item_id = ofer.getSubItem().getItemId();
+			item_nombre = ofer.getSubItem().getItemNombre();
+			item_caracteristicas = ofer.getSubItem().getItemCaracteristicas();
+			item_descripcion = ofer.getSubItem().getItemDescripcion();
+			item_imagen = ofer.getSubItem().getItemImagen();
+			item_valorbase = ofer.getSubItem().getItemValorBase().toString();
+			item_valorventa = ofer.getSubItem().getItemValorVenta().toString();
+
+			if (managergest.ValorMaximoXItem(item_id) == null) {
+				valorMaximo = "";
+			} else {
+				valorMaximo = managergest.ValorMaximoXItem(item_id).toString();
+			}
+
+			pos_nombre = ofer.getSubPostulante().getPosNombre();
+			pos_apellido = ofer.getSubPostulante().getPosApellido();
+			pos_direccion = ofer.getSubPostulante().getPosDireccion();
+			pos_correo = ofer.getSubPostulante().getPosCorreo();
+			pos_telefono = ofer.getSubPostulante().getPosTelefono();
+			pos_celular = ofer.getSubPostulante().getPosCelular();
+			pos_institucion = ofer.getSubPostulante().getPosInstitucion();
+			pos_gerencia = ofer.getSubPostulante().getPosGerencia();
+			pos_area = ofer.getSubPostulante().getPosArea();
+			
+			return "nganador?faces-redirect=true";
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -603,7 +661,7 @@ public class ofertasBean implements Serializable {
 
 			getListaOferta().clear();
 			getListaOferta().addAll(managergest.findAllofertasOrdenadas());
-			Mensaje.crearMensajeINFO("Actualizado - Modificado");
+			Mensaje.crearMensajeINFO("Se establecio Ganador");
 			return "ofertas?faces-redirect=true";
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -693,6 +751,118 @@ public class ofertasBean implements Serializable {
 						+ Funciones.valorEstadoInactivo));
 		return lista;
 	}
+	
+	
+	/**
+	 * accion para cargar los datos en el formulario
+	 * 
+	 * @param pro_id
+	 * @param prodfoto_id
+	 * @param pro_nombre
+	 * @param pro_descripcion
+	 * @param pro_costo
+	 * @param pro_precio
+	 * @param pro_stock
+	 * @param pro_estado
+	 * @param pro_estado_fun
+	 * @throws Exception
+	 */
+	public String EnviarMensajeGanador(SubOferta ofer) {
+		try {
+			if(ofer.getSubItem().getItemSms().equals("Notificado"))
+			{
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO,
+								"Yá se envió el mensaje al ganador", null));
+			}else{
+			ofer_id = ofer.getOferId();
+			ofer_valor_oferta = ofer.getOferValorOferta().toString();
+			ofer_fecha_oferta = ofer.getOferFechaOferta();
+			item = ofer.getSubItem();
+			postulante = ofer.getSubPostulante();
+
+			item_id = ofer.getSubItem().getItemId();
+			item_nombre = ofer.getSubItem().getItemNombre();
+			item_caracteristicas = ofer.getSubItem().getItemCaracteristicas();
+			item_descripcion = ofer.getSubItem().getItemDescripcion();
+			item_imagen = ofer.getSubItem().getItemImagen();
+			item_valorbase = ofer.getSubItem().getItemValorBase().toString();
+			item_valorventa = ofer.getSubItem().getItemValorVenta().toString();
+
+			if (managergest.ValorMaximoXItem(item_id) == null) {
+				valorMaximo = "";
+			} else {
+				valorMaximo = managergest.ValorMaximoXItem(item_id).toString();
+			}
+
+			pos_nombre = ofer.getSubPostulante().getPosNombre();
+			pos_apellido = ofer.getSubPostulante().getPosApellido();
+			pos_direccion = ofer.getSubPostulante().getPosDireccion();
+			pos_correo = ofer.getSubPostulante().getPosCorreo();
+			pos_telefono = ofer.getSubPostulante().getPosTelefono();
+			pos_celular = ofer.getSubPostulante().getPosCelular();
+			pos_institucion = ofer.getSubPostulante().getPosInstitucion();
+			pos_gerencia = ofer.getSubPostulante().getPosGerencia();
+			pos_area = ofer.getSubPostulante().getPosArea();
+			
+			smscorreoganador = "Estimado(a) "+pos_nombre+" "+pos_apellido+", <br/>"
+					 + "Se ha establecido como Ganador del item: "+item_nombre+" <br/>"
+					 + "con las siguientes características: <br/>"+item_caracteristicas+"<br/>"
+					 + "el valor a pagar es de: $"+item_valorventa+"<br/>"
+					 + "Por favor, comuniquese con Subastas Yachay EP<br/>"
+					 + "<br/> Saludos cordiales, "
+		             + "<br/> Sistema de Subastas Yachay EP.";
+			
+			
+			Mail.generateAndSendEmail(pos_correo, "Notificación de Ganador Subastas Yachay", smscorreoganador);
+			managergest.notificadoItem(item_id);
+			
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
+							"Correcto: Se envió el mensaje", null));
+			
+			smscorreoganador="";
+			ofer_id = null;
+			ofer_valor_oferta = null;
+			ofer_fecha_oferta = null;
+			item = null;
+			postulante = null;
+
+			item_nombre = "";
+			item_caracteristicas = "";
+			item_descripcion = "";
+			item_imagen = "";
+			item_valorbase = "";
+
+			pos_nombre = "";
+			pos_apellido = "";
+			pos_direccion = "";
+			pos_correo = "";
+			pos_telefono = "";
+			pos_celular="";
+			pos_institucion = "";
+			pos_gerencia = "";
+			pos_area = "";
+			
+			
+			getListaOfertasGanadores().clear();
+			getListaOfertasGanadores().addAll(managergest.listadoGanadores());
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
+							"Error: No se envió el mensaje", null));
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	
 
 	// ------ traslados--------
 
@@ -727,6 +897,39 @@ public class ofertasBean implements Serializable {
 		getListaOferta().clear();
 		getListaOferta().addAll(managergest.findAllofertasOrdenadas());
 		return "ofertas?faces-redirect=true";
+	}
+	
+	/**
+	 * limpia la informacion
+	 * 
+	 * @return
+	 */
+	public String salirganador() {
+		// limpiar datos
+		ofer_id = null;
+		ofer_valor_oferta = null;
+		ofer_fecha_oferta = null;
+		item = null;
+		postulante = null;
+
+		item_nombre = "";
+		item_caracteristicas = "";
+		item_descripcion = "";
+		item_imagen = "";
+		item_valorbase = "";
+
+		pos_nombre = "";
+		pos_apellido = "";
+		pos_direccion = "";
+		pos_correo = "";
+		pos_telefono = "";
+		pos_celular="";
+		pos_institucion = "";
+		pos_gerencia = "";
+		pos_area = "";
+		getListaOfertasGanadores().clear();
+		getListaOfertasGanadores().addAll(managergest.listadoGanadores());
+		return "ganadores?faces-redirect=true";
 	}
 	
 	/**

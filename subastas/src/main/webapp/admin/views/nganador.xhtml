@@ -7,9 +7,9 @@
 	xmlns:b="http://bootsfaces.net/ui"
 	xmlns:pe="http://primefaces.org/ui/extensions">
 
-<ui:composition template="templateusu.xhtml">
+<ui:composition template="template.xhtml">
 	<ui:define name="titulo">
-           Ofertar 
+           Oferta 
         </ui:define>
 	<ui:define name="contenido">
 		<br />
@@ -24,7 +24,7 @@
 									<h:outputLabel value="Oferta id: " />
 								</b:column>
 								<b:column span="3">
-									<h:outputLabel value="#{ofertausuBean.ofer_id}"
+									<h:outputLabel value="#{ofertasBean.ofer_id}"
 										styleClass="form-control" disabled="true">
 									</h:outputLabel>
 								</b:column>
@@ -32,7 +32,7 @@
 									<h:outputLabel value="Valor oferta: " />
 								</b:column>
 								<b:column span="3">
-									<h:outputLabel value="#{ofertausuBean.ofer_valor_oferta}"
+									<h:outputLabel value="#{ofertasBean.ofer_valor_oferta}"
 										styleClass="form-control" disabled="true">
 									</h:outputLabel>
 								</b:column>
@@ -45,7 +45,7 @@
 									<h:outputLabel value="Fecha oferta: " />
 								</b:column>
 								<b:column span="3">
-									<h:outputLabel value="#{ofertausuBean.ofer_fecha_oferta}"
+									<h:outputLabel value="#{ofertasBean.ofer_fecha_oferta}"
 										styleClass="form-control" disabled="true">
 										<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
 									</h:outputLabel>
@@ -54,7 +54,18 @@
 									<h:outputLabel value="Máximo Ofertado: " />
 								</b:column>
 								<b:column span="3">
-									<h:outputLabel value="#{ofertausuBean.valorMaximo}"
+									<h:outputLabel value="#{ofertasBean.valorMaximo}"
+										styleClass="form-control" disabled="true">
+									</h:outputLabel>
+								</b:column>
+								<br />
+								<br />
+								<br />
+								<b:column span="2">
+									<h:outputLabel value="Valor que se Vendió: " />
+								</b:column>
+								<b:column span="3">
+									<h:outputLabel value="#{ofertasBean.item_valorventa}"
 										styleClass="form-control" disabled="true">
 									</h:outputLabel>
 								</b:column>
@@ -69,14 +80,14 @@
 							<b:row>
 								<b:column span="3">
 									<p:graphicImage id="imagen"
-										value="/resources/img/items/#{ofertausuBean.item_imagen}"
+										value="/resources/img/items/#{ofertasBean.item_imagen}"
 										width="250" height="250" />
 								</b:column>
 								<b:column span="2">
 									<h:outputLabel value="Nombre Item: " />
 								</b:column>
 								<b:column span="4">
-									<h:outputLabel value="#{ofertausuBean.item_nombre}"
+									<h:outputLabel value="#{ofertasBean.item_nombre}"
 										styleClass="form-control" disabled="true">
 									</h:outputLabel>
 								</b:column>
@@ -88,7 +99,7 @@
 								</b:column>
 								<b:column span="4">
 									<h:inputTextarea rows="4"
-										value="#{ofertausuBean.item_caracteristicas}" disabled="true"
+										value="#{ofertasBean.item_caracteristicas}" disabled="true"
 										styleClass="form-control">
 									</h:inputTextarea>
 								</b:column>
@@ -103,7 +114,7 @@
 								</b:column>
 								<b:column span="4">
 									<h:inputTextarea rows="4"
-										value="#{ofertausuBean.item_descripcion}" disabled="true"
+										value="#{ofertasBean.item_descripcion}" disabled="true"
 										styleClass="form-control">
 									</h:inputTextarea>
 								</b:column>
@@ -118,7 +129,7 @@
 									<h:outputLabel value="Valor Base Item: " />
 								</b:column>
 								<b:column span="4">
-									<h:outputLabel value="#{ofertausuBean.item_valorbase}"
+									<h:outputLabel value="#{ofertasBean.item_valorbase}"
 										styleClass="form-control" disabled="true">
 									</h:outputLabel>
 								</b:column>
@@ -134,7 +145,7 @@
 									<h:outputLabel value="Nombre Postulante: " />
 								</b:column>
 								<b:column span="3">
-									<h:outputLabel value="#{ofertausuBean.pos_nombre}"
+									<h:outputLabel value="#{ofertasBean.pos_nombre}"
 										styleClass="form-control" disabled="true">
 									</h:outputLabel>
 								</b:column>
@@ -142,7 +153,7 @@
 									<h:outputLabel value="Apellido Postulante: " />
 								</b:column>
 								<b:column span="3">
-									<h:outputLabel value="#{ofertausuBean.pos_apellido}"
+									<h:outputLabel value="#{ofertasBean.pos_apellido}"
 										styleClass="form-control" disabled="true">
 									</h:outputLabel>
 								</b:column>
@@ -153,27 +164,34 @@
 									<h:outputLabel value="Correo Postulante: " />
 								</b:column>
 								<b:column span="3">
-									<h:outputLabel value="#{ofertausuBean.pos_correo}"
+									<h:outputLabel value="#{ofertasBean.pos_correo}"
 										styleClass="form-control" disabled="true">
 									</h:outputLabel>
 								</b:column>
-								<b:column span="2">
-									<h:outputLabel value="Dirección Postulante:* " />
-								</b:column>
-								<b:column span="3">
-									<h:outputLabel value="#{ofertausuBean.pos_direccion}"
-										styleClass="form-control" disabled="true">
-									</h:outputLabel>
-								</b:column>
-
-							</b:row>
-							<br />
-							<b:row>
 								<b:column span="2">
 									<h:outputLabel value="Teléfono Postulante: " />
 								</b:column>
 								<b:column span="3">
-									<h:outputLabel value="#{ofertausuBean.pos_telefono}"
+									<h:outputLabel value="#{ofertasBean.pos_telefono}"
+										styleClass="form-control" disabled="true">
+									</h:outputLabel>
+								</b:column>
+							</b:row>
+							<br />
+							<b:row>
+								<b:column span="2">
+									<h:outputLabel value="Celular Postulante: " />
+								</b:column>
+								<b:column span="3">
+									<h:outputLabel value="#{ofertasBean.pos_celular}"
+										styleClass="form-control" disabled="true">
+									</h:outputLabel>
+								</b:column>
+								<b:column span="2">
+									<h:outputLabel value="Dirección Postulante: " />
+								</b:column>
+								<b:column span="3">
+									<h:outputLabel value="#{ofertasBean.pos_direccion}"
 										styleClass="form-control" disabled="true">
 									</h:outputLabel>
 								</b:column>
@@ -185,37 +203,14 @@
 				<br />
 				<b:row>
 					<b:column span="5">
-						<b:commandButton value="Volver"
-							action="#{ofertausuBean.salirOfertas()}" update="frm" look="info"
-							process="@this">
+						<b:commandButton value="Volver" action="#{ofertasBean.salirganador()}"
+							update="frm" look="info" process="@this">
 						</b:commandButton>
 					</b:column>
 				</b:row>
 				<br />
 				<br />
 			</b:panel>
-		</h:form>
-		<h:form>
-			<p:confirmDialog header="Confirmación"
-				message="Está seguro de salir del sistema?" closable="false"
-				showEffect="fade" hideEffect="explode" widgetVar="cs">
-				<p:commandButton value="Yes" styleClass="ui-confirmdialog-yes"
-					icon="ui-icon-check" action="#{sessionBean.logout}"
-					oncomplete="PF('cs').hide();" />
-				<p:commandButton value="No" type="button"
-					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
-					onclick="PF('cs').hide();" />
-			</p:confirmDialog>
-			<p:dialog header="Flujo de Ofertas" widgetVar="im" closable="true"
-				closeOnEscape="true" modal="true" showEffect="fade"
-				hideEffect="fade" resizable="false">
-				<h:form id="frmimg">
-					<center>
-						<p:graphicImage value="/resources/img/pasos.png" width="100%"
-							styleClass="img-responsive" />
-					</center>
-				</h:form>
-			</p:dialog>
 		</h:form>
 	</ui:define>
 </ui:composition>

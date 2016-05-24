@@ -26,9 +26,9 @@
 		<h:form id="frm">
 			<p:growl id="messages" showDetail="false" />
 			<b:panel title="Listado de Subastas" look="primary">
-				<p:dataTable id="tbb" value="#{ofertausuindexBean.listaSubastasPasadas}"
-					reflow="true" var="item" rows="8" emptyMessage="Sin Datos"
-					paginator="true"
+				<p:dataTable id="tbb"
+					value="#{ofertausuindexBean.listaSubastasPasadas}" reflow="true"
+					var="item" rows="8" emptyMessage="Sin Datos" paginator="true"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 					<p:column filterBy="#{item.itemNombre}" filterMatchMode="contains"
 						headerText="NOMBRE" width="50">
@@ -49,7 +49,7 @@
 					</p:column>
 					<p:column headerText="INICIO SUBASTA" width="30">
 						<h:outputText value="#{item.itemFechaSubastaInicio}">
-							<f:convertDateTime pattern="yyyy/MM/dd HH:mm" timeZone="GMT-5"/>
+							<f:convertDateTime pattern="yyyy/MM/dd HH:mm" timeZone="GMT-5" />
 						</h:outputText>
 					</p:column>
 					<p:column headerText="FIN SUBASTA" width="30">
@@ -95,7 +95,8 @@
 					<b:commandButton value="Ingresar" iconAwesome="check-square-o"
 						action="#{sessionBean.login}" styleClass="btn-block btnSend"
 						look="primary" update="frmlog" />
-					<a class="navbar-link" onclick="PF('rc').show();">¿Olvidó su contraseña?</a>
+					<a class="navbar-link" onclick="PF('rc').show();">¿Olvidó su
+						contraseña?</a>
 				</h:form>
 			</div>
 		</p:dialog>
@@ -130,17 +131,15 @@
 				</h:form>
 			</div>
 		</p:dialog>
-
-		<p:dialog header="Imágen de Flujo de Ofertas" widgetVar="im"
-			modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-			<div class="row topForm">
-				<div class="col-sm-8 col-sm-offset-2 form-box">
-						<h:panelGrid>
-							<p:graphicImage value="/resources/img/300.jpg"
-								width="200" height="200" />
-						</h:panelGrid>
-				</div>
-			</div>
+		<p:dialog header="Flujo de Ofertas" widgetVar="im" closable="true"
+			closeOnEscape="true" modal="true" showEffect="fade" hideEffect="fade"
+			resizable="false">
+			<h:form id="frmimg">
+				<center>
+					<p:graphicImage value="/resources/img/pasos.png" width="100%"
+						styleClass="img-responsive" />
+				</center>
+			</h:form>
 		</p:dialog>
 	</ui:define>
 </ui:composition>

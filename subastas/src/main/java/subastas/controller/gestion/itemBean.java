@@ -416,11 +416,11 @@ public class itemBean implements Serializable {
 			item_id = null;
 			getListaItem().clear();
 			getListaItem().addAll(managergest.findAllItems());
-			Mensaje.crearMensajeINFO("Actualizado - Modificado");
+			Mensaje.crearMensajeINFO("Ganador establecido, dirigase a la tabla de ganadores");
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Ganador - Establecido", null));
+							"Ganador establecido, dirigase a la tabla de ganadores", null));
 			return "items?faces-redirect=true";
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -436,8 +436,16 @@ public class itemBean implements Serializable {
 	 * @throws Exception
 	 */
 	public void conocerGanadorItem(SubItem item) {
+		if(item.getItemEstado().equals("A")){
 		setItemdelsita(item);
 		RequestContext.getCurrentInstance().execute("PF('cg').show();");
+		}else{
+			Mensaje.crearMensajeINFO("Yá se establecio Ganador");
+		FacesContext.getCurrentInstance().addMessage(
+				null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO,
+						"Yá se establecio Ganador", null));
+		}
 	}
 
 	/**
@@ -625,7 +633,8 @@ public class itemBean implements Serializable {
 				// Tomar PAD REAL
 				ServletContext servletContext = (ServletContext) FacesContext
 						.getCurrentInstance().getExternalContext().getContext();
-//				String carpetaImagenes = "C:/Users/lcorrea/Desktop/wildfly-8.2.1.Final/standalone/img/img_subastas/items";
+				// String carpetaImagenes =
+				// "C:/Users/lcorrea/Desktop/wildfly-8.2.1.Final/standalone/img/img_subastas/items";
 				String carpetaImagenes = "/opt/wildfly/standalone/img/img_subastas/items/";
 				setItem_imagen(g);
 				System.out.println("PAD------> " + carpetaImagenes);
@@ -643,7 +652,7 @@ public class itemBean implements Serializable {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"Correcto:", "Carga correcta"));
+								"Correcto: Carga correcta", null));
 
 			} catch (Exception e) {
 				FacesContext.getCurrentInstance().addMessage(

@@ -154,7 +154,7 @@
 							<b:inputText value="#{ofertausuBean.ofer_valor_oferta}"
 								required="true" placeholder="$0.00"
 								style="font-weight:bold;color:black;font-size: 20pt;"
-								requiredMessage="Campo valor venta requerido" maxlength="9"
+								requiredMessage="Campo valor venta requerido" maxlength="6"
 								validatorMessage="Ingrese solo dígitos Ej. 0.00">
 								<f:validateRegex pattern="[0-9]+(\.[0-9][0-9]?)?" />
 								<p:ajax listener="#{ofertausuBean.verificarValor()}"
@@ -214,17 +214,16 @@
 					onclick="PF('gu').hide();" />
 			</h:form>
 		</p:confirmDialog>
-		<p:dialog header="Imágen de Flujo de Ofertas" widgetVar="im"
-			modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-			<div class="row topForm">
-				<div class="col-sm-8 col-sm-offset-2 form-box">
-					<h:panelGrid>
-						<p:graphicImage value="/resources/img/300.jpg" width="200"
-							height="200" />
-					</h:panelGrid>
-				</div>
-			</div>
-				</p:dialog>
+		<p:dialog header="Flujo de Ofertas" widgetVar="im" closable="true"
+			closeOnEscape="true" modal="true" showEffect="fade" hideEffect="fade"
+			resizable="false">
+			<h:form id="frmimg">
+				<center>
+					<p:graphicImage value="/resources/img/pasos.png" width="100%"
+						styleClass="img-responsive" />
+				</center>
+			</h:form>
+		</p:dialog>
 	</ui:define>
 </ui:composition>
 

@@ -389,7 +389,7 @@ public class postulantesusuBean implements Serializable {
 					pos_direccion.trim(), pos_correo.trim(),
 					pos_telefono.trim(),pos_celular.trim(), pos_password.trim());
 			
-			smscorusu = "Estimad(a) "+pos_nombre+" "+pos_apellido+", <br/>"
+			smscorusu = "Estimado(a) "+pos_nombre+" "+pos_apellido+", <br/>"
 					 + "Se creó con éxito sus credenciales para ingreso al sistema de subastas: <br/>"
 		             + "<br/> Usuario: "+pos_id+""
 		           //  + "<br/> Contraseña: "+Utilidades.Desencriptar(pos_password)+" "
@@ -402,6 +402,7 @@ public class postulantesusuBean implements Serializable {
 			getListaPostulante().addAll(managergest.findAllpostulantes());
 			pos_id = "";
 			pos_nombre = "";
+			smscorusu="";
 			pos_apellido = "";
 			pos_direccion = "";
 			pos_correo = "";

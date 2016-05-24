@@ -72,6 +72,7 @@ create table SUB_ITEMS (
    ITEM_GANADOR_DNI     INT4		          null,
    ITEM_USUARIO_REGISTRO VARCHAR(255)         null,
    ITEM_ESTADO          CHAR(1)              null,
+   ITEM_SMS             VARCHAR(30)          null,
    constraint PK_SUB_ITEMS primary key (ITEM_ID)
 );
 

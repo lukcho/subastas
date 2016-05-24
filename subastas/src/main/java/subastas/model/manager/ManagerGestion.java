@@ -132,7 +132,7 @@ public class ManagerGestion {
 	}
 
 	/**
-	 * Cambiar datos de vehiculo
+	 * Cambiar datos de Item
 	 * 
 	 * @param pro_id
 	 * @param prodfoto_id
@@ -164,9 +164,24 @@ public class ManagerGestion {
 		item.setItemEstado(item_estado);
 		mDAO.actualizar(item);
 	}
+	
+	
+	/**
+	 * Cambiar datos de item notificacion
+	 * 
+	 * @param pro_id
+	 * @throws Exception
+	 */
+	public void notificadoItem(Integer item_id) throws Exception {
+		SubItem item = this.itemByID(item_id);
+		item.setItemSms("Notificado");
+		mDAO.actualizar(item);
+	}
+	
+	
 
 	/**
-	 * Cambiar datos de vehiculo
+	 * Concoer gaandor del Item
 	 * 
 	 * @param pro_id
 	 * @param prodfoto_id
@@ -193,12 +208,12 @@ public class ManagerGestion {
 			}
 		}
 		if (item.getItemGanadorDni().equals("''")) {
-			h = "Aun no se hay Ofertas";
+			h = "Aún no hay Ofertas";
 		} else {
 			item.setItemGanadorDni(ofer_id);
 			item.setItemEstado(item_estado);
 			mDAO.actualizar(item);
-			h = "Ganador - Establecido";
+			h = "Ganador establecido, dirígase a la lista de ganadores";
 		}
 		return h;
 	}
@@ -225,8 +240,9 @@ public class ManagerGestion {
 		item.setItemGanadorDni(ofer.getOferId());
 		item.setItemValorVenta(ofer.getOferValorOferta());
 		item.setItemEstado(item_estado);
+		item.setItemSms("No Notificado");
 		mDAO.actualizar(item);
-		h = "Ganador - Establecido";
+		h = "Ganador establecido, dirígase a la lista de ganadores";
 	}
 
 	@SuppressWarnings("unchecked")
