@@ -395,7 +395,7 @@ public class SessionBean {
  				System.out.println("si entra1");
  				enviarmensajerecuperarcontra(y); 				
  				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Enviado correctamente revise su correo", null));	  						  							
-
+ 				correocontra="";
  				t=1;
  			}
  		}
@@ -410,8 +410,6 @@ public class SessionBean {
     //Tomar el id de estado general id_estadoSolicitud
 		public String enviarmensajerecuperarcontra(SubPostulante usr){
 		try {
-			if(!correocontra.equals(correoveri))
-			{
 					String passwordnuevo;
 					cedula = usr.getPosId();
 					nombre = usr.getPosNombre();
@@ -436,12 +434,11 @@ public class SessionBean {
 					cedula="";
 			        nombre="";
 			        apellido="";
-			        correoveri=correo;
 					correo="";
 					password="";	
 					passwordnuevo="";
 					smscor="";
-			}
+			
 			} catch (Exception e) {
 				e.printStackTrace();
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Error al enviar correo", null));

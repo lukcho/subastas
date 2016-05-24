@@ -17,7 +17,7 @@ public class Mail {
 			String mensaje) throws Exception {
 		try
 		{
-		String origen = "scvtalentohumano@yachay.gob.ec";
+		String origen = "subastas@yachay.gob.ec";
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "mail.yachay.gob.ec");
 		props.put("mail.from", origen);
