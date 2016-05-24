@@ -478,7 +478,7 @@ public class ManagerGestion {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public String ValorMaximoXItem(Integer item_id) {
+	public BigDecimal ValorMaximoXItem(Integer item_id) {
 		List<BigDecimal> list = mDAO
 				.findJPQL("SELECT MAX(oferValorOferta) as valor FROM SubOferta o where o.subItem.itemId = "
 						+ item_id + " ");
@@ -487,7 +487,7 @@ public class ManagerGestion {
 		if (list.get(0) == null) {
 			return null;
 		} else
-			return list.get(0).toString();
+			return list.get(0);
 	}
 
 	/**
@@ -524,9 +524,6 @@ public class ManagerGestion {
 				.findJPQL("SELECT o.oferId FROM SubOferta o WHERE o.oferValorOferta = (SELECT MAX(p.oferValorOferta) FROM SubOferta p where p.subItem.itemId = "
 						+ item_id + " and p.subPostulante.posId = '"+pos_id+"' ) ");
 
-		//System.out.println(list.size());
-		//System.out.println(list.get(0));
-		
 		if (list.size() == 0) {
 			return 0;
 		} else

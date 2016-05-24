@@ -119,11 +119,11 @@ public class ofertausuBean implements Serializable {
 	public String getGanandoperdiendo1() {
 		return ganandoperdiendo1;
 	}
-	
+
 	public void setGanandoperdiendo1(String ganandoperdiendo1) {
 		this.ganandoperdiendo1 = ganandoperdiendo1;
 	}
-	
+
 	public String getGanandoperdiendo() {
 		return ganandoperdiendo;
 	}
@@ -135,11 +135,11 @@ public class ofertausuBean implements Serializable {
 	public boolean isOcultarColorGana1() {
 		return ocultarColorGana1;
 	}
-	
+
 	public void setOcultarColorGana1(boolean ocultarColorGana1) {
 		this.ocultarColorGana1 = ocultarColorGana1;
 	}
-	
+
 	public boolean isOcultarColorGana() {
 		return ocultarColorGana;
 	}
@@ -155,11 +155,11 @@ public class ofertausuBean implements Serializable {
 	public void setValorUltimoPostulante(String valorUltimoPostulante) {
 		this.valorUltimoPostulante = valorUltimoPostulante;
 	}
-	
+
 	public String getColorgana1() {
 		return colorgana1;
 	}
-	
+
 	public void setColorgana1(String colorgana1) {
 		this.colorgana1 = colorgana1;
 	}
@@ -566,7 +566,6 @@ public class ofertausuBean implements Serializable {
 					new FacesMessage(FacesMessage.SEVERITY_INFO,
 							"Registrado- Se envio la oferta", null));
 			r = "";
-
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
@@ -733,15 +732,14 @@ public class ofertausuBean implements Serializable {
 			if (managergest.ValorMaximoXItem(item_id) == null) {
 				valorMaximo = "0.00";
 			} else {
-
 				if (managergest.ofertaXPost(item_id, pos_id) == 0) {
 					ofertavalor = null;
 				} else {
 					ofertavalor = managergest.ofertaByID(managergest
 							.ofertaXPost(item_id, pos_id));
 					BigDecimal valoroferta = ofertavalor.getOferValorOferta();
-					BigDecimal valormaximo1 = new BigDecimal(
-							managergest.ValorMaximoXItem(item_id));
+					BigDecimal valormaximo1 = managergest
+							.ValorMaximoXItem(item_id);
 
 					valorMaximo = managergest.ValorMaximoXItem(item_id)
 							.toString();
@@ -749,21 +747,25 @@ public class ofertausuBean implements Serializable {
 
 					if (valormaximo1.compareTo(valoroferta) == 1) {
 						colorgana = "colorRed";
-						ganandoperdiendo = "  Tu oferta: $"+valorUltimoPostulante;
+						ganandoperdiendo = "  Tu oferta: $"
+								+ valorUltimoPostulante;
 						colorgana1 = "colorGreen";
-						ganandoperdiendo1 = "  Última Mejor Oferta: $"+valorMaximo;
+						ganandoperdiendo1 = "  Última Mejor Oferta: $"
+								+ valorMaximo;
 						setOcultarColorGana1(true);
 					} else if (valormaximo1.compareTo(valoroferta) == -1) {
 						colorgana = "colorGreen";
-						ganandoperdiendo = " Estas Ganando: $"+valorUltimoPostulante;
+						ganandoperdiendo = " Estas Ganando: $"
+								+ valorUltimoPostulante;
 						setOcultarColorGana1(false);
 					} else if (valormaximo1.compareTo(valoroferta) == 0) {
 						colorgana = "colorGreen";
-						ganandoperdiendo = " Estas Ganando: $"+valorUltimoPostulante;
+						ganandoperdiendo = " Estas Ganando: $"
+								+ valorUltimoPostulante;
 						setOcultarColorGana1(false);
 					}
 					setOcultarColorGana(true);
-					
+
 				}
 			}
 			return "";
@@ -873,8 +875,8 @@ public class ofertausuBean implements Serializable {
 		// limpiar datos
 		ofertavalor = null;
 		ofer_valor_oferta = null;
-		ocultarColorGana=true;
-		ocultarColorGana1=true;
+		ocultarColorGana = true;
+		ocultarColorGana1 = true;
 		ganandoperdiendo = "";
 		ganandoperdiendo1 = "";
 		valorUltimoPostulante = "0.00";
@@ -896,6 +898,7 @@ public class ofertausuBean implements Serializable {
 			if (item == null) {
 				System.out.println("holi");
 			} else {
+				valorUltimoPostulante = "0,00";
 				setOcultarColorGana(false);
 				setOcultarColorGana1(false);
 				fecha = new Date();
@@ -948,6 +951,7 @@ public class ofertausuBean implements Serializable {
 					item_fecha_subasta_fin = item.getItemFechaSubastaFin();
 					fi = item.getItemFechaSubastaInicio();
 					ff = item.getItemFechaSubastaFin();
+
 					r = "noferta?faces-redirect=true";
 				}
 			}
@@ -1126,17 +1130,28 @@ public class ofertausuBean implements Serializable {
 	 * 
 	 */
 	public void abrirDialog() {
-		if (!verificarValor()){
+		if (!verificarValor()) {
 			FacesContext
 					.getCurrentInstance()
 					.addMessage(
 							null,
 							new FacesMessage(
 									FacesMessage.SEVERITY_INFO,
-									"El valor es menor que el de base o de tu última oferta",
+									"El valor debe ser mayor al de valor base  y de la ultima mejor oferta",
 									null));
-		RequestContext.getCurrentInstance().execute("PF('vm').show();");
-		}else {
+			RequestContext.getCurrentInstance().execute("PF('vm').show();");
+		} else if (ofer_valor_oferta.length() > 6) {
+			FacesContext
+					.getCurrentInstance()
+					.addMessage(
+							null,
+							new FacesMessage(
+									FacesMessage.SEVERITY_INFO,
+									"El valor de la oferta excede el limite establecido",
+									null));
+			RequestContext.getCurrentInstance().execute("PF('vmi').show();");
+
+		} else {
 			RequestContext.getCurrentInstance().execute("PF('gu').show();");
 		}
 	}
@@ -1154,24 +1169,30 @@ public class ofertausuBean implements Serializable {
 	 */
 	public boolean verificarValor() {
 		boolean r;
-
+		BigDecimal valorMaximoitem;
 		BigDecimal valoroferta1 = new BigDecimal(ofer_valor_oferta.replace(",",
 				"."));
-		BigDecimal valorbase = new BigDecimal(item_valorbase.replace(",", "."));
-
-		BigDecimal valorultimopostulante = new BigDecimal(
-				valorUltimoPostulante.replace(",", "."));
-
-		System.out.println("el valor que se ingresa: " + valoroferta1);
-		System.out.println("el valor del item: " + valorbase);
-		System.out.println("el ultimo valor postu: " + valorultimopostulante);
-		if (valoroferta1 == valorultimopostulante
-				|| (valoroferta1.compareTo(valorbase) == 1 && valoroferta1
-						.compareTo(valorultimopostulante) == 1)) {
-			r = true;
+		if (managergest.ValorMaximoXItem(item_id) == null) {
+			BigDecimal valorbase = new BigDecimal(item_valorbase.replace(",",
+					"."));
+			valorMaximoitem = valorbase;
+			if (valoroferta1.compareTo(valorMaximoitem) == 0
+					|| valoroferta1.compareTo(valorMaximoitem) == -1) {
+				r = false;
+			} else {
+				r = true;
+			}
 		} else {
-			r = false;
+			valorMaximoitem = new BigDecimal(managergest
+					.ValorMaximoXItem(item_id).toString().replace(",", "."));
+			if (valoroferta1.compareTo(valorMaximoitem) == 0
+					|| valoroferta1.compareTo(valorMaximoitem) == -1) {
+				r = false;
+			} else {
+				r = true;
+			}
 		}
+
 		return r;
 	}
 

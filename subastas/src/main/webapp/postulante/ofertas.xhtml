@@ -55,7 +55,7 @@
 					</p:column>
 					<p:column headerText="FECHA OFERTA" width="60">
 						<h:outputText value="#{ofer.oferFechaOferta}">
-							<f:convertDateTime pattern="yyyy/MM/dd HH:mm" />
+							<f:convertDateTime pattern="yyyy/MM/dd HH:mm" timeZone="GMT-5"  />
 						</h:outputText>
 					</p:column>
 					<p:column headerText="VALOR OFERTA" width="30">

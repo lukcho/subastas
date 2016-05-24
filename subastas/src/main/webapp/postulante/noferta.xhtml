@@ -194,12 +194,20 @@
 					onclick="PF('cs').hide();" />
 			</p:confirmDialog>
 			<p:confirmDialog header="Advertencia"
-				message="El valor de la oferta es menor que el valor base o el valor de tu última oferta"
+				message="El valor debe ser mayor al de valor base  y de la ultima mejor oferta"
 				closable="false" showEffect="fade" hideEffect="explode"
 				widgetVar="vm">
 				<p:commandButton value="Cerrar" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
 					onclick="PF('vm').hide();" />
+			</p:confirmDialog>
+			<p:confirmDialog header="Advertencia"
+				message="El valor de la oferta excede el limite establecido"
+				closable="false" showEffect="fade" hideEffect="explode"
+				widgetVar="vmi">
+				<p:commandButton value="Cerrar" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+					onclick="PF('vmi').hide();" />
 			</p:confirmDialog>
 		</h:form>
 		<p:confirmDialog header="Confirmación"
