@@ -16,6 +16,8 @@ and open the template in the editor.
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="viewport"
 		content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+	<link rel="shortcut icon" type="image/x-icon"
+		href="resources/img/favicon.ico" />
 	<title><ui:insert name="titulo">Template</ui:insert></title>
 	<h:outputStylesheet library="css" name="theme.css" />
 	<h:outputStylesheet library="css" name="style.css" />
@@ -23,11 +25,20 @@ and open the template in the editor.
 	<ui:insert name="estilos"></ui:insert>
 </h:head>
 <h:body>
-	    <style>
-		    .ui-widget-header { border: 1px solid #FFFFFF;background: #FFFFFF;}
-			.ui-widget-content { border: 1px solid #FFFFFF;}
-			.navbar {   margin-bottom: 0px;}
-		</style>
+	<style>
+.ui-widget-header {
+	border: 1px solid #FFFFFF;
+	background: #FFFFFF;
+}
+
+.ui-widget-content {
+	border: 1px solid #FFFFFF;
+}
+
+.navbar {
+	margin-bottom: 0px;
+}
+</style>
 	<b:navBar brand="Subastas" inverse="true" brandHref="index.xhtml">
 		<b:navbarLinks>
 			<b:navLink value="Subastas Pasadas" iconAwesome="fa fa-gavel"
@@ -42,27 +53,36 @@ and open the template in the editor.
 		</p>
 	</b:navBar>
 	<b:container>
-		<b:carousel id="parque" style="width:100%" showControls="false" 
+		<b:carousel id="parque" style="width:100%" showControls="false"
 			interval="4000">
 			<b:carouselItem>
-				<center><b:image value="/resources/img/a.jpg" styleClass="img-responsive" style="height:150px; width:1450px;"/></center>
+				<center>
+					<b:image value="/resources/img/a.jpg" styleClass="img-responsive"
+						style="height:150px; width:1450px;" />
+				</center>
 			</b:carouselItem>
 			<b:carouselItem>
-				<center><b:image value="/resources/img/b.jpg" styleClass="img-responsive" style="height:150px; width:1450px;"/></center>
+				<center>
+					<b:image value="/resources/img/b.jpg" styleClass="img-responsive"
+						style="height:150px; width:1450px;" />
+				</center>
 			</b:carouselItem>
 			<b:carouselItem>
-				<center><b:image value="/resources/img/c.jpg" styleClass="img-responsive" style="height:150px; width:1450px;"/></center>
+				<center>
+					<b:image value="/resources/img/c.jpg" styleClass="img-responsive"
+						style="height:150px; width:1450px;" />
+				</center>
 			</b:carouselItem>
 		</b:carousel>
 		<ui:insert name="contenido"></ui:insert>
 	</b:container>
 	<b:navBar fixed="bottom" inverse="true">
 		<center>
-			<span  style="color: white;font-size: 8pt;"> Sistema Desarrollado por: <a
-				href="http://www.yachay.gob.ec/">Yachay EP</a>; Amazonas N26-146 y
-				la Niña Tel: (593 2 3949100).<br /> Este se sistema debe ejecutar
-				en los navegadores Google Chrome o Mozilla Firefox para un correcto
-				funcionamiento.
+			<span style="color: white; font-size: 8pt;"> Sistema
+				Desarrollado por: <a href="http://www.yachay.gob.ec/">Yachay EP</a>;
+				Amazonas N26-146 y la Niña Tel: (593 2 3949100).<br /> Este se
+				sistema debe ejecutar en los navegadores Google Chrome o Mozilla
+				Firefox para un correcto funcionamiento.
 			</span>
 		</center>
 	</b:navBar>
