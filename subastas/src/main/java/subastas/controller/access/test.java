@@ -33,15 +33,21 @@ public class test {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-
-		try {
-			System.out.println(ConsumeREST
-					.consumeGetRestEasyObject("http://yachay-ws.yachay.gob.ec/data/WSParametrosEntity/SRV_IMG_SYS_SUBASTAS")
-					.get("parValor"));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		int numeroAleatorio = (int)Math.round(Math.random()*1);
+		int numeroAleatorio1 = (int)Math.round(Math.random()*0);
+		if(numeroAleatorio1 < numeroAleatorio){
+		System.out.println("valor real");
+		}else {
+			System.out.println("valor nada");
 		}
+//		try {
+//			System.out.println(ConsumeREST
+//					.consumeGetRestEasyObject("http://yachay-ws.yachay.gob.ec/data/WSParametrosEntity/SRV_IMG_SYS_SUBASTAS")
+//					.get("parValor"));
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 
 	}
 }

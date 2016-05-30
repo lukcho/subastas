@@ -481,7 +481,7 @@ public class ManagerGestion {
 	public BigDecimal ValorMaximoXItem(Integer item_id) {
 		List<BigDecimal> list = mDAO
 				.findJPQL("SELECT MAX(oferValorOferta) as valor FROM SubOferta o where o.subItem.itemId = "
-						+ item_id + " ");
+						+ item_id + " and o.oferFechaOferta < now() ");
 		System.out.println(list.size());
 		System.out.println(list.get(0));
 		if (list.get(0) == null) {
@@ -528,6 +528,24 @@ public class ManagerGestion {
 			return 0;
 		} else
 			return list.get(0);
+	}
+	
+	/**
+	 * listar todos las ofertas x item
+	 * 
+	 * @param prod_id
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public Integer ofertaNumPost(Integer item_id,String pos_id) {
+		//System.out.println("entraaaaa");
+		List<SubOferta> list = mDAO
+				.findJPQL("SELECT o FROM SubOferta o WHERE o.subItem.itemId = "
+						+ item_id + " and o.subPostulante.posId = '"+pos_id+"' ) ");
+		if (list.size() == 0) {
+			return 1;
+		} else
+			return list.size();
 	}
 
 	/**
@@ -628,5 +646,12 @@ public class ManagerGestion {
 						SubOferta.class,
 						"o.oferId NOT IN (SELECT i.itemGanadorDni FROM SubItem i WHERE i.itemEstado='I')",
 						null);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<SubOferta> maximoGanador(Integer itemId){
+		return mDAO.findJPQL("SELECT o FROM SubOferta o  WHERE "
+				+ "o.oferFechaOferta=(SELECT MIN(p.oferFechaOferta) FROM SubOferta p where p.subItem.itemId = "+itemId
+				+ " and p.oferValorOferta= (SELECT MAX(q.oferValorOferta) FROM SubOferta q))");
 	}
 }

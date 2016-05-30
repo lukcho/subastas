@@ -1,9 +1,13 @@
 package subastas.model.manager;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 
 import subastas.general.connection.SingletonJDBC;
+import subastas.model.dao.entities.Oferta;
 import subastas.model.dao.entities.Persona;
+import subastas.model.generic.Funciones;
 
 /**
  * Contiene la lógica de negocio para realizar el proceso de reserva de sitios
@@ -87,4 +91,34 @@ public class ManagerCarga {
 		}
 		return f;
 	}
+	
+	/**
+	 * Devuelve un funcionario por dni
+	 * 
+	 * @param dni
+	 * @return Funcionario
+	 * @throws Exception
+	 */
+	public Oferta ValorMaximoXItem1(Integer item_id) throws Exception {
+		Oferta o = null;
+		System.out.println(item_id);
+		ResultSet consulta = conDao
+				.consultaSQL("select o.ofer_id as id, o.pos_id as post, o.item_id as item, o.ofer_valor_oferta as valormaximo, "
+						+ "o.ofer_fecha_oferta as fechaofer FROM sub_ofertas o WHERE o.ofer_fecha_oferta=(SELECT MIN(p.ofer_fecha_oferta) "
+						+ "FROM sub_ofertas p where p.item_id = "+ item_id +"  "
+						+ "and p.ofer_valor_oferta= (SELECT MAX(q.ofer_valor_oferta) FROM sub_ofertas q))");
+		if (consulta != null) {
+			consulta.next();
+			o = new Oferta();
+			System.out.println("entra a la consulta");
+			o.setOferId(Integer.parseInt(consulta.getString("id")));
+			o.setSubPostulante(consulta.getString("post"));
+			o.setSubItem(Integer.parseInt(consulta.getString("item")));
+			o.setOferValorOferta(new BigDecimal (consulta.getString("valormaximo")));
+			o.setOferFechaOferta(new Timestamp(Funciones.stringToDate(consulta.getString("fechaofer")).getTime()));
+		}
+		return o;
+	}
+	
+	
 }

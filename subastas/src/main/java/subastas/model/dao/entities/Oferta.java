@@ -1,58 +1,67 @@
 package subastas.model.dao.entities;
 
-import java.sql.Timestamp;
 import java.math.BigDecimal;
-
+import java.util.Date;
 
 public class Oferta {
 
 	private Integer oferId;
-		private Timestamp oferFechaOferta;
-		private BigDecimal oferValorOferta;
-		private SubItem subItem;
-		private SubPostulante subPostulante;
+	private Date oferFechaOferta;
+	private BigDecimal oferValorOferta;
+	private Integer subItem;
+	private String subPostulante;
+	
+	public Oferta() {}
+	
+	public Oferta(Integer oferId){
+		this.oferId = oferId;
+	}
 
-		public Oferta(BigDecimal oferValorOferta) {
-			this.oferValorOferta = oferValorOferta;
-		}
+	public Oferta(Integer oferId, Date oferFechaOferta, BigDecimal oferValorOferta, Integer subItem, String subPostulante){
+		this.oferId=oferId;
+		this.oferFechaOferta=oferFechaOferta;
+		this.oferValorOferta=oferValorOferta;
+		this.subItem=subItem;
+		this.subPostulante=subPostulante;
+	}
 
-		public Integer getOferId() {
-			return this.oferId;
-		}
+	public Integer getOferId() {
+		return oferId;
+	}
 
-		public void setOferId(Integer oferId) {
-			this.oferId = oferId;
-		}
+	public void setOferId(Integer oferId) {
+		this.oferId = oferId;
+	}
 
-		public Timestamp getOferFechaOferta() {
-			return this.oferFechaOferta;
-		}
+	public Date getOferFechaOferta() {
+		return oferFechaOferta;
+	}
 
-		public void setOferFechaOferta(Timestamp oferFechaOferta) {
-			this.oferFechaOferta = oferFechaOferta;
-		}
+	public void setOferFechaOferta(Date oferFechaOferta) {
+		this.oferFechaOferta = oferFechaOferta;
+	}
 
-		public BigDecimal getOferValorOferta() {
-			return this.oferValorOferta;
-		}
+	public BigDecimal getOferValorOferta() {
+		return oferValorOferta;
+	}
 
-		public void setOferValorOferta(BigDecimal oferValorOferta) {
-			this.oferValorOferta = oferValorOferta;
-		}
+	public void setOferValorOferta(BigDecimal oferValorOferta) {
+		this.oferValorOferta = oferValorOferta;
+	}
 
-		public SubItem getSubItem() {
-			return this.subItem;
-		}
+	public Integer getSubItem() {
+		return subItem;
+	}
 
-		public void setSubItem(SubItem subItem) {
-			this.subItem = subItem;
-		}
+	public void setSubItem(Integer subItem) {
+		this.subItem = subItem;
+	}
 
-		public SubPostulante getSubPostulante() {
-			return this.subPostulante;
-		}
+	public String getSubPostulante() {
+		return subPostulante;
+	}
 
-		public void setSubPostulante(SubPostulante subPostulante) {
-			this.subPostulante = subPostulante;
-		}
+	public void setSubPostulante(String subPostulante) {
+		this.subPostulante = subPostulante;
+	}
 }

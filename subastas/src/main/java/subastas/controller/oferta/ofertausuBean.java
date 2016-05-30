@@ -111,8 +111,8 @@ public class ofertausuBean implements Serializable {
 		ganandoperdiendo1 = "";
 		colorgana = "colorBlack";
 		colorgana1 = "colorBlack";
-		session = SessionBean.verificarSession();
-		cargarDatosLogeado();
+//		session = SessionBean.verificarSession();
+//		cargarDatosLogeado();
 		listaItem = managergest.findAllItems();
 	}
 
@@ -532,7 +532,7 @@ public class ofertausuBean implements Serializable {
 	}
 
 	/**
-	 * accion para invocar el manager y crear producto o editar el producto
+	 * accion para invocar el manager y crear oferta
 	 * 
 	 * @param pro_id
 	 * @param prodfoto_id
@@ -556,6 +556,7 @@ public class ofertausuBean implements Serializable {
 			managergest.asignarPostulante(pos_id);
 			managergest.asignarItem(item_id);
 			ofer_fecha_oferta = new Timestamp(fecha.getTime());
+
 			managergest.insertarOferta(valoroferta, ofer_fecha_oferta);
 			ofer_valor_oferta = "";
 			valoroferta = new BigDecimal(0.00);
@@ -729,43 +730,43 @@ public class ofertausuBean implements Serializable {
 	 */
 	public String conocerGanador() {
 		try {
-			if (managergest.ValorMaximoXItem(item_id) == null) {
+			List<SubOferta> sublist = managergest.maximoGanador(item_id);
+			if (sublist == null || sublist.isEmpty()) {
 				valorMaximo = "0.00";
 			} else {
 				if (managergest.ofertaXPost(item_id, pos_id) == 0) {
 					ofertavalor = null;
 				} else {
+
+					System.out.println("el posulante q puso: "
+							+ sublist.get(0).getSubPostulante().getPosId());
+					System.out.println("el posulante q yo soy: " + pos_id);
 					ofertavalor = managergest.ofertaByID(managergest
 							.ofertaXPost(item_id, pos_id));
+					
 					BigDecimal valoroferta = ofertavalor.getOferValorOferta();
-					BigDecimal valormaximo1 = managergest
-							.ValorMaximoXItem(item_id);
 
-					valorMaximo = managergest.ValorMaximoXItem(item_id)
+					valorMaximo = sublist.get(0).getOferValorOferta()
 							.toString();
 					valorUltimoPostulante = valoroferta.toString();
 
-					if (valormaximo1.compareTo(valoroferta) == 1) {
+					if (sublist.get(0).getSubPostulante().getPosId().equals(pos_id)) {
+						System.out.println("estas ganando");
+						colorgana = "colorGreen";
+						ganandoperdiendo = " Estas Ganando: $"+ valorUltimoPostulante;
+						setOcultarColorGana(true);
+						setOcultarColorGana1(false);
+					} else{
+						System.out.println("estas perdiendo");
+						System.out.println("valor ultimo del postulante: "+valorUltimoPostulante);
 						colorgana = "colorRed";
-						ganandoperdiendo = "  Tu oferta: $"
-								+ valorUltimoPostulante;
+						ganandoperdiendo = "  Tu oferta: $"	+ valorUltimoPostulante;
 						colorgana1 = "colorGreen";
 						ganandoperdiendo1 = "  Última Mejor Oferta: $"
 								+ valorMaximo;
+						setOcultarColorGana(true);
 						setOcultarColorGana1(true);
-					} else if (valormaximo1.compareTo(valoroferta) == -1) {
-						colorgana = "colorGreen";
-						ganandoperdiendo = " Estas Ganando: $"
-								+ valorUltimoPostulante;
-						setOcultarColorGana1(false);
-					} else if (valormaximo1.compareTo(valoroferta) == 0) {
-						colorgana = "colorGreen";
-						ganandoperdiendo = " Estas Ganando: $"
-								+ valorUltimoPostulante;
-						setOcultarColorGana1(false);
 					}
-					setOcultarColorGana(true);
-
 				}
 			}
 			return "";

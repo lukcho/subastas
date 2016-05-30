@@ -809,8 +809,10 @@ public class ofertasBean implements Serializable {
 			smscorreoganador = "Estimado(a) "+pos_nombre+" "+pos_apellido+", <br/>"
 					 + "Se ha establecido como Ganador del item: "+item_nombre+" <br/>"
 					 + "con las siguientes características: <br/>"+item_caracteristicas+"<br/>"
-					 + "el valor a pagar es de: $"+item_valorventa+"<br/>"
-					 + "Por favor, comuniquese con Subastas Yachay EP<br/>"
+					 + "el valor a pagar es de: $"+item_valorventa+"<br/><br/>"
+					 + "Favor acercarse a las oficinas de la Gerencia Comercial en Quito o al YStore en Urcuqui, <br/>"
+					 + "a cancelar el valor correspondiente de $"+item_valorventa+" para emitir la respectiva factura,<br/>"
+					 + " y la entrega del producto subastado.<br/> * El valor de las ofertas no incluye IVA<br/><br/>"
 					 + "<br/> Saludos cordiales, "
 		             + "<br/> Sistema de Subastas Yachay EP.";
 			
