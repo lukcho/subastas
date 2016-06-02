@@ -415,20 +415,20 @@ public class postulantesusuBean implements Serializable {
 			pos_gerencia = "";
 			pos_area = "";
 			pos_estado = "A";
-			Mensaje.crearMensajeINFO("Creado con exitoso - Se envió una notificación su correo");
+			Mensaje.crearMensajeINFO("Creado con éxito - Se envió una notificación su correo");
 			
 			
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Creado con exitoso - Se envió una notificación su correo", null));
+							"Error al crear usuario postulante", null));
 			r = "index?faces-redirect=true";
 
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Error al  crear usuario postulante", null));
+							"Error al crear usuario postulante", null));
 		}
 		return r;
 	}
@@ -482,7 +482,7 @@ public class postulantesusuBean implements Serializable {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								"Error al  cargar sus datos personales", null));
+								"Error al cargar sus datos personales", null));
 			}
 		}
 		return "uperfil?faces-redirect=true";

@@ -111,8 +111,8 @@ public class ofertausuBean implements Serializable {
 		ganandoperdiendo1 = "";
 		colorgana = "colorBlack";
 		colorgana1 = "colorBlack";
-//		session = SessionBean.verificarSession();
-//		cargarDatosLogeado();
+		session = SessionBean.verificarSession();
+		cargarDatosLogeado();
 		listaItem = managergest.findAllItems();
 	}
 
@@ -546,13 +546,14 @@ public class ofertausuBean implements Serializable {
 	 * @throws Exception
 	 */
 	public String crearOferta() {
+		System.out.println("ingresa al boton");
 		String r = "";
 		try {
 			BigDecimal valoroferta = new BigDecimal(ofer_valor_oferta.replace(
 					",", "."));
 			fecha = new Date();
 			pos_id = session.getIdUsr();
-			System.out.println("iddelitem " + item_id);
+			System.out.println("id del item " + item_id);
 			managergest.asignarPostulante(pos_id);
 			managergest.asignarItem(item_id);
 			ofer_fecha_oferta = new Timestamp(fecha.getTime());
