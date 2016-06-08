@@ -14,9 +14,9 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
 import subastas.model.access.Menu;
-import subastas.model.generic.ConsumeREST;
 import subastas.model.generic.Mensaje;
 import subastas.model.manager.ManagerAcceso;
+import subastas.controller.access.SesionBean;
 
 
 
@@ -124,7 +124,7 @@ public class SesionBean implements Serializable{
 	     SesionBean user = (SesionBean) session.getAttribute("sesionBean");
 	     if (user==null || user.getUsuario() == null) {
             try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("/subastas/admin/index.xhtml");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("../index.xhtml");
             } catch (IOException ex) {
             	Mensaje.crearMensajeERROR(ex.getMessage());
             }
@@ -155,7 +155,7 @@ public class SesionBean implements Serializable{
 	     SesionBean user = (SesionBean) session.getAttribute("sesionBean");
 	     if (user==null || user.getUsuario() == null) {
             try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("/subastas/admin/index.xhtml");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("../index.xhtml");
             } catch (IOException ex) {
             	Mensaje.crearMensajeERROR(ex.getMessage());
             }
@@ -165,4 +165,21 @@ public class SesionBean implements Serializable{
         }
 	}
 
+	
+	/**
+	   * Método para validar sesión en el INDEX
+	   */
+	  public void validaIndex(){
+	   HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+	                 .getExternalContext().getSession(false);
+	      SesionBean user = (SesionBean) session.getAttribute("sesionBean");
+	      if (user==null || user.getUsuario() == null) {
+	             try {
+	            	 System.out.println("valida se supone que envie");
+	                 FacesContext.getCurrentInstance().getExternalContext().redirect("../index.xhtml");
+	             } catch (IOException ex) {
+	              Mensaje.crearMensajeERROR(ex.getMessage());
+	             }
+	      }
+	  }
 }

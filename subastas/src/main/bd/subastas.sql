@@ -89,6 +89,16 @@ create table SUB_OFERTAS (
 );
 
 /*==============================================================*/
+/* Table: SUB_PARAMETROS                                        */
+/*==============================================================*/
+create table SUB_PARAMETROS (
+   PAR_ID               VARCHAR(30)          not null,
+   PAR_NOMBRE           VARCHAR(50)          null,
+   PAR_VALOR            TEXT                 null,
+   constraint PK_SUB_PARAMETROS primary key (PAR_ID)
+);
+
+/*==============================================================*/
 /* Table: SUB_POSTULANTES                                       */
 /*==============================================================*/
 create table SUB_POSTULANTES (

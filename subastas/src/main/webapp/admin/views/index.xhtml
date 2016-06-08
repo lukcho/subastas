@@ -11,13 +11,16 @@
             Gestión de Subastas
         </ui:define>
 	<ui:define name="contenido">
-
+		<h:form>
+			<p:remoteCommand name="onload"
+				actionListener="#{sesionBean.validaIndex()}" autoRun="true" />
+		</h:form>
 		<b:well>
 			<h1>Sistema de Subastas</h1>
 			<p>Este módulo permite la Gestión de Subastas</p>
 		</b:well>
 		<center>
-			<h:graphicImage value="#{facesContex}/resources/img/logo.jpg" 
+			<h:graphicImage value="#{facesContex}/resources/img/logo.jpg"
 				styleClass="img-responsive" />
 		</center>
 	</ui:define>

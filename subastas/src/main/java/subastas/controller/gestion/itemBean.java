@@ -115,17 +115,19 @@ public class itemBean implements Serializable {
 		automatico = 0;
 		item_valorventa = "0.00";
 		edicion = false;
+		img = "";
 		ediciontipo = false;
 		verhorario = false;
 		guardarin = false;
 		mostrarpro_id = false;
 		mostrarfoto = false;
 		listaItem = managergest.findAllItems();
-		usuario = ms.validarSesion("items.xhtml");
+		usuario = ms.validarSesion();
 		consumirURL();
 	}
 
 	private void consumirURL() {
+
 		try {
 			img = ConsumeREST
 					.consumeGetRestEasyObject(
@@ -380,7 +382,7 @@ public class itemBean implements Serializable {
 	}
 
 	/**
-	 * metodo para listar los registros
+	 * Método para listar los Items
 	 * 
 	 * @return
 	 */
@@ -394,17 +396,8 @@ public class itemBean implements Serializable {
 	}
 
 	/**
-	 * accion para cargar los datos en el formulario
+	 * Método para conocer el ganador
 	 * 
-	 * @param pro_id
-	 * @param prodfoto_id
-	 * @param pro_nombre
-	 * @param pro_descripcion
-	 * @param pro_costo
-	 * @param pro_precio
-	 * @param pro_stock
-	 * @param pro_estado
-	 * @param pro_estado_fun
 	 * @throws Exception
 	 */
 	public String conocerGanador() {
@@ -417,10 +410,14 @@ public class itemBean implements Serializable {
 			getListaItem().clear();
 			getListaItem().addAll(managergest.findAllItems());
 			Mensaje.crearMensajeINFO("Ganador establecido, dirigase a la tabla de ganadores");
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Ganador establecido, dirigase a la tabla de ganadores", null));
+			FacesContext
+					.getCurrentInstance()
+					.addMessage(
+							null,
+							new FacesMessage(
+									FacesMessage.SEVERITY_INFO,
+									"Ganador establecido, dirigase a la tabla de ganadores",
+									null));
 			return "items?faces-redirect=true";
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -430,36 +427,38 @@ public class itemBean implements Serializable {
 	}
 
 	/**
-	 * activar y desactivar estado producto
+	 * Método abrir dialogo para conocer ganador
 	 * 
 	 * @param pro_id
 	 * @throws Exception
 	 */
 	public void conocerGanadorItem(SubItem item) {
-		if(item.getItemEstado().equals("A")){
-		setItemdelsita(item);
-		RequestContext.getCurrentInstance().execute("PF('cg').show();");
-		}else{
+		if (item.getItemEstado().equals("A")) {
+			setItemdelsita(item);
+			RequestContext.getCurrentInstance().execute("PF('cg').show();");
+		} else {
 			Mensaje.crearMensajeINFO("Yá se establecio Ganador");
-		FacesContext.getCurrentInstance().addMessage(
-				null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"Yá se establecio Ganador", null));
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
+							"Yá se establecio Ganador", null));
 		}
 	}
 
 	/**
-	 * accion para invocar el manager y crear producto o editar el producto
+	 * Método para invocar el manager y crear producto o editar el Item
 	 * 
-	 * @param pro_id
-	 * @param prodfoto_id
-	 * @param pro_nombre
-	 * @param pro_descripcion
-	 * @param pro_costo
-	 * @param pro_precio
-	 * @param pro_stock
-	 * @param pro_estado
-	 * @param pro_estado_fun
+	 * @param item_id
+	 * @param item_nombre
+	 * @param item_descripcion
+	 * @param item_caracteristicas
+	 * @param item_imagen
+	 * @param valorbase
+	 * @param valorventa
+	 * @param item_fecha_subasta_inicio
+	 * @param item_fecha_subasta_fin
+	 * @param item_ganador_dni
+	 * @param item_estado
 	 * @throws Exception
 	 */
 	public String crearItem() {
@@ -547,17 +546,19 @@ public class itemBean implements Serializable {
 	}
 
 	/**
-	 * accion para cargar los datos en el formulario
+	 * Método para cargar los datos en el Item
 	 * 
-	 * @param pro_id
-	 * @param prodfoto_id
-	 * @param pro_nombre
-	 * @param pro_descripcion
-	 * @param pro_costo
-	 * @param pro_precio
-	 * @param pro_stock
-	 * @param pro_estado
-	 * @param pro_estado_fun
+	 * @param item_id
+	 * @param item_nombre
+	 * @param item_descripcion
+	 * @param item_caracteristicas
+	 * @param item_imagen
+	 * @param valorbase
+	 * @param valorventa
+	 * @param item_fecha_subasta_inicio
+	 * @param item_fecha_subasta_fin
+	 * @param item_ganador_dni
+	 * @param item_estado
 	 * @throws Exception
 	 */
 	public String cargarItem(SubItem item) {
@@ -599,7 +600,7 @@ public class itemBean implements Serializable {
 	}
 
 	/**
-	 * activar y desactivar estado producto
+	 * Método para activar y desactivar estado del item
 	 * 
 	 * @param pro_id
 	 * @throws Exception
@@ -617,12 +618,22 @@ public class itemBean implements Serializable {
 		return "items?faces-redirect=true";
 	}
 
+	/**
+	 * Metodo para cambiar el estado del Item
+	 * 
+	 * @param item
+	 */
 	public void cambiarEstadoItem(SubItem item) {
 		setItemdelsita(item);
 		RequestContext.getCurrentInstance().execute("PF('ce').show();");
 	}
 
-	// metodo para guardar la imagen en el servidor
+	/**
+	 * Método para cargar la imagen del item
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
 	public void ImagenServ(FileUploadEvent event) throws IOException {
 		file = event.getFile();
 		InputStream inputStream = null;
@@ -677,56 +688,10 @@ public class itemBean implements Serializable {
 		}
 	}
 
-	// // metodo para guardar la imagen en el servidor
-	// public void ImagenServ(FileUploadEvent event) throws IOException {
-	// file = event.getFile();
-	// InputStream inputStream = null;
-	// OutputStream outputStream = null;
-	//
-	// if (file != null) {
-	// try {
-	// // Tomar PAD REAL
-	// setItem_imagen(g);
-	// outputStream = new FileOutputStream(new
-	// File(img+File.separatorChar+getItem_imagen()));
-	// inputStream = file.getInputstream();
-	//
-	// int read = 0;
-	// byte[] bytes = new byte[1024];
-	//
-	// while ((read = inputStream.read(bytes)) != -1) {
-	// outputStream.write(bytes, 0, read);
-	// }
-	//
-	// FacesContext.getCurrentInstance().addMessage(
-	// null,
-	// new FacesMessage(FacesMessage.SEVERITY_INFO,
-	// "Correcto: Carga Correcta", null));
-	//
-	// } catch (Exception e) {
-	// FacesContext.getCurrentInstance().addMessage(
-	// null,
-	// new FacesMessage(FacesMessage.SEVERITY_ERROR,
-	// "Error: no se pudo subir la imagen",null));
-	// e.printStackTrace();
-	// } finally {
-	// if (inputStream != null) {
-	// inputStream.close();
-	// }
-	//
-	// if (outputStream != null) {
-	// outputStream.close();
-	// }
-	// }
-	// } else {
-	// FacesContext.getCurrentInstance().addMessage(
-	// null,
-	// new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:",
-	// "no se pudo seleccionar la imagen"));
-	// }
-	// }
-
-	// metodo para poner el nombre a la imagen
+	/**
+	 * Método para poner el nombre a la imagen
+	 * 
+	 */
 	public void asignarNombreImagen() {
 		if (getItem_nombre().trim().isEmpty()) {
 			System.out.println("Vacio");

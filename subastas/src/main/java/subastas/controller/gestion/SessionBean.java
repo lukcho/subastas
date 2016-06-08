@@ -381,7 +381,7 @@ public class SessionBean {
     }
         
     public String regresarHomeUser(){
-    	return "home?faces-redirect=true";
+    	return "index?faces-redirect=true";
     }
     
     

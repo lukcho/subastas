@@ -30,7 +30,7 @@ public class catalogosBean implements Serializable {
 
 	@EJB
 	private ManagerCatalogos managercat;
-	
+
 	@Inject
 	SesionBean ms;
 
@@ -52,26 +52,25 @@ public class catalogosBean implements Serializable {
 
 	private List<SubCatCab> listaCatalogo;
 	private List<SubCatDet> listaCatalogoItems;
-	
-	private String usuario;
 
+	private String usuario;
 
 	public catalogosBean() {
 	}
 
 	@PostConstruct
 	public void ini() {
+
 		cat_id = 0;
 		cati_nombre = "";
 		cati_estado = "A";
-		cati_idpadre=0;
+		cati_idpadre = 0;
 		edicion = false;
 		ediciontipo = false;
 		listaCatalogoItems = managercat.findAllCatalogoItems();
 		listaCatalogo = managercat.findAllCatalogos();
 		usuario = ms.validarSesion("catalogos.xhtml");
 	}
-	
 
 	public SubCatCab getFabcat() {
 		return fabcat;
@@ -194,20 +193,16 @@ public class catalogosBean implements Serializable {
 	}
 
 	/**
-	 * accion para invocar el manager y crear producto o editar el producto
+	 * Método para invocar el manager y crear catalogo o editar catalogo
 	 * 
-	 * @param pro_id
-	 * @param prodfoto_id
-	 * @param pro_nombre
-	 * @param pro_descripcion
-	 * @param pro_costo
-	 * @param pro_precio
-	 * @param pro_stock
-	 * @param pro_estado
-	 * @param pro_estado_fun
+	 * @param cati_id
+	 * @param cati_nombre
+	 * @param cati_estado
+	 * @param cati_idpadre
 	 * @throws Exception
 	 */
 	public String crearCatalogo() {
+		
 		String r = "";
 		try {
 			if (edicion) {
@@ -251,20 +246,18 @@ public class catalogosBean implements Serializable {
 	}
 
 	/**
-	 * accion para cargar los datos en el formulario
+	 * Método para cargar los datos en el catalogo item
 	 * 
-	 * @param pro_id
-	 * @param prodfoto_id
-	 * @param pro_nombre
-	 * @param pro_descripcion
-	 * @param pro_costo
-	 * @param pro_precio
-	 * @param pro_stock
-	 * @param pro_estado
-	 * @param pro_estado_fun
+	 * @param cati_id
+	 * @param cati_nombre
+	 * @param cati_estado
+	 * @param cat_id
+	 * @param cati_idhijo
+	 * @param cati_idpadre
 	 * @throws Exception
 	 */
 	public String cargarCatalogoItem(SubCatDet cati) {
+		
 		try {
 			cati_id = cati.getCatdId();
 			cati_nombre = cati.getCatdNombre();
@@ -283,12 +276,14 @@ public class catalogosBean implements Serializable {
 		}
 		return "";
 	}
-	
+
 	/**
-	 * metodo para mostrar los Catalogositems en productos
+	 * Método para mostrar los Catalogos
 	 * 
+	 * return
 	 */
 	public List<SelectItem> getListaCategoriatodos() {
+		
 		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
 		listadoSI.add(new SelectItem(0, "Seleccionar"));
 		for (SubCatDet t : managercat.findAllCatalogoItems()) {
@@ -298,10 +293,11 @@ public class catalogosBean implements Serializable {
 	}
 
 	/**
-	 * metodo para mostrar los Catalogositems en productos
+	 * Método para mostrar los Categorias
 	 * 
 	 */
 	public List<SelectItem> getListaCategoria() {
+		
 		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
 		listadoSI.add(new SelectItem(0, "Seleccionar"));
 		for (SubCatCab t : managercat.findAllCatalogos()) {
@@ -311,10 +307,11 @@ public class catalogosBean implements Serializable {
 	}
 
 	/**
-	 * metodo para mostrar los Catalogositems en productos
+	 * Método para mostrar los Catalogositems
 	 * 
 	 */
 	public List<SelectItem> getListaCatalogoitem() {
+		
 		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
 		listadoSI.add(new SelectItem(0, "Seleccionar"));
 		for (SubCatDet t : managercat.findCatalogoItemsByCatalogo(cat_id)) {
@@ -324,10 +321,11 @@ public class catalogosBean implements Serializable {
 	}
 
 	/**
-	 * metodo para mostrar los Catalogositemsitems en productos
+	 * Método para mostrar los Catalogositemsitems
 	 * 
 	 */
 	public List<SelectItem> getListaCatalogoitemitems() {
+		
 		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
 		if (cat_id != 0) {
 			listadoSI.add(new SelectItem(0, "Seleccionar"));
@@ -340,39 +338,43 @@ public class catalogosBean implements Serializable {
 	}
 
 	/**
-	 * metodo para asignar el catalogo al producto
+	 * Método para asignar el catalogo 
 	 * 
 	 */
 	public String asignarCat() {
+		
 		managercat.asignarcatalogo(cat_id);
 		return "";
 	}
 
 	/**
-	 * metodo para asignar el catalogoitem al producto
+	 * Método para asignar el catalogoitem
 	 * 
 	 */
 	public String asignarCatItem() {
+		
 		managercat.asignarcati(cati_idpadre);
 		return "";
 	}
 
 	/**
-	 * metodo para asignar el catalogoitem al producto
+	 * Método para asignar el catalogoitem
 	 * 
 	 */
 	public String asignarCatItemitem() {
+		
 		managercat.asignarcati(cati_idhijo);
 		return "";
 	}
 
 	/**
-	 * activar y desactivar estado producto
+	 *  Método para activar y desactivar estado
 	 * 
 	 * @param pro_id
 	 * @throws Exception
 	 */
 	public String cambiarEstado() {
+		
 		try {
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(
@@ -387,16 +389,26 @@ public class catalogosBean implements Serializable {
 		return "";
 	}
 
+	/**
+	 * Método para cambiar el estado del catalogo item y abrir el dialogo
+	 * 
+	 * @param cat
+	 */
 	public void cambiarEstadocati(SubCatDet cat) {
+		
 		setFabcati(cat);
 		RequestContext.getCurrentInstance().execute("PF('ce').show();");
 	}
 
+	
 	/**
-	 * metodo para conocer el prodid si esta usado
+	 * Método para conocer si esta usado el nombre del catalogo
 	 * 
+	 * @param nombreid
+	 * @return
 	 */
 	public boolean averiguarCatId(String nombreid) {
+		
 		Integer t = 0;
 		boolean r = false;
 		List<SubCatDet> pro = managercat.findAllCatalogoItems();
@@ -435,21 +447,21 @@ public class catalogosBean implements Serializable {
 		return lista;
 	}
 
-//	/**
-//	 * Lista de tipocata
-//	 * 
-//	 * @return lista de items de tiposcata
-//	 */
-//	public List<SelectItem> getlistTipo() {
-//		List<SelectItem> lista = new ArrayList<SelectItem>();
-//		lista.add(new SelectItem(Funciones.estadoProducto,
-//				Funciones.estadoProducto + " : "
-//						+ Funciones.valorEstadoProducto));
-//		lista.add(new SelectItem(Funciones.estadoServicio,
-//				Funciones.estadoServicio + " : "
-//						+ Funciones.valorEstadoServicio));
-//		return lista;
-//	}
+	// /**
+	// * Lista de tipocata
+	// *
+	// * @return lista de items de tiposcata
+	// */
+	// public List<SelectItem> getlistTipo() {
+	// List<SelectItem> lista = new ArrayList<SelectItem>();
+	// lista.add(new SelectItem(Funciones.estadoProducto,
+	// Funciones.estadoProducto + " : "
+	// + Funciones.valorEstadoProducto));
+	// lista.add(new SelectItem(Funciones.estadoServicio,
+	// Funciones.estadoServicio + " : "
+	// + Funciones.valorEstadoServicio));
+	// return lista;
+	// }
 
 	/**
 	 * limpia la informacion
@@ -465,6 +477,10 @@ public class catalogosBean implements Serializable {
 		return "catalogos?faces-redirect=true";
 	}
 
+	/**
+	 * Método para abrir el dialogo
+	 * 
+	 */
 	public void abrirDialog() {
 		if (edicion == true) {
 			RequestContext.getCurrentInstance().execute("PF('gu').show();");

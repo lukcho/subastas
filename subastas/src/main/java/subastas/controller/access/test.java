@@ -1,14 +1,14 @@
 package subastas.controller.access;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-
-import com.google.gson.JsonArray;
-
-import subastas.model.dao.entities.Persona;
-import subastas.model.generic.ConsumeREST;
-import subastas.model.manager.ManagerCarga;
-import subastas.model.manager.ManagerGestion;
+//import org.json.simple.JSONArray;
+//import org.json.simple.JSONObject;
+//
+//import com.google.gson.JsonArray;
+//
+//import subastas.model.dao.entities.Persona;
+//import subastas.model.generic.ConsumeREST;
+//import subastas.model.manager.ManagerCarga;
+//import subastas.model.manager.ManagerGestion;
 
 public class test {
 

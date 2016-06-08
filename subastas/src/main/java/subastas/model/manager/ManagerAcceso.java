@@ -5,6 +5,7 @@ package subastas.model.manager;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import org.json.simple.JSONArray;
@@ -12,12 +13,18 @@ import org.json.simple.JSONObject;
 
 import subastas.model.access.Menu;
 import subastas.model.access.Submenu;
+import subastas.model.dao.entities.SubParametro;
 import subastas.model.generic.ConsumeREST;
 import subastas.model.generic.Funciones;
+import subastas.model.manager.ManagerDAO;
 
 @Stateless
 public class ManagerAcceso {
 	
+	
+	
+	@EJB
+	private ManagerDAO mDAO;
 
 	public ManagerAcceso() {
 	}
@@ -56,16 +63,29 @@ public class ManagerAcceso {
 	@SuppressWarnings("unchecked")
 	public List<Menu> loginWS(String usr, String pass, String aplicacion) throws Exception
 	{
+		SubParametro param = parametroByID("login_ws");
+		if(param == null)
+			throw new Exception("error al consultar parametro de logeo");	
 		List<Menu> lmenu = new ArrayList<Menu>();
 		JSONObject salida = new JSONObject();
 		salida.put("usr", usr);salida.put("pwd", pass);salida.put("apl", aplicacion);
-		JSONObject respuesta = ConsumeREST.postClient(Funciones.hostWS+"WSLogin/postPermisos",salida);
+		JSONObject respuesta = ConsumeREST.postClient(param.getParValor(),salida);
 		if(!respuesta.get("status").equals("OK"))
 			throw new Exception("ERROR al consultar sus permisos: "+respuesta.get("mensaje").toString());
 		else
 			lmenu = cargarMenu((JSONArray) respuesta.get("value"));
 		return lmenu;
 		
+	}
+	
+	/**
+	 * buscar los vehuculos por ID
+	 * 
+	 * @param vehi_id
+	 * @throws Exception
+	 */
+	public SubParametro parametroByID(String parametro) throws Exception {
+		return (SubParametro ) mDAO.findById(SubParametro .class, parametro);
 	}
 	
 	/**
