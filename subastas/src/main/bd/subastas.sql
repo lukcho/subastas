@@ -24,7 +24,16 @@ CREATE SEQUENCE seq_sub_items
   CACHE 1;
 ALTER TABLE seq_sub_items
   OWNER TO postgres;
-
+  
+CREATE SEQUENCE seq_sub_items_fotos
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 1
+  CACHE 1;
+ALTER TABLE seq_sub_items_fotos
+  OWNER TO postgres;  
+  
  CREATE SEQUENCE seq_sub_ofertas
   INCREMENT 1
   MINVALUE 1
@@ -77,6 +86,19 @@ create table SUB_ITEMS (
 );
 
 /*==============================================================*/
+/* Table: SUB_ITEM_FOTOS                                        */
+/*==============================================================*/
+create table SUB_ITEM_FOTOS (
+   ITEMF_ID             INT4                 not null DEFAULT nextval('seq_sub_items_fotos'::regclass),
+   ITEM_ID              INT4                 null,
+   ITEMF_NOMBRE         VARCHAR(200)         null,
+   ITEMF_DIRECCION      VARCHAR(200)         null,
+   ITEMF_ESTADO         CHAR                 null,
+   ITEMF_MOSTRAR        BOOL                 null,
+   constraint PK_SUB_ITEM_FOTOS primary key (ITEMF_ID)
+);
+
+/*==============================================================*/
 /* Table: SUB_OFERTAS                                           */
 /*==============================================================*/
 create table SUB_OFERTAS (
@@ -122,7 +144,12 @@ alter table SUB_CAT_DET
    add constraint FK_SUB_CAT__REFERENCE_SUB_CAT_ foreign key (CATC_ID)
       references SUB_CAT_CAB (CATC_ID)
       on delete restrict on update restrict;
-
+      
+alter table SUB_ITEM_FOTOS
+   add constraint FK_SUB_ITEM_REFERENCE_SUB_ITEM foreign key (ITEM_ID)
+      references SUB_ITEMS (ITEM_ID)
+      on delete restrict on update restrict;
+      
 alter table SUB_OFERTAS
    add constraint FK_SUB_OFER_REFERENCE_SUB_POST foreign key (POS_ID)
       references SUB_POSTULANTES (POS_ID)

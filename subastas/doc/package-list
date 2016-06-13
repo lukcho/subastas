@@ -1,0 +1,10 @@
+com.airhacks
+subastas.controller.access
+subastas.controller.gestion
+subastas.controller.oferta
+subastas.entidades.help
+subastas.general.connection
+subastas.model.access
+subastas.model.dao.entities
+subastas.model.generic
+subastas.model.manager

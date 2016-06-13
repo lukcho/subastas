@@ -35,9 +35,17 @@
 			<p:growl id="messages" showDetail="false" />
 			<b:row>
 				<b:column span="3">
-					<p:graphicImage id="imagen"
-						value="/resources/img/items/#{ofertausuBean.item_imagen}"
-						width="250" height="250" />
+					<b:column span="4">
+						<p:galleria value="#{ofertausuBean.images}" var="image"
+							panelWidth="250" panelHeight="250" autoPlay="true"
+							showCaption="true">
+							<p:graphicImage alt="#{ofertausuBean.item_nombre}"
+								title="#{image}" />
+						</p:galleria>
+					</b:column>
+					<!-- 					<p:graphicImage id="imagen" -->
+					<!-- 						value="/resources/img/items/#{ofertausuBean.item_imagen}" -->
+					<!-- 						width="250" height="250" /> -->
 				</b:column>
 				<b:column span="9">
 					<b:row>
@@ -143,6 +151,8 @@
 		<h:form id="frm1">
 			<b:row>
 				<b:column span="3">
+					<b:commandButton type="button" value="Mostrar" look="info" process="@this" style="padding:7px;border-radius: 90px 90px 80px 80px !important;"
+						onclick="PF('dlg').show()" iconAwesome="fa fa-file-image-o" />
 				</b:column>
 				<b:column span="9">
 					<b:row>
@@ -237,6 +247,15 @@
 						styleClass="img-responsive" />
 				</center>
 			</h:form>
+		</p:dialog>
+		<p:dialog header="Imágenes" widgetVar="dlg" modal="true"
+			draggable="false" resizable="false">
+			<p:imageSwitch effect="fade">
+				<ui:repeat value="#{ofertausuBean.images}" var="image">
+					<p:graphicImage
+						name="/resources/img/items/#{ofertausuBean.item_imagen}" />
+				</ui:repeat>
+			</p:imageSwitch>
 		</p:dialog>
 	</ui:define>
 </ui:composition>

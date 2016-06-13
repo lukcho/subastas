@@ -1,0 +1,1 @@
+insert into sub_parametros values("login_ws","Dirreccion de servicio para web login","http://10.1.0.115:8080/app-permisos/WSLogin/postPermisos");

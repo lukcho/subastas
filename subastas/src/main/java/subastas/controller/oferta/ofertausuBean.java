@@ -22,6 +22,7 @@ import javax.faces.model.SelectItem;
 import org.primefaces.context.RequestContext;
 
 import subastas.model.dao.entities.SubItem;
+import subastas.model.dao.entities.SubItemFoto;
 import subastas.model.dao.entities.SubOferta;
 import subastas.controller.gestion.SessionBean;
 import subastas.model.dao.entities.SubPostulante;
@@ -96,6 +97,9 @@ public class ofertausuBean implements Serializable {
 	private Date ff;
 	private Date date;
 	private Date fecha;
+	
+	// imagnees
+	private List<String> images;
 
 	private UsuarioHelp session;
 
@@ -111,11 +115,17 @@ public class ofertausuBean implements Serializable {
 		ganandoperdiendo1 = "";
 		colorgana = "colorBlack";
 		colorgana1 = "colorBlack";
+		images = new ArrayList<String>();
 		session = SessionBean.verificarSession();
 		cargarDatosLogeado();
 		listaItem = managergest.findAllItems();
 	}
+	
+	public List<String> getImages() {
+		return images;
+	}
 
+	
 	public String getGanandoperdiendo1() {
 		return ganandoperdiendo1;
 	}
@@ -883,6 +893,7 @@ public class ofertausuBean implements Serializable {
 		ganandoperdiendo1 = "";
 		valorUltimoPostulante = "0.00";
 		getListaItems().clear();
+		getImages().clear();
 		getListaItems().addAll(managergest.findAllItems());
 		return "home?faces-redirect=true";
 	}
@@ -953,6 +964,22 @@ public class ofertausuBean implements Serializable {
 					item_fecha_subasta_fin = item.getItemFechaSubastaFin();
 					fi = item.getItemFechaSubastaInicio();
 					ff = item.getItemFechaSubastaFin();
+					
+					for (int i = 1; i <= 12; i++) {
+			        	List<SubItemFoto> cond;
+						try {
+							cond = managergest.ItemFotoById1(item_id);
+							for (SubItemFoto y : cond) {
+								System.out.println(y.getItemfDireccion());
+								images.add(y.getItemfDireccion());
+							}
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+			        }
+					
 
 					r = "noferta?faces-redirect=true";
 				}

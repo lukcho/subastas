@@ -22,7 +22,7 @@
 					</b:column>
 					<b:column span="4">
 						<h:inputText value="#{itemBean.item_nombre}" required="true"
-							styleClass="form-control"
+							disabled="#{itemBean.mostrarpro_id}" styleClass="form-control"
 							requiredMessage="Campo nombre requerido">
 							<f:ajax event="blur" listener="#{itemBean.asignarNombreImagen()}" />
 						</h:inputText>
@@ -69,13 +69,15 @@
 						</b:inputText>
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Máximo Ofertado:* ($) " rendered="#{itemBean.edicion}"/>
+						<h:outputLabel value="Máximo Ofertado:* ($) "
+							rendered="#{itemBean.edicion}" />
 					</b:column>
 					<b:column span="4">
-						<b:inputText value="#{itemBean.valorMaximo}" rendered="#{itemBean.edicion}" disabled="true">
+						<b:inputText value="#{itemBean.valorMaximo}"
+							rendered="#{itemBean.edicion}" disabled="true">
 						</b:inputText>
 					</b:column>
-					
+
 				</b:row>
 				<b:row>
 					<b:column span="2">
@@ -115,34 +117,8 @@
 							rendered="#{itemBean.edicion}" />
 					</b:column>
 				</b:row>
-				<b:row>
-					<b:column span="2">
-						<h:outputLabel value="Imagen:" />
-					</b:column>
-					<b:column span="10">
-						<p:fileUpload mode="advanced" dragDropSupport="true"
-							update=":frm:messages :frm:imagen" sizeLimit="2097152"
-							multiple="false" invalidSizeMessage="Archivo excede limite 2 MB "
-							invalidFileMessage="Tipo invalido, solo .jpeg"
-							fileLimitMessage="Solo una imagen por Ubicación"
-							allowTypes="/(\.|\/)(gif|jpe?g|png)$/" cancelLabel="Cancelar"
-							uploadLabel="Subir" label="Seleccionar" fileLimit="1"
-							fileUploadListener="#{itemBean.ImagenServ}">
+				<!-- aqui va la imagen para subir -->
 
-						</p:fileUpload>
-					</b:column>
-				</b:row>
-				<br />
-				<b:row>
-					<b:column span="2">
-						<h:outputLabel value="Vista Imagen: " />
-					</b:column>
-					<b:column span="4">
-						<p:graphicImage id="imagen"
-							value="/resources/img/items/#{itemBean.item_imagen}" width="150"
-							height="150" />
-					</b:column>
-				</b:row>
 				<br />
 				<b:row>
 					<b:column span="2">
@@ -159,15 +135,79 @@
 					<b:column span="5">
 						<p:commandButton value="Guardar" styleClass="btn btn-info"
 							style="padding:7px;" actionListener="#{itemBean.abrirDialog()}"
-							update="frm messages">
+							disabled="#{itemBean.guardarin}" update="frm messages">
 						</p:commandButton>&nbsp;&nbsp;&nbsp;
-						<b:commandButton value="Volver" action="#{itemBean.salir()}"
-							update="frm" look="info" process="@this">
-						</b:commandButton>
 					</b:column>
 				</b:row>
 				<br />
 				<br />
+			</b:panel>
+		</h:form>
+		<h:form id="frm1">
+			<b:panel title="Listado de Imagenes" look="primary">
+				<b:row>
+					<b:column span="2">
+						<h:outputLabel value="Imagen*" />
+					</b:column>
+					<b:column span="10">
+						<p:fileUpload mode="advanced" dragDropSupport="true"
+							multiple="false" update="frm1 messages"
+							invalidSizeMessage="Archivo excede limite 2 MB "
+							invalidFileMessage="Tipo invalido, solo .jpeg y .png"
+							fileLimitMessage="Solo una imagen por Ubicación"
+							allowTypes="/(\.|\/)(gif|jpe?g|png)$/" cancelLabel="Cancelar"
+							uploadLabel="Subir" label="Seleccionar"
+							fileUploadListener="#{itemBean.ImagenServ}">
+						</p:fileUpload>
+						<p:growl id="messages" showDetail="false" />
+					</b:column>
+				</b:row>
+				<p:dataTable id="tbb" value="#{itemBean.listaItemfoto}"
+					reflow="false" var="itemfot" rows="3" emptyMessage="Sin Datos"
+					paginator="true"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+					<p:column headerText="OPCIONES" width="50">
+						<p:commandButton id="btnE" icon="ui-icon-close"
+							action="#{itemBean.eliminarfotocon(itemfot)}" update="frm1 tbb">
+							<p:tooltip id="toolTipTrack1" for="btnE"
+								value="Bot&oacute;n para borrar la imagen" trackMouse="true" />
+						</p:commandButton>
+							&nbsp;&nbsp;&nbsp;
+							<p:commandButton id="trackcamb" icon="ui-icon-refresh"
+							action="#{itemBean.cambiarEstadoprodfot(itemfot)}"
+							update="frm1 tbb">
+							<p:tooltip id="toolTipTrack2" for="trackcamb"
+								value="Bot&oacute;n para cambiar el estado de la imagen"
+								trackMouse="true" />
+						</p:commandButton>
+							&nbsp;&nbsp;&nbsp;
+							<p:commandButton id="trackmost" icon="ui-icon-image"
+							action="#{itemBean.cambiarMostrarfotos(itemfot)}"
+							update="frm1 tbb">
+							<p:tooltip id="toolTipTrack3" for="trackmost"
+								value="Bot&oacute;n para mostrar imagen" trackMouse="true" />
+						</p:commandButton>
+					</p:column>
+					<p:column headerText="IMAGEN" width="60">
+						<p:graphicImage width="150" height="150"
+							value="/resources/img/items/#{itemfot.itemfDireccion}"></p:graphicImage>
+					</p:column>
+					<p:column headerText="MOSTRAR" width="20">
+						<h:selectBooleanCheckbox value="#{itemfot.itemfMostrar}"
+							disabled="true">
+						</h:selectBooleanCheckbox>
+					</p:column>
+					<p:column headerText="ESTADO" width="30">
+						<h:outputText value="#{itemfot.itemfEstado}"></h:outputText>
+					</p:column>
+				</p:dataTable>
+				<b:row>
+					<b:column span="5">
+						<b:commandButton value="Volver" action="#{itemBean.salir()}"
+							update="frm" look="info">
+						</b:commandButton>&nbsp;&nbsp;&nbsp;
+					</b:column>
+				</b:row>
 			</b:panel>
 		</h:form>
 		<p:confirmDialog header="Confirmación"
@@ -180,6 +220,43 @@
 				<p:commandButton value="No" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
 					onclick="PF('gu').hide();" />
+			</h:form>
+		</p:confirmDialog>
+		<p:confirmDialog header="Confirmación"
+			message="Está seguro de borrar la imagen?" closable="false"
+			showEffect="fade" hideEffect="explode" widgetVar="ef">
+			<h:form>
+				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
+					icon="ui-icon-check" action="#{itemBean.eliminarfoto()}"
+					oncomplete="PF('ef').hide();" update="frm frm1:tbb" />
+				<p:commandButton value="No" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+					onclick="PF('ef').hide();" />
+			</h:form>
+		</p:confirmDialog>
+		<p:confirmDialog header="Confirmación"
+			message="Está seguro de cambiar el estado de la imagen?"
+			closable="false" showEffect="fade" hideEffect="explode"
+			widgetVar="ce">
+			<h:form>
+				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
+					icon="ui-icon-check" action="#{itemBean.cambiarEstadofoto()}"
+					oncomplete="PF('ce').hide();" update="frm frm1:tbb" />
+				<p:commandButton value="No" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+					onclick="PF('ce').hide();" />
+			</h:form>
+		</p:confirmDialog>
+		<p:confirmDialog header="Confirmación"
+			message="Está seguro de mostrar la imagen?" closable="false"
+			showEffect="fade" hideEffect="explode" widgetVar="mf">
+			<h:form>
+				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
+					icon="ui-icon-check" action="#{itemBean.cambiarMostrarfoto()}"
+					oncomplete="PF('mf').hide();" update="frm frm1:tbb" />
+				<p:commandButton value="No" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+					onclick="PF('mf').hide();" />
 			</h:form>
 		</p:confirmDialog>
 	</ui:define>

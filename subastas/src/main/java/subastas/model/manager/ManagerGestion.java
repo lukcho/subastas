@@ -17,6 +17,7 @@ public class ManagerGestion {
 
 	private static SubItem sub_item;
 	private static SubPostulante sub_pos;
+	
 
 	String h = "";
 
@@ -26,7 +27,7 @@ public class ManagerGestion {
 	// ITEMS
 
 	/**
-	 * buscar todos vehiculos
+	 * buscar todos items
 	 * 
 	 * @throws Exception
 	 */
@@ -37,7 +38,7 @@ public class ManagerGestion {
 	}
 
 	/**
-	 * listar todos los vehiculos
+	 * listar todos los items
 	 * 
 	 * @param prod_id
 	 * @throws Exception
@@ -48,7 +49,7 @@ public class ManagerGestion {
 	}
 
 	/**
-	 * buscar vehiculos por ID
+	 * buscar item por ID
 	 * 
 	 * @param prod_id
 	 * @throws Exception
@@ -56,7 +57,7 @@ public class ManagerGestion {
 	public SubItem itemByID(Integer item_id) throws Exception {
 		return (SubItem) mDAO.findById(SubItem.class, item_id);
 	}
-
+	
 	/**
 	 * listar todos los items por ganador
 	 * 
@@ -68,7 +69,7 @@ public class ManagerGestion {
 		return mDAO.findWhere(SubItem.class, " 1=1 ",
 				" o.itemGanadorDni not like '' desc");
 	}
-
+	
 	/**
 	 * listar todos los items por ganador
 	 * 
@@ -80,6 +81,18 @@ public class ManagerGestion {
 		return mDAO.findWhere(SubItem.class, " 1=1 ",
 				" o.itemFechaSubastaInicio desc");
 	}
+	
+	/**
+	 * listar todos los items por ganador
+	 * 
+	 * @param prod_id
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<SubItemFoto> findAllItemsOrdenadaspara() {
+		return mDAO.findWhere(SubItemFoto.class, " o.itemfMostrar = true ", "o.subItem.itemFechaSubastaInicio desc");
+	}
+	
 
 	/**
 	 * listar todos los items por fechas pasadas
@@ -95,9 +108,25 @@ public class ManagerGestion {
 						" o.itemFechaSubastaFin < now() or o.itemGanadorDni is not null or o.itemEstado = 'I' ",
 						" o.itemFechaSubastaFin desc");
 	}
+	
+	/**
+	 * listar todos las ofertas x item
+	 * 
+	 * @param prod_id
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public Integer itemByNombre(String item_nom) {
+		//System.out.println("entraaaaa");
+		List<SubItem> list = mDAO.findWhere(SubItem.class, "o.itemNombre = '"+item_nom+"'", null);
+		if (list.isEmpty()) {
+			return 0;
+		} else
+			return ((SubItem) list.get(0)).getItemId();
+	}
 
 	/**
-	 * Agrega vehiculo
+	 * Agrega item
 	 * 
 	 * @param pro_id
 	 * @param prodfoto_id
@@ -274,7 +303,175 @@ public class ManagerGestion {
 		mDAO.actualizar(item);
 		return h;
 	}
+	
+	//ITEMSFOTO
 
+	// PRODUCTOFOTOS
+		/**
+		 * buscar todos itemfotos
+		 * @param prodfoto_id
+		 * @param nombre
+		 * @param valor
+		 * @throws Exception
+		 */	
+		
+		@SuppressWarnings("unchecked")
+		public List<SubItemFoto> findItemFoto() {
+			return mDAO.findWhere(SubItemFoto.class, " o.itemfMostrar = true", null);
+		}
+
+		/**
+		 * listar todos los itemfotos
+		 * @param id_prod
+		 * @param nombre
+		 * @param valor
+		 * @throws Exception
+		 */	
+		@SuppressWarnings("unchecked") 
+		public List<SubItemFoto> findAllItemFotos() {
+			return mDAO.findAll(SubItemFoto.class);
+		}
+		
+		@SuppressWarnings("unchecked")
+		public List<SubItemFoto> getListItemDFotoByID(String fot_id)
+		{
+			
+			return mDAO.findWhere(SubItemFoto.class, "o.itemId="+fot_id, null);
+		}
+
+		/**
+		 * buscar itemfotos por ID
+		 * @param id_prod
+		 * @param nombre
+		 * @param valor
+		 * @throws Exception
+		 */
+		public SubItemFoto itemFotoByID(Integer itemfoto_id) throws Exception {
+			return (SubItemFoto) mDAO.findById(SubItemFoto.class, itemfoto_id);
+		}
+		
+
+		@SuppressWarnings("unchecked")
+		public List<SubItemFoto> ItemFotoById1(Integer item_id) throws Exception {
+			return mDAO.findWhere(SubItemFoto.class, "o.subItem.itemId = "+item_id+" ", null);
+		}
+		
+		@SuppressWarnings("unchecked")
+		public List<SubItemFoto> ItemFotoById12(Integer itemfoto_id) throws Exception {
+			return mDAO.findWhere(SubItemFoto.class, "o.itemfId = "+itemfoto_id+" ", null);
+		}
+		
+		/**
+		 * Agrega itemfoto
+		 * @param prod_id
+		 * @param nombre
+		 * @param valor
+		 * @throws Exception
+		 */
+		public void insertarItemFoto(String nombre,String direccion) throws Exception {
+			SubItemFoto itemfoto = new SubItemFoto();
+			itemfoto.setSubItem(sub_item);
+			itemfoto.setItemfNombre(nombre);
+			itemfoto.setItemfDireccion(direccion);
+			itemfoto.setItemfEstado("A");
+			itemfoto.setItemfMostrar(false);
+			mDAO.insertar(itemfoto);
+		}
+		
+		/**
+		 * Elimina itemfoto
+		 * @param prod_id
+		 * @throws Exception
+		 */
+		public void eliminarItemFoto(Integer itemf_id) throws Exception {
+			mDAO.eliminar(SubItemFoto.class,itemf_id);
+		}
+		
+		/**
+		 * Cambiar datos de item
+		 * @param id_prod
+		 * @param nombre
+		 * @param valor
+		 * @throws Exception
+		 */	
+		public void editarproducto_foto(Integer itemfoto_id, String nombre, String valor, String direccion) throws Exception {
+			SubItemFoto prodfoto = this.itemFotoByID(itemfoto_id);
+			prodfoto.setSubItem(sub_item);
+			prodfoto.setItemfNombre(nombre);
+			prodfoto.setItemfDireccion(direccion);
+			prodfoto.setItemfEstado(valor);
+			mDAO.actualizar(prodfoto);
+		}
+			
+		/**
+		 * Cambiar estado itemfotos
+		 * @param id_prod
+		 * @param nombre
+		 * @param apellido
+		 * @param correo
+		 * @throws Exception
+		 */	
+		public String cambioEstadoItemFoto(Integer itemfoto_id) throws Exception{
+			String h="";
+			SubItemFoto prodfoto = itemFotoByID(itemfoto_id);						
+			
+			if(prodfoto.getItemfEstado().equals("A")){
+				prodfoto.setItemfEstado("I");
+				h="Estado del prodalogo Modificado";
+				}
+			else if(prodfoto.getItemfEstado().equals("I")){
+				prodfoto.setItemfEstado("A");
+				h="Estado del Registro Modificado";
+				}
+			mDAO.actualizar(prodfoto);
+			return h;
+			}		
+		
+		/**
+		 * Cambiar estado itemfotos
+		 * @param id_prod
+		 * @param nombre
+		 * @param apellido
+		 * @param correo
+		 * @throws Exception
+		 */	
+		public String cambioMostrarItemFoto(Integer itemfoto_id, SubItemFoto prodf) throws Exception{
+			String h="";
+			List<SubItemFoto> cond;
+				cond = ItemFotoById1(prodf.getSubItem().getItemId());
+				for (SubItemFoto y : cond) {
+					if (y.getItemfMostrar() == true) {
+						y.setItemfMostrar(false);
+					}
+				}
+				SubItemFoto prodfoto = itemFotoByID(itemfoto_id);
+				SubItem itemcam = itemByID(prodf.getSubItem().getItemId());
+			if(prodfoto.getItemfMostrar() == false){
+				prodfoto.setItemfMostrar(true);
+				itemcam.setItemImagen(prodfoto.getItemfDireccion());
+				h="Modificado mostrar imagen";
+				}
+			else if(prodfoto.getItemfMostrar() == true){
+				prodfoto.setItemfMostrar(false);
+				h="Modificado mostrar imagen";
+				}
+			mDAO.actualizar(prodfoto);
+			return h;
+			}		
+		
+		/**
+		 * Verifica si el item_foto esta activado
+		 * @param u prodalogo a analizar
+		 * @return true o false
+		 */
+		public boolean esProdFotoActivo(SubItemFoto u){
+			boolean  resp = false;
+			if(u.getItemfEstado().equals("A")){
+				resp = true;
+			}
+			return resp;
+		}
+	
 	// POSTULANTES
 	/**
 	 * listar todos los postulantes
@@ -653,5 +850,10 @@ public class ManagerGestion {
 		return mDAO.findJPQL("SELECT o FROM SubOferta o  WHERE "
 				+ "o.oferFechaOferta=(SELECT MIN(p.oferFechaOferta) FROM SubOferta p where p.subItem.itemId = "+itemId
 				+ " and p.oferValorOferta= (SELECT MAX(q.oferValorOferta) FROM SubOferta q))");
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<SubItemFoto> itemFotoByNombre(String itemfNombre) throws Exception {
+		return mDAO.findWhere(SubItemFoto.class, "o.itemfNombre='"+itemfNombre+"'", null);
 	}
 }

@@ -10,13 +10,13 @@
 	<ui:define name="titulo">
             Items
         </ui:define>
-         <ui:define name="head">
-        <style type="text/css">
-            .ui-datatable .ui-datatable-header {
-                text-align: right !important;
-            }
-        </style>
-    </ui:define>    
+	<ui:define name="head">
+		<style type="text/css">
+.ui-datatable .ui-datatable-header {
+	text-align: right !important;
+}
+</style>
+	</ui:define>
 	<ui:define name="contenido">
 		<h:form>
 			<center>
@@ -37,10 +37,11 @@
 		<h:form id="frm">
 			<p:growl id="messages" showDetail="false" />
 			<b:panel title="Listado de Items" look="primary">
-				<p:dataTable id="tbb" value="#{itemBean.listaItems}" reflow="true" widgetVar="item"
-					var="item" rows="8" emptyMessage="Sin Datos" paginator="true"
+				<p:dataTable id="tbb" value="#{itemBean.listaItems}" reflow="true"
+					widgetVar="item" var="item" rows="8" emptyMessage="Sin Datos"
+					paginator="true"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
-					
+
 					<f:facet name="header">
 						<p:outputPanel>
 							<h:outputText value="Buscar:" />
@@ -48,63 +49,70 @@
 								style="width:200px" placeholder="Ingrese" />
 						</p:outputPanel>
 					</f:facet>
-					
+
 					<p:column headerText="OPCIONES" width="50">
-						<b:commandButton id="btnE" iconAwesome="fa fa-pencil"
-							action="#{itemBean.cargarItem(item)}">
+						<p:commandButton id="btnE" icon="ui-icon-pencil"
+							action="#{itemBean.cargarItem(item.subItem)}">
 							<p:tooltip id="toolTipTrack1" for="btnE"
 								value="Bot&oacute;n para modificar el item" trackMouse="true" />
-						</b:commandButton>
+						</p:commandButton>
 							&nbsp;&nbsp;&nbsp;
 							<b:commandButton id="trackcamb" iconAwesome="fa fa-refresh"
-							action="#{itemBean.cambiarEstadoItem(item)}">
+							action="#{itemBean.cambiarEstadoItem(item.subItem)}">
 							<p:tooltip id="toolTipTrack2" for="trackcamb"
 								value="Bot&oacute;n para cambiar el estado del item"
 								trackMouse="true" />
 						</b:commandButton>
 						&nbsp;&nbsp;&nbsp;
 							<b:commandButton id="trackcamb2" iconAwesome="fa fa-child"
-							action="#{itemBean.conocerGanadorItem(item)}">
+							action="#{itemBean.conocerGanadorItem(item.subItem)}">
 							<p:tooltip id="toolTipTrack3" for="trackcamb2"
-								value="Bot&oacute;n para Conocer al Ganador"
-								trackMouse="true" />
+								value="Bot&oacute;n para Conocer al Ganador" trackMouse="true" />
 						</b:commandButton>
 					</p:column>
-					<p:column filterBy="#{item.itemNombre}" filterMatchMode="contains"
+					<p:column filterBy="#{item.subItem.itemNombre}" filterMatchMode="contains"
 						headerText="NOMBRE" width="50">
-						<h:outputText value="#{item.itemNombre}"></h:outputText>
+						<h:outputText value="#{item.subItem.itemNombre}"></h:outputText>
 					</p:column>
 					<p:column headerText="DESCRIPCIÓN" width="60">
-						<h:outputText value="#{item.itemDescripcion}"></h:outputText>
+						<h:outputText value="#{item.subItem.itemDescripcion}"></h:outputText>
 					</p:column>
-					<p:column filterBy="#{item.itemUsuarioRegistro}" filterMatchMode="contains" headerText="USUARIO REGISTRO" width="40">
-						<h:outputText value="#{item.itemUsuarioRegistro}"></h:outputText>
+					<p:column filterBy="#{item.subItem.itemUsuarioRegistro}"
+						filterMatchMode="contains" headerText="USUARIO REGISTRO"
+						width="40">
+						<h:outputText value="#{item.subItem.itemUsuarioRegistro}"></h:outputText>
 					</p:column>
-					<p:column filterBy="#{item.itemValorBase}" filterMatchMode="contains" headerText="VALOR BASE" width="30">
-						<h:outputText value="#{item.itemValorBase}"></h:outputText>
+					<p:column filterBy="#{item.subItem.itemValorBase}"
+						filterMatchMode="contains" headerText="VALOR BASE" width="30">
+						<h:outputText value="#{item.subItem.itemValorBase}"></h:outputText>
 					</p:column>
-					<p:column filterBy="#{item.itemValorVenta}" filterMatchMode="contains" headerText="VALOR VENTA" width="30">
-						<h:outputText value="#{item.itemValorVenta}"></h:outputText>
+					<p:column filterBy="#{item.subItem.itemValorVenta}"
+						filterMatchMode="contains" headerText="VALOR VENTA" width="30">
+						<h:outputText value="#{item.subItem.itemValorVenta}"></h:outputText>
 					</p:column>
 					<p:column width="50" headerText="IMAGEN" exportable="false">
 						<p:graphicImage width="100" height="100"
-							value="/resources/img/items/#{item.itemImagen}"></p:graphicImage>
+							value="/resources/img/items/#{item.itemfMostrar}"></p:graphicImage>
 					</p:column>
-					<p:column filterBy="#{item.itemFechaSubastaInicio}" filterMatchMode="contains" headerText="INICIO SUBASTA" width="30">
-						<h:outputText value="#{item.itemFechaSubastaInicio}">
-							<f:convertDateTime pattern="yyyy/MM/dd HH:mm" timeZone="GMT-5"/>
-						</h:outputText>
-					</p:column>
-					<p:column filterBy="#{item.itemFechaSubastaFin}" filterMatchMode="contains" headerText="FIN SUBASTA" width="30">
-						<h:outputText value="#{item.itemFechaSubastaFin}">
+					<p:column filterBy="#{item.subItem.itemFechaSubastaInicio}"
+						filterMatchMode="contains" headerText="INICIO SUBASTA" width="30">
+						<h:outputText value="#{itemsubItem.subItem.itemFechaSubastaInicio}">
 							<f:convertDateTime pattern="yyyy/MM/dd HH:mm" timeZone="GMT-5" />
 						</h:outputText>
 					</p:column>
-					<p:column filterBy="#{item.itemEstado}" filterMatchMode="contains" headerText="ESTADO" width="30">
-						<h:outputText value="#{item.itemEstado}"></h:outputText>
+					<p:column filterBy="#{item.subItem.itemFechaSubastaFin}"
+						filterMatchMode="contains" headerText="FIN SUBASTA" width="30">
+						<h:outputText value="#{item.subItem.itemFechaSubastaFin}">
+							<f:convertDateTime pattern="yyyy/MM/dd HH:mm" timeZone="GMT-5" />
+						</h:outputText>
 					</p:column>
-					<p:column filterBy="#{item.itemGanadorDni}"  filterMatchMode="contains" headerText="GANADOR" width="30">
-						<h:outputText value="#{item.itemGanadorDni}"></h:outputText>
+					<p:column filterBy="#{item.subItem.itemEstado}" filterMatchMode="contains"
+						headerText="ESTADO" width="30">
+						<h:outputText value="#{item.subItem.itemEstado}"></h:outputText>
+					</p:column>
+					<p:column filterBy="#{item.subItem.itemGanadorDni}"
+						filterMatchMode="contains" headerText="GANADOR" width="30">
+						<h:outputText value="#{item.subItem.itemGanadorDni}"></h:outputText>
 					</p:column>
 				</p:dataTable>
 			</b:panel>

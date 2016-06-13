@@ -1,7 +1,10 @@
 package subastas.model.manager;
 
 import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.sql.Timestamp;
 
 import subastas.general.connection.SingletonJDBC;
@@ -55,8 +58,7 @@ public class ManagerCarga {
 		}
 		return f;
 	}
-	
-	
+
 	/**
 	 * Devuelve un funcionario por dni
 	 * 
@@ -91,7 +93,7 @@ public class ManagerCarga {
 		}
 		return f;
 	}
-	
+
 	/**
 	 * Devuelve un funcionario por dni
 	 * 
@@ -105,7 +107,9 @@ public class ManagerCarga {
 		ResultSet consulta = conDao
 				.consultaSQL("select o.ofer_id as id, o.pos_id as post, o.item_id as item, o.ofer_valor_oferta as valormaximo, "
 						+ "o.ofer_fecha_oferta as fechaofer FROM sub_ofertas o WHERE o.ofer_fecha_oferta=(SELECT MIN(p.ofer_fecha_oferta) "
-						+ "FROM sub_ofertas p where p.item_id = "+ item_id +"  "
+						+ "FROM sub_ofertas p where p.item_id = "
+						+ item_id
+						+ "  "
 						+ "and p.ofer_valor_oferta= (SELECT MAX(q.ofer_valor_oferta) FROM sub_ofertas q))");
 		if (consulta != null) {
 			consulta.next();
@@ -114,11 +118,40 @@ public class ManagerCarga {
 			o.setOferId(Integer.parseInt(consulta.getString("id")));
 			o.setSubPostulante(consulta.getString("post"));
 			o.setSubItem(Integer.parseInt(consulta.getString("item")));
-			o.setOferValorOferta(new BigDecimal (consulta.getString("valormaximo")));
-			o.setOferFechaOferta(new Timestamp(Funciones.stringToDate(consulta.getString("fechaofer")).getTime()));
+			o.setOferValorOferta(new BigDecimal(consulta
+					.getString("valormaximo")));
+			o.setOferFechaOferta(new Timestamp(Funciones.stringToDate(
+					consulta.getString("fechaofer")).getTime()));
 		}
 		return o;
 	}
-	
-	
+
+	public static String consultaSQL(String usr) throws Exception {
+		String cc = "jdbc:postgresql://10.1.0.158:5432/app_permisos?user=adm_svcyachay&password=_50STg-FGh2h";
+		Connection conexion = null;
+		Statement comando = null;
+		ResultSet resultado = null;
+		try {
+			Class.forName("org.postgresql.Driver");
+			conexion = DriverManager.getConnection(cc);
+			comando = conexion.createStatement();
+			resultado = comando
+					.executeQuery("SELECT per_id FROM app_usuario WHERE usu_login = '"
+							+ usr + "';");
+			if (resultado.next()) {
+				return resultado.getString("per_id");
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
+		} finally {
+			if (resultado != null)
+				resultado.close();
+			if (comando != null)
+				comando.close();
+			if (conexion != null)
+				conexion.close();
+		}
+	}
 }
