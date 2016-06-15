@@ -1,13 +1,12 @@
 package subastas.controller.access;
 
-
-
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -18,24 +17,22 @@ import subastas.model.generic.Mensaje;
 import subastas.model.manager.ManagerAcceso;
 import subastas.controller.access.SesionBean;
 
-
-
 @ManagedBean
 @SessionScoped
-public class SesionBean implements Serializable{
+public class SesionBean implements Serializable {
 
 	/**
 	 * SERIAL ID
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@EJB
 	private ManagerAcceso mngAcc;
-	
+
 	private String usuario;
 	private String pass;
 	private List<Menu> menu;
-	
+
 	public SesionBean() {
 		menu = new ArrayList<Menu>();
 	}
@@ -48,7 +45,8 @@ public class SesionBean implements Serializable{
 	}
 
 	/**
-	 * @param usuario the usuario to set
+	 * @param usuario
+	 *            the usuario to set
 	 */
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
@@ -62,12 +60,13 @@ public class SesionBean implements Serializable{
 	}
 
 	/**
-	 * @param pass the pass to set
+	 * @param pass
+	 *            the pass to set
 	 */
 	public void setPass(String pass) {
 		this.pass = pass;
 	}
-			
+
 	/**
 	 * @return the menu
 	 */
@@ -76,110 +75,130 @@ public class SesionBean implements Serializable{
 	}
 
 	/**
-	 * @param menu the menu to set
+	 * @param menu
+	 *            the menu to set
 	 */
 	public void setMenu(List<Menu> menu) {
 		this.menu = menu;
 	}
-	
+
 	/**
 	 * Permite ingresar al sistema
+	 * 
 	 * @return
 	 */
-	public String logIn(){
+	public String logIn() {
 		try {
-			if(getUsuario()==null || getUsuario().isEmpty() || getPass()==null || getPass().isEmpty()){
+			if (getUsuario() == null || getUsuario().isEmpty()
+					|| getPass() == null || getPass().isEmpty()) {
 				Mensaje.crearMensajeWARN("Campos usuario y contraseña requeridos");
+				
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO,
+								"Campos usuario y contraseña requeridos", null));
 				return "";
-			}else{
+			} else {
 				setMenu(mngAcc.loginWS(getUsuario(), getPass(), "SUB"));
 				setPass(null);
 				return "/admin/views/index?faces-redirect=true";
 			}
 		} catch (Exception e) {
-			Mensaje.crearMensajeERROR(e.getMessage());setPass(null);
+			Mensaje.crearMensajeERROR(e.getMessage());
+			setPass(null);
 			return "";
 		}
 	}
-	
+
 	/**
 	 * Permite salir del Sistema
+	 * 
 	 * @return
 	 */
-	public String logOut(){
-		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        session.invalidate();
-        setPass(null);setUsuario(null);setMenu(new ArrayList<Menu>());
-        return "/admin/index?faces-redirect=true";
-	}
-	
-	/**
-	 * Verifica y devuelve el usuario en sesión
-	 * @param vista página principal de acceso
-	 * @return String
-	 */
-	public String validarSesion(String vista){
-		 HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-	                .getExternalContext().getSession(false);
-	     SesionBean user = (SesionBean) session.getAttribute("sesionBean");
-	     if (user==null || user.getUsuario() == null) {
-            try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("../index.xhtml");
-            } catch (IOException ex) {
-            	Mensaje.crearMensajeERROR(ex.getMessage());
-            }
-            return null;
-        }else{
-        	ManagerAcceso ma = new ManagerAcceso();
-        	if(ma.poseePermiso(vista, user.getMenu()))
-        		return user.getUsuario();
-        	else{
-        		try {
-       				FacesContext.getCurrentInstance().getExternalContext().redirect("/subastas/admin/index.xhtml");
-	            } catch (IOException ex) {
-	            	Mensaje.crearMensajeERROR(ex.getMessage());
-	            }
-	            return null;
-        	}
-        }
-	}
-	
-	/**
-	 * Verifica y devuelve el usuario en sesión
-	 * @param vista página principal de acceso
-	 * @return String
-	 */
-	public String validarSesion(){
-		 HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-	                .getExternalContext().getSession(false);
-	     SesionBean user = (SesionBean) session.getAttribute("sesionBean");
-	     if (user==null || user.getUsuario() == null) {
-            try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("../index.xhtml");
-            } catch (IOException ex) {
-            	Mensaje.crearMensajeERROR(ex.getMessage());
-            }
-            return null;
-        }else{
-        	return user.getUsuario();
-        }
+	public String logOut() {
+		HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+				.getExternalContext().getSession(false);
+		session.invalidate();
+		setPass(null);
+		setUsuario(null);
+		setMenu(new ArrayList<Menu>());
+		return "/admin/index?faces-redirect=true";
 	}
 
-	
 	/**
-	   * Método para validar sesión en el INDEX
-	   */
-	  public void validaIndex(){
-	   HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-	                 .getExternalContext().getSession(false);
-	      SesionBean user = (SesionBean) session.getAttribute("sesionBean");
-	      if (user==null || user.getUsuario() == null) {
-	             try {
-	            	 System.out.println("valida se supone que envie");
-	                 FacesContext.getCurrentInstance().getExternalContext().redirect("../index.xhtml");
-	             } catch (IOException ex) {
-	              Mensaje.crearMensajeERROR(ex.getMessage());
-	             }
-	      }
-	  }
+	 * Verifica y devuelve el usuario en sesión
+	 * 
+	 * @param vista
+	 *            página principal de acceso
+	 * @return String
+	 */
+	public String validarSesion(String vista) {
+		HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+				.getExternalContext().getSession(false);
+		SesionBean user = (SesionBean) session.getAttribute("sesionBean");
+		if (user == null || user.getUsuario() == null) {
+			try {
+				FacesContext.getCurrentInstance().getExternalContext()
+						.redirect("../index.xhtml");
+			} catch (IOException ex) {
+				Mensaje.crearMensajeERROR(ex.getMessage());
+			}
+			return null;
+		} else {
+			ManagerAcceso ma = new ManagerAcceso();
+			if (ma.poseePermiso(vista, user.getMenu()))
+				return user.getUsuario();
+			else {
+				try {
+					FacesContext.getCurrentInstance().getExternalContext()
+							.redirect("/subastas/admin/index.xhtml");
+				} catch (IOException ex) {
+					Mensaje.crearMensajeERROR(ex.getMessage());
+				}
+				return null;
+			}
+		}
+	}
+
+	/**
+	 * Verifica y devuelve el usuario en sesión
+	 * 
+	 * @param vista
+	 *            página principal de acceso
+	 * @return String
+	 */
+	public String validarSesion() {
+		HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+				.getExternalContext().getSession(false);
+		SesionBean user = (SesionBean) session.getAttribute("sesionBean");
+		if (user == null || user.getUsuario() == null) {
+			try {
+				FacesContext.getCurrentInstance().getExternalContext()
+						.redirect("../index.xhtml");
+			} catch (IOException ex) {
+				Mensaje.crearMensajeERROR(ex.getMessage());
+			}
+			return null;
+		} else {
+			return user.getUsuario();
+		}
+	}
+
+	/**
+	 * Método para validar sesión en el INDEX
+	 */
+	public void validaIndex() {
+		HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+				.getExternalContext().getSession(false);
+		SesionBean user = (SesionBean) session.getAttribute("sesionBean");
+		if (user == null || user.getUsuario() == null) {
+			try {
+				System.out.println("valida se supone que envie");
+				FacesContext.getCurrentInstance().getExternalContext()
+						.redirect("../index.xhtml");
+			} catch (IOException ex) {
+				Mensaje.crearMensajeERROR(ex.getMessage());
+			}
+		}
+	}
 }

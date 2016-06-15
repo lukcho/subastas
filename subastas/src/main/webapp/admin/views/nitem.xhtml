@@ -12,76 +12,84 @@
            Item 
         </ui:define>
 	<ui:define name="contenido">
+		<h:form>
+			<p:remoteCommand name="onload"
+				actionListener="#{sesionBean.validaIndex()}" autoRun="true" />
+		</h:form>
 		<br />
 		<h:form id="frm">
 			<p:growl id="messages" showDetail="false" />
 			<b:panel title="Registro de Item" look="primary">
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Nombre:* " />
+						<h:outputLabel value="Nombre:* " for="nom" />
 					</b:column>
 					<b:column span="4">
-						<h:inputText value="#{itemBean.item_nombre}" required="true"
-							disabled="#{itemBean.mostrarpro_id}" styleClass="form-control"
+						<p:inputText id="nom" value="#{itemBean.item_nombre}"
+							required="true" disabled="#{itemBean.mostrarpro_id}"
+							styleClass="form-control"
 							requiredMessage="Campo nombre requerido">
 							<f:ajax event="blur" listener="#{itemBean.asignarNombreImagen()}" />
-						</h:inputText>
+						</p:inputText>
 					</b:column>
 				</b:row>
 				<br />
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Descripción:* " />
+						<h:outputLabel value="Descripción:* " for="descr" />
 					</b:column>
 					<b:column span="4" style="margin-bottom:10px">
-						<p:inputTextarea value="#{itemBean.item_descripcion}"
+						<p:inputTextarea id="descr" value="#{itemBean.item_descripcion}"
 							maxlength="255" style="width:100%; margin-bottom:15px;"
 							styleClass="form-control" required="true"
 							requiredMessage="Campo descripción requerido" />
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Características*: " />
+						<h:outputLabel value="Características*: " for="car" />
 					</b:column>
 					<b:column span="4" style="margin-bottom:10px">
-						<p:inputTextarea value="#{itemBean.item_caracteristicas}"
+						<p:inputTextarea id="car" value="#{itemBean.item_caracteristicas}"
 							maxlength="255" style="width:100%; margin-bottom:15px;"
 							styleClass="form-control" required="true"
-							requiredMessage="Campo características*: requerido" />
+							requiredMessage="Campo características requerido" />
 					</b:column>
 				</b:row>
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Valor Base:* ($)" />
+						<h:outputLabel value="Valor Base:* ($)" for="val" />
 					</b:column>
 					<b:column span="4">
-						<b:inputText value="#{itemBean.item_valorbase}" required="true"
-							placeholder="0.00" requiredMessage="Campo valor base requerido"
+						<p:inputText id="val" value="#{itemBean.item_valorbase}"
+							required="true" styleClass="form-control"
+							style="width:100%; margin-bottom:15px;" placeholder="0.00"
+							requiredMessage="Campo valor base requerido"
 							validatorMessage="Ingrese solo dígitos">
 							<f:validateRegex pattern="[0-9.]+" />
-						</b:inputText>
+						</p:inputText>
 					</b:column>
 					<b:column span="2">
 						<h:outputLabel value="Valor Vendido:* ($) " />
 					</b:column>
 					<b:column span="4">
-						<b:inputText value="#{itemBean.item_valorventa}" disabled="true"
+						<p:inputText value="#{itemBean.item_valorventa}" disabled="true"
+							styleClass="form-control" style="width:100%; margin-bottom:15px;"
 							placeholder="0.00">
-						</b:inputText>
+						</p:inputText>
 					</b:column>
 					<b:column span="2">
 						<h:outputLabel value="Máximo Ofertado:* ($) "
 							rendered="#{itemBean.edicion}" />
 					</b:column>
 					<b:column span="4">
-						<b:inputText value="#{itemBean.valorMaximo}"
+						<p:inputText value="#{itemBean.valorMaximo}"
 							rendered="#{itemBean.edicion}" disabled="true">
-						</b:inputText>
+						</p:inputText>
 					</b:column>
 
 				</b:row>
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Inicio Subasta*:" />
+						<h:outputLabel value="Inicio Subasta*:" for="fechai" />
 					</b:column>
 					<b:column span="4">
 						<p:calendar required="true" mindate="#{itemBean.date}"
@@ -90,7 +98,7 @@
 						</p:calendar>
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Fin Subasta*:" />
+						<h:outputLabel value="Fin Subasta*:" for="fechaf" />
 					</b:column>
 					<b:column span="4">
 						<p:calendar required="true" mindate="#{itemBean.date}"
@@ -122,10 +130,11 @@
 				<br />
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Estado: " rendered="#{itemBean.edicion}" />
+						<h:outputLabel value="Estado: " for="est"
+							rendered="#{itemBean.edicion}" />
 					</b:column>
 					<b:column span="4">
-						<b:selectOneMenu value="#{itemBean.item_estado}"
+						<b:selectOneMenu id="est" value="#{itemBean.item_estado}"
 							rendered="#{itemBean.edicion}">
 							<f:selectItems value="#{itemBean.listEstados}" />
 						</b:selectOneMenu>

@@ -12,6 +12,10 @@
            Postulante 
         </ui:define>
 	<ui:define name="contenido">
+	<h:form>
+			<p:remoteCommand name="onload"
+				actionListener="#{sesionBean.validaIndex()}" autoRun="true" />
+		</h:form>
 		<br />
 		<h:form id="frm">
 			<p:growl id="messages" showDetail="false" />
@@ -31,67 +35,67 @@
 				<br />
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Cédula:* " />
+						<h:outputLabel value="Cédula:* " for="cedu"/>
 					</b:column>
 					<b:column span="3">
-						<h:inputText value="#{postulantesBean.pos_id}" required="true"
+						<p:inputText id="cedu" value="#{postulantesBean.pos_id}" required="true"
 							styleClass="form-control"
 							disabled="#{postulantesBean.mostrarpro_id}"
 							requiredMessage="Campo cédula/pasaporte requerido">
-						</h:inputText>
+						</p:inputText>
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Nombre:* " />
+						<h:outputLabel value="Nombre:* " for="nom"/>
 					</b:column>
 					<b:column span="3">
-						<h:inputText value="#{postulantesBean.pos_nombre}" required="true"
+						<p:inputText id="nom" value="#{postulantesBean.pos_nombre}" required="true"
 							styleClass="form-control"
 							requiredMessage="Campo nombre requerido">
-						</h:inputText>
+						</p:inputText>
 					</b:column>
 				</b:row>
 				<br />
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Apellido:* " />
+						<h:outputLabel value="Apellido:* " for="ape"/>
 					</b:column>
 					<b:column span="3">
-						<h:inputText value="#{postulantesBean.pos_apellido}"
+						<p:inputText id="ape" value="#{postulantesBean.pos_apellido}"
 							required="true" styleClass="form-control"
 							requiredMessage="Campo apellido requerido">
-						</h:inputText>
+						</p:inputText>
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Dirección:* " />
+						<h:outputLabel value="Dirección:* " for="dire"/>
 					</b:column>
 					<b:column span="3">
-						<h:inputText value="#{postulantesBean.pos_direccion}"
+						<p:inputText id="dire" value="#{postulantesBean.pos_direccion}"
 							required="true" styleClass="form-control"
 							requiredMessage="Campo direccion requerido">
-						</h:inputText>
+						</p:inputText>
 					</b:column>
 				</b:row>
 				<br />
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Correo:* " />
+						<h:outputLabel value="Correo:* " for="corr"/>
 					</b:column>
 					<b:column span="3">
-						<h:inputText required="true" styleClass="form-control"
+						<p:inputText id="corr" required="true" styleClass="form-control"
 							requiredMessage="Por favor ingrese su Correo."
 							validatorMessage="Formato de correo inv&aacute;lido"
 							value="#{postulantesBean.pos_correo}">
 							<f:validateRegex
 								pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
-						</h:inputText>
+						</p:inputText>
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Contraseña:* " />
+						<h:outputLabel value="Contraseña: " for="pass"/>
 					</b:column>
 					<b:column span="3">
 						<h:inputSecret required="true" id="pass" redisplay="true"
 							styleClass="form-control" value="#{postulantesBean.pos_password}"
-							feedback="true" requiredMessage="Requerida Contraseña"
+							feedback="true" requiredMessage="Requerida Contraseña o desea cambiarla"
 							goodLabel="Buena" strongLabel="Fuerte" weakLabel="Débil"
 							promptLabel="Por favor ingrese contraseña"
 							validatorMessage="Password contiene caracteres no permitidos o posee un tamaño menor a 8">
@@ -101,37 +105,37 @@
 				<br />
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Teléfono:* " />
+						<h:outputLabel value="Teléfono:* " for="tele"/>
 					</b:column>
 					<b:column span="3">
-						<h:inputText value="#{postulantesBean.pos_telefono}"
+						<p:inputText id="tele" value="#{postulantesBean.pos_telefono}"
 							required="true" styleClass="form-control"
 							requiredMessage="Campo teléfono requerido"
 							validatorMessage="Campo teléfono solo ingrese números">
 							<f:validateRegex pattern="[0-9]+" />
-						</h:inputText>
+						</p:inputText>
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Celular:* " />
+						<h:outputLabel value="Celular:* " for="celu"/>
 					</b:column>
 					<b:column span="3">
-						<h:inputText value="#{postulantesBean.pos_celular}"
+						<p:inputText id="celu" value="#{postulantesBean.pos_celular}"
 							required="true" styleClass="form-control" maxlength="10"
 							requiredMessage="Campo celular requerido"
 							validatorMessage="Campo celular solo números">
 							<f:validateRegex pattern="[0-9]+" />
-						</h:inputText>
+						</p:inputText>
 					</b:column>
 
 				</b:row>
 				<br />
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Estado*"
+						<h:outputLabel value="Estado*" for="est"
 							rendered="#{postulantesBean.edicion}" />
 					</b:column>
 					<b:column span="3">
-						<b:selectOneMenu value="#{postulantesBean.pos_estado}"
+						<b:selectOneMenu id="est" value="#{postulantesBean.pos_estado}"
 							rendered="#{postulantesBean.edicion}">
 							<f:selectItems value="#{postulantesBean.listEstados}" />
 						</b:selectOneMenu>

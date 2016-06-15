@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
+import subastas.controller.access.SesionBean;
 import subastas.entidades.help.UsuarioHelp;
 import subastas.entidades.help.Utilidades;
 import subastas.model.dao.entities.SubPostulante;
@@ -338,7 +339,8 @@ public class SessionBean {
          SessionBean user = (SessionBean) session.getAttribute("sessionBean");
          if (user==null || user.getSession() == null) {
              try {
-                 FacesContext.getCurrentInstance().getExternalContext().redirect("/index.xhtml");
+            		System.out.println("me envia a ajuefa ");
+            	 FacesContext.getCurrentInstance().getExternalContext().redirect("../index.xhtml");
              } catch (IOException ex) {
              	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(),null));
              }
@@ -357,7 +359,8 @@ public class SessionBean {
 	     SessionBean user = (SessionBean) session.getAttribute("sessionBean");
 	     if (user==null || user.getSession() == null) {
 	            try {
-	                FacesContext.getCurrentInstance().getExternalContext().redirect("/index.xhtml");
+	            	System.out.println("me envia a ajuefa ");
+	                FacesContext.getCurrentInstance().getExternalContext().redirect("../index.xhtml");
 	            } catch (IOException ex) {
 	            	Mensaje.crearMensajeERROR(ex.getMessage());
 	            }
@@ -444,5 +447,7 @@ public class SessionBean {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Error al enviar correo", null));
 			}
     		return "index?faces-redirect=true";
-		}			    
+		}
+		
+
 }

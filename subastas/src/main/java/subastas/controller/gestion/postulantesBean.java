@@ -494,7 +494,7 @@ public class postulantesBean implements Serializable {
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(
 					null,
-					new FacesMessage("INFORMACION", managergest
+					new FacesMessage("Información: postulante modificado", managergest
 							.cambioEstadoPostulante(getPostulante().getPosId())));
 			getListaPostulante().clear();
 			getListaPostulante().addAll(managergest.findAllpostulantes());
@@ -513,7 +513,7 @@ public class postulantesBean implements Serializable {
 			pos_apellido = u.getPosApellido();
 			pos_direccion = u.getPosDireccion();
 			pos_correo = u.getPosCorreo();
-			pos_password = Utilidades.Desencriptar(u.getPosPassword());
+			pos_password = "";
 			pos_telefono = u.getPosTelefono();
 			pos_celular = u.getPosCelular();
 			pos_institucion = u.getPosInstitucion();

@@ -7,10 +7,15 @@
 	xmlns:b="http://bootsfaces.net/ui">
 
 <ui:composition template="template.xhtml">
+
 	<ui:define name="titulo">
             Ofertas
         </ui:define>
 	<ui:define name="contenido">
+	<h:form>
+			<p:remoteCommand name="onload"
+				actionListener="#{sesionBean.validaIndex()}" autoRun="true" />
+		</h:form>
 		<h:form>
 			<center>
 				<h1>Ofertas del Item</h1>

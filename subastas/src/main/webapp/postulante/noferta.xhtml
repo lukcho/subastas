@@ -12,6 +12,10 @@
            Ofertar 
         </ui:define>
 	<ui:define name="contenido">
+		<h:form>
+			<p:remoteCommand name="onload"
+				actionListener="#{sessionBean.validaIndex()}" autoRun="true" />
+		</h:form>
 		<style>
 .ui-widget-header {
 	border: 1px solid #FFFFFF;
@@ -39,8 +43,8 @@
 						<p:galleria value="#{ofertausuBean.images}" var="image"
 							panelWidth="250" panelHeight="250" autoPlay="true"
 							showCaption="true">
-							<p:graphicImage alt="#{ofertausuBean.item_nombre}"
-								title="#{image}" />
+							<p:graphicImage value="/resources/img/items/#{image}" alt="   "
+								title=" " width="250" height="250" />
 						</p:galleria>
 					</b:column>
 					<!-- 					<p:graphicImage id="imagen" -->
@@ -147,21 +151,22 @@
 				</b:column>
 			</b:row>
 		</h:form>
-		<br />
 		<h:form id="frm1">
 			<b:row>
 				<b:column span="3">
-					<b:commandButton type="button" value="Mostrar" look="info" process="@this" style="padding:7px;border-radius: 90px 90px 80px 80px !important;"
-						onclick="PF('dlg').show()" iconAwesome="fa fa-file-image-o" />
+					<p:commandLink id="ajax"  onclick="PF('dlg').show()" process="@this" 
+						actionListener="PF('dlg').show()">
+						<h:outputText value="Ver imagen" />
+					</p:commandLink>
 				</b:column>
 				<b:column span="9">
 					<b:row>
 						<b:column span="2">
-							<h:outputLabel value="Valor a Ofertar: "
+							<h:outputLabel value="Valor a Ofertar: " for="val"
 								style="font-weight:bold;color:black;" />
 						</b:column>
 						<b:column span="3">
-							<b:inputText value="#{ofertausuBean.ofer_valor_oferta}"
+							<p:inputText id="val" value="#{ofertausuBean.ofer_valor_oferta}"
 								required="true" placeholder="$0.00"
 								style="font-weight:bold;color:black;font-size: 20pt;"
 								requiredMessage="Campo valor venta requerido" maxlength="6"
@@ -169,7 +174,7 @@
 								<f:validateRegex pattern="[0-9]+(\.[0-9][0-9]?)?" />
 								<p:ajax listener="#{ofertausuBean.verificarValor()}"
 									update=":frm"></p:ajax>
-							</b:inputText>
+							</p:inputText>
 						</b:column>
 					</b:row>
 					<b:row>
@@ -248,12 +253,13 @@
 				</center>
 			</h:form>
 		</p:dialog>
-		<p:dialog header="Imágenes" widgetVar="dlg" modal="true"
-			draggable="false" resizable="false">
+		<p:dialog header="#{ofertausuBean.item_nombre}" widgetVar="dlg"
+			closable="true" closeOnEscape="true" modal="true" showEffect="fade"
+			hideEffect="fade" width="500px" height="600px" resizable="false">
 			<p:imageSwitch effect="fade">
 				<ui:repeat value="#{ofertausuBean.images}" var="image">
-					<p:graphicImage
-						name="/resources/img/items/#{ofertausuBean.item_imagen}" />
+					<p:graphicImage value="/resources/img/items/#{image}"
+						styleClass="img-responsive" width="450px" height="550px" />
 				</ui:repeat>
 			</p:imageSwitch>
 		</p:dialog>

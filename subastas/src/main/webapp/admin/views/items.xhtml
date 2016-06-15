@@ -18,6 +18,10 @@
 </style>
 	</ui:define>
 	<ui:define name="contenido">
+	<h:form>
+			<p:remoteCommand name="onload"
+				actionListener="#{sesionBean.validaIndex()}" autoRun="true" />
+		</h:form>
 		<h:form>
 			<center>
 				<h1>Items</h1>
@@ -92,11 +96,11 @@
 					</p:column>
 					<p:column width="50" headerText="IMAGEN" exportable="false">
 						<p:graphicImage width="100" height="100"
-							value="/resources/img/items/#{item.itemfMostrar}"></p:graphicImage>
+							value="/resources/img/items/#{item.subItem.itemImagen}"></p:graphicImage>
 					</p:column>
 					<p:column filterBy="#{item.subItem.itemFechaSubastaInicio}"
 						filterMatchMode="contains" headerText="INICIO SUBASTA" width="30">
-						<h:outputText value="#{itemsubItem.subItem.itemFechaSubastaInicio}">
+						<h:outputText value="#{item.subItem.itemFechaSubastaInicio}">
 							<f:convertDateTime pattern="yyyy/MM/dd HH:mm" timeZone="GMT-5" />
 						</h:outputText>
 					</p:column>
@@ -123,7 +127,7 @@
 			<h:form>
 				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
 					icon="ui-icon-check" action="#{itemBean.cambiarEstado()}"
-					oncomplete="PF('ce').hide();" update=":frm:messages" />
+					oncomplete="PF('ce').hide();" update=":frm:messages :frm:tbb" />
 				<p:commandButton value="No" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
 					onclick="PF('ce').hide();" />
@@ -135,7 +139,7 @@
 			<h:form>
 				<p:commandButton value="Si" styleClass="ui-confirmdialog-yes"
 					icon="ui-icon-check" action="#{itemBean.conocerGanador()}"
-					oncomplete="PF('cg').hide();" update=":frm:messages" />
+					oncomplete="PF('cg').hide();" update=":frm:messages :frm:tbb" />
 				<p:commandButton value="No" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close"
 					onclick="PF('cg').hide();" />

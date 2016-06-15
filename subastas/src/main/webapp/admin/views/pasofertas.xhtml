@@ -11,6 +11,10 @@
             Subastas Pasadas
         </ui:define>
 	<ui:define name="contenido">
+	<h:form>
+			<p:remoteCommand name="onload"
+				actionListener="#{sesionBean.validaIndex()}" autoRun="true" />
+		</h:form>
 		<h:form>
 			<center>
 				<h1>Historial de Ofertas Pasadas</h1>

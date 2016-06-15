@@ -398,8 +398,6 @@ public class postulantesusuBean implements Serializable {
 		             + "<br/> Sistema de Subastas Yachay EP";
 			Mail.generateAndSendEmail(pos_correo, "Notificación de Subastas", smscorusu);
 			
-			getListaPostulante().clear();
-			getListaPostulante().addAll(managergest.findAllpostulantes());
 			pos_id = "";
 			pos_nombre = "";
 			smscorusu="";
@@ -416,12 +414,10 @@ public class postulantesusuBean implements Serializable {
 			pos_area = "";
 			pos_estado = "A";
 			Mensaje.crearMensajeINFO("Creado con éxito - Se envió una notificación su correo");
-			
-			
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Error al crear usuario postulante", null));
+							"Creado con éxito - Se envió una notificación su correo", null));
 			r = "index?faces-redirect=true";
 
 		} catch (Exception e) {

@@ -12,71 +12,75 @@
            Postulante 
         </ui:define>
 	<ui:define name="contenido">
+				<h:form>
+			<p:remoteCommand name="onload"
+				actionListener="#{sessionBean.validaIndex()}" autoRun="true" />
+		</h:form>
 		<br />
 		<h:form id="frm">
 			<p:growl id="messages" showDetail="false" />
 			<b:panel title="Pefil de Postulante" look="primary">
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Cédula:* " />
+						<h:outputLabel value="Cédula:* " for="cedu"/>
 					</b:column>
 					<b:column span="3">
-						<h:inputText value="#{ofertausuBean.pos_id}" disabled="true"
+						<p:inputText id="cedu" value="#{ofertausuBean.pos_id}" disabled="true"
 							styleClass="form-control">
-						</h:inputText>
+						</p:inputText>
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Nombre:* " />
+						<h:outputLabel value="Nombre:* " for="nom"/>
 					</b:column>
 					<b:column span="3">
-						<h:inputText value="#{ofertausuBean.pos_nombre}" required="true"
+						<p:inputText id="nom" value="#{ofertausuBean.pos_nombre}" required="true"
 							styleClass="form-control"
 							requiredMessage="Campo nombre requerido">
-						</h:inputText>
+						</p:inputText>
 					</b:column>
 				</b:row>
 				<br />
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Apellido:* " />
+						<h:outputLabel value="Apellido:* " for="ape"/>
 					</b:column>
 					<b:column span="3">
-						<h:inputText value="#{ofertausuBean.pos_apellido}" required="true"
+						<p:inputText id="ape" value="#{ofertausuBean.pos_apellido}" required="true"
 							styleClass="form-control"
 							requiredMessage="Campo apellido requerido">
-						</h:inputText>
+						</p:inputText>
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Dirección:* " />
+						<h:outputLabel value="Dirección:* " for="direc"/>
 					</b:column>
 					<b:column span="3">
-						<h:inputText value="#{ofertausuBean.pos_direccion}"
+						<p:inputText id="direc" value="#{ofertausuBean.pos_direccion}"
 							required="true" styleClass="form-control"
 							requiredMessage="Campo direccion requerido">
-						</h:inputText>
+						</p:inputText>
 					</b:column>
 				</b:row>
 				<br />
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Correo:* " />
+						<h:outputLabel value="Correo:* " for="corr"/>
 					</b:column>
 					<b:column span="3">
-						<h:inputText required="true" styleClass="form-control"
+						<p:inputText id="corr" required="true" styleClass="form-control"
 							requiredMessage="Por favor ingrese su Correo."
 							validatorMessage="Formato de correo inv&aacute;lido"
 							value="#{ofertausuBean.pos_correo}">
 							<f:validateRegex
 								pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
-						</h:inputText>
+						</p:inputText>
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Contraseña:* " />
+						<h:outputLabel value="Cambiar Contraseña: " for="pass"/>
 					</b:column>
 					<b:column span="3">
 						<h:inputSecret required="true" id="pass" redisplay="true"
 							styleClass="form-control" value="#{ofertausuBean.pos_password}"
-							feedback="true" requiredMessage="Requerida Contraseña"
+							feedback="true" requiredMessage="Desea cambiar contraseña?"
 							goodLabel="Buena" strongLabel="Fuerte" weakLabel="Débil"
 							promptLabel="Por favor ingrese contraseña"
 							validatorMessage="Password contiene caracteres no permitidos o posee un tamaño menor a 8">
@@ -86,26 +90,26 @@
 				<br />
 				<b:row>
 					<b:column span="2">
-						<h:outputLabel value="Teléfono:* " />
+						<h:outputLabel value="Teléfono:* " for="telef"/>
 					</b:column>
 					<b:column span="3">
-						<h:inputText value="#{ofertausuBean.pos_telefono}" required="true"
+						<p:inputText id="telef" value="#{ofertausuBean.pos_telefono}" required="true"
 							styleClass="form-control"
 							validatorMessage="Campo teléfono solo números"
 							requiredMessage="Campo teléfono requerido">
 							<f:validateRegex pattern="[0-9]+" />
-						</h:inputText>
+						</p:inputText>
 					</b:column>
 					<b:column span="2">
-						<h:outputLabel value="Celular:* " />
+						<h:outputLabel value="Celular:* " for="celu"/>
 					</b:column>
 					<b:column span="3">
-						<h:inputText value="#{ofertausuBean.pos_celular}" required="true"
+						<p:inputText id="celu" value="#{ofertausuBean.pos_celular}" required="true"
 							styleClass="form-control" maxlength="10"
 							requiredMessage="Campo celular requerido"
 							validatorMessage="Campo celular solo números">
 							<f:validateRegex pattern="[0-9]+" />
-						</h:inputText>
+						</p:inputText>
 					</b:column>
 
 				</b:row>

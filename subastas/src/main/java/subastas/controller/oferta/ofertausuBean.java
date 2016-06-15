@@ -748,10 +748,9 @@ public class ofertausuBean implements Serializable {
 				if (managergest.ofertaXPost(item_id, pos_id) == 0) {
 					ofertavalor = null;
 				} else {
-
-					System.out.println("el posulante q puso: "
-							+ sublist.get(0).getSubPostulante().getPosId());
-					System.out.println("el posulante q yo soy: " + pos_id);
+//					System.out.println("el posulante q puso: "
+//							+ sublist.get(0).getSubPostulante().getPosId());
+//					System.out.println("el posulante q yo soy: " + pos_id);
 					ofertavalor = managergest.ofertaByID(managergest
 							.ofertaXPost(item_id, pos_id));
 					
@@ -762,14 +761,14 @@ public class ofertausuBean implements Serializable {
 					valorUltimoPostulante = valoroferta.toString();
 
 					if (sublist.get(0).getSubPostulante().getPosId().equals(pos_id)) {
-						System.out.println("estas ganando");
+//						System.out.println("estas ganando");
 						colorgana = "colorGreen";
 						ganandoperdiendo = " Estas Ganando: $"+ valorUltimoPostulante;
 						setOcultarColorGana(true);
 						setOcultarColorGana1(false);
 					} else{
-						System.out.println("estas perdiendo");
-						System.out.println("valor ultimo del postulante: "+valorUltimoPostulante);
+//						System.out.println("estas perdiendo");
+//						System.out.println("valor ultimo del postulante: "+valorUltimoPostulante);
 						colorgana = "colorRed";
 						ganandoperdiendo = "  Tu oferta: $"	+ valorUltimoPostulante;
 						colorgana1 = "colorGreen";
@@ -859,7 +858,7 @@ public class ofertausuBean implements Serializable {
 				pos_apellido = usr.getPosApellido();
 				pos_direccion = usr.getPosDireccion();
 				pos_correo = usr.getPosCorreo();
-				pos_password = Utilidades.Desencriptar(usr.getPosPassword());
+				pos_password = "";
 				pos_telefono = usr.getPosTelefono();
 				pos_celular = usr.getPosCelular();
 				pos_institucion = usr.getPosInstitucion();
@@ -892,8 +891,8 @@ public class ofertausuBean implements Serializable {
 		ganandoperdiendo = "";
 		ganandoperdiendo1 = "";
 		valorUltimoPostulante = "0.00";
-		getListaItems().clear();
 		getImages().clear();
+		getListaItems().clear();
 		getListaItems().addAll(managergest.findAllItems());
 		return "home?faces-redirect=true";
 	}
@@ -909,7 +908,7 @@ public class ofertausuBean implements Serializable {
 		String r = "";
 		try {
 			if (item == null) {
-				System.out.println("holi");
+	//			System.out.println("holi");
 			} else {
 				valorUltimoPostulante = "0,00";
 				setOcultarColorGana(false);
@@ -925,9 +924,9 @@ public class ofertausuBean implements Serializable {
 
 				miTiempo();
 
-				System.out.println("midia en date" + fechaactual
-						+ "    mi diainicio" + fechasubini + "     mi diafin"
-						+ fechasubfin);
+//				System.out.println("midia en date" + fechaactual
+//						+ "    mi diainicio" + fechasubini + "     mi diafin"
+//						+ fechasubfin);
 
 				if (ofer_fecha_oferta.before(item_fecha_subasta_inicio)
 						&& ofer_fecha_oferta.getTime() < item_fecha_subasta_inicio
@@ -950,6 +949,7 @@ public class ofertausuBean implements Serializable {
 					item_caracteristicas = item.getItemCaracteristicas();
 					item_descripcion = item.getItemDescripcion();
 					item_imagen = item.getItemImagen();
+					System.out.println(item_imagen);
 					item_valorbase = item.getItemValorBase().toString();
 					item_valorventa = item.getItemValorVenta().toString();
 
@@ -964,23 +964,16 @@ public class ofertausuBean implements Serializable {
 					item_fecha_subasta_fin = item.getItemFechaSubastaFin();
 					fi = item.getItemFechaSubastaInicio();
 					ff = item.getItemFechaSubastaFin();
-					
-					for (int i = 1; i <= 12; i++) {
-			        	List<SubItemFoto> cond;
-						try {
-							cond = managergest.ItemFotoById1(item_id);
-							for (SubItemFoto y : cond) {
-								System.out.println(y.getItemfDireccion());
-								images.add(y.getItemfDireccion());
-							}
-						} catch (Exception e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						
-			        }
-					
 
+					getImages().clear();
+					List<SubItemFoto> cond = managergest.ItemFotoById1(item_id);
+					for (int i = 1; i <=  managergest.ItemFotoById1(item_id).size() ; i++) {
+						
+							for (SubItemFoto y : cond) {
+								getImages().add(y.getItemfDireccion());
+								System.out.println(y.getItemfDireccion());
+							}
+			        }
 					r = "noferta?faces-redirect=true";
 				}
 			}
@@ -1012,8 +1005,6 @@ public class ofertausuBean implements Serializable {
 	public void miTiempo() {
 		setFaltatiempo(this.tiempoRestante(item_fecha_subasta_fin));
 		setTiempo(this.tiempoRestanteHMS(getFaltatiempo()));
-		System.out.println("---------------------> FALTA TIEMPO "
-				+ getFaltatiempo());
 		if (getFaltatiempo() <= 0)
 			try {
 				FacesContext.getCurrentInstance().getExternalContext()
@@ -1124,6 +1115,7 @@ public class ofertausuBean implements Serializable {
 		pos_direccion = "";
 		pos_correo = "";
 		pos_telefono = "";
+		pos_password="";
 		pos_celular = "";
 		pos_institucion = "";
 		pos_gerencia = "";
