@@ -83,7 +83,6 @@ public class ofertausuindexBean implements Serializable {
 
 	@PostConstruct
 	public void ini() {
-		listaItem = managergest.findAllItems();
 	}
 
 	public String getPos_id() {
@@ -349,6 +348,10 @@ public class ofertausuindexBean implements Serializable {
 			if (t.getItemGanadorDni() == null && t.getItemEstado().equals("A")
 					&& t.getItemFechaSubastaFin().after((fecha_ahora)))
 				l1.add(t);
+			else if(l1.isEmpty())
+			{
+				l1.clear();
+			}
 		}
 		return l1;
 	}

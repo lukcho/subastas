@@ -97,7 +97,7 @@ public class ofertausuBean implements Serializable {
 	private Date ff;
 	private Date date;
 	private Date fecha;
-	
+
 	// imagnees
 	private List<String> images;
 
@@ -108,6 +108,51 @@ public class ofertausuBean implements Serializable {
 
 	@PostConstruct
 	public void ini() {
+		ofer_id=null;
+		ofer_valor_oferta="";
+		ofer_fecha_oferta=null;
+		item=null;
+		postulante=null;
+		valorMaximo="";
+		
+		item_id=null;
+		item_nombre="";
+		item_descripcion="";
+		item_caracteristicas="";
+		item_imagen="";
+		item_valorbase="";
+		item_valorventa="";
+		item_fecha_subasta_inicio=null;
+		item_fecha_subasta_fin=null;
+		faltatiempo=null;
+		
+		itemdelsita=null;
+		itemganador=null;
+		automatico=null;
+		ofertavalor=null;
+		listaItem=null;
+		listaOferta=null;
+		ocultarColorGana=false;
+		ocultarColorGana1=false;
+		
+		pos_id="";
+		pos_nombre="";
+		pos_apellido="";
+		pos_correo="";
+		pos_telefono="";
+		pos_celular="";
+		pos_institucion="";
+		pos_gerencia="";
+		pos_area="";
+		pos_direccion="";
+		pos_password="";
+		ofertadelsita=null;
+		
+		fi=null;
+		ff=null;
+		date=null;
+		fecha=null;
+		
 		edicion = true;
 		tiempo = "00 : 00 : 00";
 		valorUltimoPostulante = "0.00";
@@ -120,12 +165,11 @@ public class ofertausuBean implements Serializable {
 		cargarDatosLogeado();
 		listaItem = managergest.findAllItems();
 	}
-	
+
 	public List<String> getImages() {
 		return images;
 	}
 
-	
 	public String getGanandoperdiendo1() {
 		return ganandoperdiendo1;
 	}
@@ -542,7 +586,7 @@ public class ofertausuBean implements Serializable {
 	}
 
 	/**
-	 * accion para invocar el manager y crear oferta
+	 * Método para crear la oferta
 	 * 
 	 * @param pro_id
 	 * @param prodfoto_id
@@ -591,11 +635,16 @@ public class ofertausuBean implements Serializable {
 		return r;
 	}
 
-	// accion para invocar el manager y crear evento
+	/**
+	 * Método para editar el perfil del postulante
+	 * 
+	 * @return
+	 */
+
 	public String editarPostulante() {
 		String r = "";
 		try {
-			setPos_password(Utilidades.Encriptar(getPos_password()));// PASS
+			setPos_password(Utilidades.Encriptar(getPos_password()));
 			managergest.editarPostulanteedicion(pos_id.trim(),
 					pos_nombre.trim(), pos_apellido.trim(),
 					pos_direccion.trim(), pos_correo.trim(),
@@ -607,7 +656,6 @@ public class ofertausuBean implements Serializable {
 					new FacesMessage(FacesMessage.SEVERITY_INFO,
 							"Modificado - Editado", null));
 			r = "home?faces-redirect=true";
-
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
@@ -618,72 +666,8 @@ public class ofertausuBean implements Serializable {
 	}
 
 	/**
-	 * accion para cargar los datos en el formulario
+	 * Método para cargar ofertas pasadas
 	 * 
-	 * @param pro_id
-	 * @param prodfoto_id
-	 * @param pro_nombre
-	 * @param pro_descripcion
-	 * @param pro_costo
-	 * @param pro_precio
-	 * @param pro_stock
-	 * @param pro_estado
-	 * @param pro_estado_fun
-	 * @throws Exception
-	 */
-	public String cargarOferta(SubOferta ofer) {
-		try {
-			ofer_id = ofer.getOferId();
-			ofer_valor_oferta = ofer.getOferValorOferta().toString();
-			ofer_fecha_oferta = ofer.getOferFechaOferta();
-			item = ofer.getSubItem();
-			postulante = ofer.getSubPostulante();
-
-			item_id = ofer.getSubItem().getItemId();
-			System.out.println("este es el id: " + item_id);
-			item_nombre = ofer.getSubItem().getItemNombre();
-			item_caracteristicas = ofer.getSubItem().getItemCaracteristicas();
-			item_imagen = ofer.getSubItem().getItemImagen();
-			item_descripcion = ofer.getSubItem().getItemDescripcion();
-			item_valorbase = ofer.getSubItem().getItemValorBase().toString();
-
-			if (managergest.ValorMaximoXItem(item_id) == null) {
-				valorMaximo = "0.00";
-			} else {
-				valorMaximo = managergest.ValorMaximoXItem(item_id).toString();
-			}
-
-			pollMethod();
-			pos_nombre = ofer.getSubPostulante().getPosNombre();
-			pos_apellido = ofer.getSubPostulante().getPosApellido();
-			pos_direccion = ofer.getSubPostulante().getPosDireccion();
-			pos_correo = ofer.getSubPostulante().getPosCorreo();
-			pos_telefono = ofer.getSubPostulante().getPosTelefono();
-			pos_celular = ofer.getSubPostulante().getPosCelular();
-			pos_institucion = ofer.getSubPostulante().getPosInstitucion();
-			pos_gerencia = ofer.getSubPostulante().getPosGerencia();
-			pos_area = ofer.getSubPostulante().getPosArea();
-
-			return "uoferta?faces-redirect=true";
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-		return "";
-	}
-
-	/**
-	 * accion para cargar los datos en el formulario
-	 * 
-	 * @param pro_id
-	 * @param prodfoto_id
-	 * @param pro_nombre
-	 * @param pro_descripcion
-	 * @param pro_costo
-	 * @param pro_precio
-	 * @param pro_stock
-	 * @param pro_estado
-	 * @param pro_estado_fun
 	 * @throws Exception
 	 */
 	public String cargarOfertaPas(SubOferta ofer) {
@@ -726,17 +710,8 @@ public class ofertausuBean implements Serializable {
 	}
 
 	/**
-	 * accion para cargar los datos en el formulario
+	 * Método para conocer el ultimo valor del postulante
 	 * 
-	 * @param pro_id
-	 * @param prodfoto_id
-	 * @param pro_nombre
-	 * @param pro_descripcion
-	 * @param pro_costo
-	 * @param pro_precio
-	 * @param pro_stock
-	 * @param pro_estado
-	 * @param pro_estado_fun
 	 * @throws Exception
 	 */
 	public String conocerGanador() {
@@ -748,29 +723,32 @@ public class ofertausuBean implements Serializable {
 				if (managergest.ofertaXPost(item_id, pos_id) == 0) {
 					ofertavalor = null;
 				} else {
-//					System.out.println("el posulante q puso: "
-//							+ sublist.get(0).getSubPostulante().getPosId());
-//					System.out.println("el posulante q yo soy: " + pos_id);
+					// System.out.println("el posulante q puso: "
+					// + sublist.get(0).getSubPostulante().getPosId());
+					// System.out.println("el posulante q yo soy: " + pos_id);
 					ofertavalor = managergest.ofertaByID(managergest
 							.ofertaXPost(item_id, pos_id));
-					
+
 					BigDecimal valoroferta = ofertavalor.getOferValorOferta();
 
 					valorMaximo = sublist.get(0).getOferValorOferta()
 							.toString();
 					valorUltimoPostulante = valoroferta.toString();
 
-					if (sublist.get(0).getSubPostulante().getPosId().equals(pos_id)) {
-//						System.out.println("estas ganando");
+					if (sublist.get(0).getSubPostulante().getPosId()
+							.equals(pos_id)) {
+						// System.out.println("estas ganando");
 						colorgana = "colorGreen";
-						ganandoperdiendo = " Estas Ganando: $"+ valorUltimoPostulante;
+						ganandoperdiendo = " Estas Ganando: $"
+								+ valorUltimoPostulante;
 						setOcultarColorGana(true);
 						setOcultarColorGana1(false);
-					} else{
-//						System.out.println("estas perdiendo");
-//						System.out.println("valor ultimo del postulante: "+valorUltimoPostulante);
+					} else {
+						// System.out.println("estas perdiendo");
+						// System.out.println("valor ultimo del postulante: "+valorUltimoPostulante);
 						colorgana = "colorRed";
-						ganandoperdiendo = "  Tu oferta: $"	+ valorUltimoPostulante;
+						ganandoperdiendo = "  Tu oferta: $"
+								+ valorUltimoPostulante;
 						colorgana1 = "colorGreen";
 						ganandoperdiendo1 = "  Última Mejor Oferta: $"
 								+ valorMaximo;
@@ -873,34 +851,26 @@ public class ofertausuBean implements Serializable {
 			}
 		} else {
 			System.out.println("no carga nada");
+			pos_id = "";
+			pos_nombre = "";
+			pos_apellido = "";
+			pos_direccion = "";
+			pos_correo = "";
+			pos_password = "";
+			pos_telefono = "";
+			pos_celular = "";
+			pos_institucion = "";
+			pos_gerencia = "";
+			pos_area = "";
+			edicion = false;
 		}
 		return "uperfil?faces-redirect=true";
-	}
-
-	/**
-	 * limpia la informacion
-	 * 
-	 * @return
-	 */
-	public String salir() {
-		// limpiar datos
-		ofertavalor = null;
-		ofer_valor_oferta = null;
-		ocultarColorGana = true;
-		ocultarColorGana1 = true;
-		ganandoperdiendo = "";
-		ganandoperdiendo1 = "";
-		valorUltimoPostulante = "0.00";
-		getImages().clear();
-		getListaItems().clear();
-		getListaItems().addAll(managergest.findAllItems());
-		return "home?faces-redirect=true";
 	}
 
 	// traslados
 
 	/**
-	 * Cancela la accion de irHorario
+	 * Médoto para realizar la oferta
 	 * 
 	 * @return
 	 */
@@ -908,7 +878,7 @@ public class ofertausuBean implements Serializable {
 		String r = "";
 		try {
 			if (item == null) {
-	//			System.out.println("holi");
+				r = "home?faces-redirect=true";
 			} else {
 				valorUltimoPostulante = "0,00";
 				setOcultarColorGana(false);
@@ -924,9 +894,9 @@ public class ofertausuBean implements Serializable {
 
 				miTiempo();
 
-//				System.out.println("midia en date" + fechaactual
-//						+ "    mi diainicio" + fechasubini + "     mi diafin"
-//						+ fechasubfin);
+				// System.out.println("midia en date" + fechaactual
+				// + "    mi diainicio" + fechasubini + "     mi diafin"
+				// + fechasubfin);
 
 				if (ofer_fecha_oferta.before(item_fecha_subasta_inicio)
 						&& ofer_fecha_oferta.getTime() < item_fecha_subasta_inicio
@@ -967,13 +937,14 @@ public class ofertausuBean implements Serializable {
 
 					getImages().clear();
 					List<SubItemFoto> cond = managergest.ItemFotoById1(item_id);
-					for (int i = 1; i <=  managergest.ItemFotoById1(item_id).size() ; i++) {
-						
-							for (SubItemFoto y : cond) {
-								getImages().add(y.getItemfDireccion());
-								System.out.println(y.getItemfDireccion());
-							}
-			        }
+					for (int i = 1; i <= managergest.ItemFotoById1(item_id)
+							.size(); i++) {
+
+						for (SubItemFoto y : cond) {
+							getImages().add(y.getItemfDireccion());
+							System.out.println(y.getItemfDireccion());
+						}
+					}
 					r = "noferta?faces-redirect=true";
 				}
 			}
@@ -984,12 +955,28 @@ public class ofertausuBean implements Serializable {
 		return r;
 	}
 
+	/**
+	 * Método que actualiza el poll para actualizar el tiempo y el ultimo valor
+	 * de la oferta
+	 * 
+	 */
 	public void pollMethod() {
-		miTiempo();
-		conocerGanador();
+		try {
+			if (item_fecha_subasta_fin == null) {
+				FacesContext.getCurrentInstance().getExternalContext()
+						.redirect("home.xhtml");
+			} else {
+				miTiempo();
+				conocerGanador();
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
+	 * Método para conocer el tiempo restante con el tiempo actual
 	 * 
 	 * @param fFin
 	 * @return
@@ -1000,6 +987,7 @@ public class ofertausuBean implements Serializable {
 	}
 
 	/**
+	 * Mpetodo para conocer el tiempo del ítem
 	 * 
 	 */
 	public void miTiempo() {
@@ -1115,11 +1103,31 @@ public class ofertausuBean implements Serializable {
 		pos_direccion = "";
 		pos_correo = "";
 		pos_telefono = "";
-		pos_password="";
+		pos_password = "";
 		pos_celular = "";
 		pos_institucion = "";
 		pos_gerencia = "";
 		pos_area = "";
+		getListaItems().clear();
+		getListaItems().addAll(managergest.findAllItems());
+		return "home?faces-redirect=true";
+	}
+
+	/**
+	 * limpia la informacion
+	 * 
+	 * @return
+	 */
+	public String salir() {
+		// limpiar datos
+		ofertavalor = null;
+		ofer_valor_oferta = null;
+		ocultarColorGana = true;
+		ocultarColorGana1 = true;
+		ganandoperdiendo = "";
+		ganandoperdiendo1 = "";
+		valorUltimoPostulante = "0.00";
+		getImages().clear();
 		getListaItems().clear();
 		getListaItems().addAll(managergest.findAllItems());
 		return "home?faces-redirect=true";
@@ -1136,7 +1144,6 @@ public class ofertausuBean implements Serializable {
 		ofer_valor_oferta = null;
 		ofer_fecha_oferta = null;
 		item = null;
-
 		item_nombre = "";
 		item_caracteristicas = "";
 		item_imagen = "";
@@ -1148,6 +1155,7 @@ public class ofertausuBean implements Serializable {
 	}
 
 	/**
+	 * Método para abrir el dialogo si esque es mayor que el de la base
 	 * 
 	 */
 	public void abrirDialog() {
@@ -1185,6 +1193,7 @@ public class ofertausuBean implements Serializable {
 	}
 
 	/**
+	 * Método para verificar el valor que se ingresa
 	 * 
 	 * @return
 	 */
@@ -1217,6 +1226,9 @@ public class ofertausuBean implements Serializable {
 		return r;
 	}
 
+	/**
+	 * Método para cerrar el dialogo del ítem
+	 */
 	public void cerrarDialog() {
 		RequestContext.getCurrentInstance().execute("PF('veritem').hide();");
 	}

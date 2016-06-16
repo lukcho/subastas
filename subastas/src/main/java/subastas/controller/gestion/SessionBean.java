@@ -5,7 +5,6 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
-import subastas.controller.access.SesionBean;
 import subastas.entidades.help.UsuarioHelp;
 import subastas.entidades.help.Utilidades;
 import subastas.model.dao.entities.SubPostulante;
@@ -24,26 +23,26 @@ import javax.servlet.http.HttpSession;
 @ManagedBean
 public class SessionBean {
 	private UsuarioHelp session;
-    //log
-    private String nick;
-    private String pass;
-    
-    @EJB
-    ManagerGestion managest;
-    
-    //devolver contraseña
-    private String correocontra;
-    String smscor="";
+	// log
+	private String nick;
+	private String pass;
 
-    //mostrar
-    private String nom;
-    
-    @SuppressWarnings("unused")
+	@EJB
+	ManagerGestion managest;
+
+	// devolver contraseña
+	private String correocontra;
+	String smscor = "";
+
+	// mostrar
+	private String nom;
+
+	@SuppressWarnings("unused")
 	private SubPostulante usr;
-    
-    /*Perfil de Usuario*/
-    private String nombre, apellido, password, correo, cedula; 
-    
+
+	/* Perfil de Usuario */
+	private String nombre, apellido, password, correo, cedula;
+
 	private String pos_id;
 	private Timestamp pos_fecha_reg;
 	private String pos_nombre;
@@ -59,25 +58,42 @@ public class SessionBean {
 	private Date fecha;
 	private boolean edicion;
 
-
 	@EJB
 	private ManagerGestion managergest;
-	
-    public SessionBean() {
-    	managest = new ManagerGestion();
-		usr=new SubPostulante();
+
+	public SessionBean() {
+		nombre = "";
+		apellido = "";
+		password = "";
+		correo = "";
+		cedula = "";
+		pos_id = "";
+		pos_fecha_reg = null;
+		pos_nombre = "";
+		pos_apellido = "";
+		pos_direccion = "";
+		pos_correo = "";
+		pos_telefono = "";
+		pos_password = "";
+		pos_institucion = "";
+		pos_gerencia = "";
+		pos_area = "";
+		pos_estado = "";
+		fecha = null;
+		edicion = false;
+		managest = new ManagerGestion();
+		usr = new SubPostulante();
 	}
-    
-    
-    public boolean isEdicion() {
+
+	public boolean isEdicion() {
 		return edicion;
 	}
 
 	public void setEdicion(boolean edicion) {
 		this.edicion = edicion;
 	}
-    
-    public String getPos_id() {
+
+	public String getPos_id() {
 		return pos_id;
 	}
 
@@ -184,72 +200,73 @@ public class SessionBean {
 	public String getPass() {
 		return pass;
 	}
-    
-    public UsuarioHelp getSession() {
+
+	public UsuarioHelp getSession() {
 		return session;
 	}
-    
-  	public String getNom() {
+
+	public String getNom() {
 		return nom;
 	}
 
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
-    
-    public void setPass(String pass) {
+
+	public void setPass(String pass) {
 		this.pass = pass;
 	}
-    
-    /*Perfil Usuario*/
-    public String getApellido() {
+
+	/* Perfil Usuario */
+	public String getApellido() {
 		return apellido;
 	}
-    
-    public void setApellido(String apellido) {
+
+	public void setApellido(String apellido) {
 		this.apellido = apellido;
 	}
-    
-    public String getNombre() {
+
+	public String getNombre() {
 		return nombre;
 	}
-    
-    public void setNombre(String nombre) {
+
+	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-    
-    public String getCorreo() {
+
+	public String getCorreo() {
 		return correo;
 	}
-    
-    public void setCorreo(String correo) {
+
+	public void setCorreo(String correo) {
 		this.correo = correo;
 	}
-    
-    public String getPassword() {
+
+	public String getPassword() {
 		return password;
 	}
-    
-    public void setPassword(String password) {
+
+	public void setPassword(String password) {
 		this.password = password;
 	}
-    
-    public String getCedula() {
+
+	public String getCedula() {
 		return cedula;
 	}
-    
-    public void setCedula(String cedula) {
+
+	public void setCedula(String cedula) {
 		this.cedula = cedula;
 	}
-    
-    public String getNick() {
+
+	public String getNick() {
 		return nick;
 	}
-    
-    public void setNick(String nick) {
+
+	public void setNick(String nick) {
 		this.nick = nick;
 	}
-    /**
+
+	/**
 	 * @return the correocontra
 	 */
 	public String getCorreocontra() {
@@ -257,197 +274,230 @@ public class SessionBean {
 	}
 
 	/**
-	 * @param correocontra the correocontra to set
+	 * @param correocontra
+	 *            the correocontra to set
 	 */
 	public void setCorreocontra(String correocontra) {
 		this.correocontra = correocontra;
 	}
 
 	// login
-	public void veri(){
- 		System.out.println("este es el id: "+nick);
- 		int t=0;
- 		List<SubPostulante> a = managest.findAllpostulantes();
- 		for (SubPostulante u : a) {
- 			if ((u.getPosId().equals(nick) || u.getPosCorreo().equals(nick))){
- 				t=100;
- 			}
- 		}
- 		if (t!=100){
- 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Alias Inexistente o Usuario Desactivado", null));
- 		}
- 	}	
- 	
- 	//metodo para ingresar al sistema	
- 	public String login(){
- 		String r="";
- 		Integer t=0;
- 		List<SubPostulante> u = managest.findAllpostulantes();
- 		try {
- 		for (SubPostulante y :u){
- 			System.out.println("avr "+Utilidades.Encriptar(pass).toString());
- 			if (y.getPosId().equals(nick) && y.getPosPassword().equals(Utilidades.Encriptar(pass)) && y.getPosEstado().equals("A")){
- 				session = new UsuarioHelp(y.getPosId(), y.getPosApellido(),y.getPosCorreo() ,y.getPosNombre());
- 				nom=y.getPosNombre()+" "+y.getPosApellido();
- 				usr=y;
- 				r="postulante/home?faces-redirect=true";
- 				t=1;
- 			}
- 			else if (y.getPosCorreo().equals(nick) && y.getPosPassword().equals(Utilidades.Encriptar(pass))){
- 				session = new UsuarioHelp(y.getPosId(), y.getPosApellido(),y.getPosCorreo() ,y.getPosNombre());
- 				nom=y.getPosNombre()+" "+y.getPosApellido();
- 				usr=y;
- 				r="postulante/home?faces-redirect=true";
- 				t=1;
- 			}
- 		}
- 		if (t==0){ 			
- 			FacesContext context = FacesContext.getCurrentInstance();
- 			context.addMessage(null, new FacesMessage("Error..!!!",
- 					"Usuario o Contrasena Incorrecta "));
- 		}
- 	}
-		catch (Exception e)
-		{
-		e.printStackTrace();
-		}
- 		return r;
- 	}
-
- 	
- 	//metodo para salir de el sistema
- 	public String logout(){
- 		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-         session.invalidate();
- 		nom="";
- 		correo="";
- 		pass="";
- 		nick="";
- 		System.out.println("si salio");
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Salió",null));
- 		return "/index?faces-redirect=true";
- 	}
- 	
- 	 /**
-      * Método para verifiar la existencia de la sesión
-      * @param rol de usuario
-      * @return Clase Usuario
-      */
-     public static UsuarioHelp verificarSession(){
-     	HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-                 .getExternalContext().getSession(false);
-         SessionBean user = (SessionBean) session.getAttribute("sessionBean");
-         if (user==null || user.getSession() == null) {
-             try {
-            		System.out.println("me envia a ajuefa ");
-            	 FacesContext.getCurrentInstance().getExternalContext().redirect("../index.xhtml");
-             } catch (IOException ex) {
-             	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(),null));
-             }
-             return null;
-         } else {
-                 return user.getSession();
-             } 
-         }
-     
-	 /**
-	  * Método para validar sesión en el INDEX
-	  */
-	 public void validaIndex(){
-		 HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-	                .getExternalContext().getSession(false);
-	     SessionBean user = (SessionBean) session.getAttribute("sessionBean");
-	     if (user==null || user.getSession() == null) {
-	            try {
-	            	System.out.println("me envia a ajuefa ");
-	                FacesContext.getCurrentInstance().getExternalContext().redirect("../index.xhtml");
-	            } catch (IOException ex) {
-	            	Mensaje.crearMensajeERROR(ex.getMessage());
-	            }
-	     }
-	 }
-     
-    public String cargarDatosPerfil(){
-    	String pag ="";
-    	if(session != null){
-    		try {
-    			SubPostulante usr = managest.postulanteByID(session.getIdUsr());
-    			setApellido(usr.getPosApellido());
-    			setNombre(usr.getPosNombre());
-    			setCorreo(usr.getPosCorreo());
-    			setCedula(usr.getPosId());
-			} catch (Exception e) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al  cargar sus datos personales",null));
+	public void veri() {
+		System.out.println("este es el id: " + nick);
+		int t = 0;
+		List<SubPostulante> a = managest.findAllpostulantes();
+		for (SubPostulante u : a) {
+			if ((u.getPosId().equals(nick) || u.getPosCorreo().equals(nick))) {
+				t = 100;
 			}
-    	}
-    	return pag;
-    }
-        
-    public String regresarHomeUser(){
-    	return "index?faces-redirect=true";
-    }
-    
-    
-    //metodo para enviar el correo
-    public String devolvercontra(){
- 		String r="";
- 		Integer t=0;
- 		List<SubPostulante> u = managest.findAllpostulantes();
- 		for (SubPostulante y :u){
- 			if (y.getPosCorreo().equals(correocontra)){
- 				System.out.println("si entra1");
- 				enviarmensajerecuperarcontra(y); 				
- 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Enviado correctamente revise su correo", null));	  						  							
- 				correocontra="";
- 				t=1;
- 			}
- 		}
- 		if (t==0){ 			
- 			FacesContext context = FacesContext.getCurrentInstance();
- 			context.addMessage(null, new FacesMessage("Error..!!! su correo no existe o es incorrecto",null));
- 		} 		
- 		return r;
- 	}
-   
-    String correoveri="";
-    //Tomar el id de estado general id_estadoSolicitud
-		public String enviarmensajerecuperarcontra(SubPostulante usr){
+		}
+		if (t != 100) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
+							"Alias Inexistente o Usuario Desactivado", null));
+		}
+	}
+
+	// metodo para ingresar al sistema
+	public String login() {
+		String r = "";
+		Integer t = 0;
+		List<SubPostulante> u = managest.findAllpostulantes();
 		try {
-					String passwordnuevo;
-					cedula = usr.getPosId();
-					nombre = usr.getPosNombre();
-					apellido = usr.getPosApellido();
-					correo = usr.getPosCorreo();
-					password = usr.getPosPassword();
-					System.out.println(password);
-					passwordnuevo=Utilidades.Desencriptar(password);
-					System.out.println(passwordnuevo);
-					
-					
-					smscor = "Estimado(a) "+nombre+" "+apellido+", <br/>"
-							 + "Sus credenciales para ingreso al sistema de subastas: <br/>"
-				             + "<br/> Usuario: "+cedula+""
-				             + "<br/> Contraseña: "+passwordnuevo+" "
-				             + "<br/> Correo: "+correo+""
-				             + "<br/> Saludos cordiales, "
-				             + "<br/> Sistema de Subastas Yachay EP";
-
-					Mail.generateAndSendEmail(correo, "Recuperación de contraseña Subastas", smscor);
-				    //limpiamos los datos
-					cedula="";
-			        nombre="";
-			        apellido="";
-					correo="";
-					password="";	
-					passwordnuevo="";
-					smscor="";
-			
-			} catch (Exception e) {
-				e.printStackTrace();
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Error al enviar correo", null));
+			for (SubPostulante y : u) {
+				System.out.println("avr "
+						+ Utilidades.Encriptar(pass).toString());
+				if (y.getPosId().equals(nick)
+						&& y.getPosPassword()
+								.equals(Utilidades.Encriptar(pass))
+						&& y.getPosEstado().equals("A")) {
+					session = new UsuarioHelp(y.getPosId(), y.getPosApellido(),
+							y.getPosCorreo(), y.getPosNombre());
+					nom = y.getPosNombre() + " " + y.getPosApellido();
+					usr = y;
+					r = "postulante/home?faces-redirect=true";
+					t = 1;
+				} else if (y.getPosCorreo().equals(nick)
+						&& y.getPosPassword()
+								.equals(Utilidades.Encriptar(pass))) {
+					session = new UsuarioHelp(y.getPosId(), y.getPosApellido(),
+							y.getPosCorreo(), y.getPosNombre());
+					nom = y.getPosNombre() + " " + y.getPosApellido();
+					usr = y;
+					r = "postulante/home?faces-redirect=true";
+					t = 1;
+				}
 			}
-    		return "index?faces-redirect=true";
+			if (t == 0) {
+				FacesContext context = FacesContext.getCurrentInstance();
+				context.addMessage(null, new FacesMessage("Error..!!!",
+						"Usuario o Contrasena Incorrecta "));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		
+		return r;
+	}
+
+	// metodo para salir de el sistema
+	public String logout() {
+		HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+				.getExternalContext().getSession(false);
+		session.invalidate();
+		nom = "";
+		correo = "";
+		pass = "";
+		nick = "";
+		System.out.println("si salio");
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Salió", null));
+		return "/index?faces-redirect=true";
+	}
+
+	/**
+	 * Método para verifiar la existencia de la sesión
+	 * 
+	 * @param rol
+	 *            de usuario
+	 * @return Clase Usuario
+	 */
+	public static UsuarioHelp verificarSession() {
+		HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+				.getExternalContext().getSession(false);
+		SessionBean user = (SessionBean) session.getAttribute("sessionBean");
+		if (user == null || user.getSession() == null) {
+			try {
+				System.out.println("me envia a ajuera ");
+				FacesContext.getCurrentInstance().getExternalContext()
+						.redirect("../index.xhtml");
+			} catch (IOException ex) {
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, ex
+								.getMessage(), null));
+			}
+			return null;
+		} else {
+			return user.getSession();
+		}
+	}
+
+	/**
+	 * Método para validar sesión en el INDEX
+	 */
+	public void validaIndex() {
+		HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+				.getExternalContext().getSession(false);
+		SessionBean user = (SessionBean) session.getAttribute("sessionBean");
+		if (user == null || user.getSession() == null) {
+			try {
+				System.out.println("me envia a ajuefa ");
+				FacesContext.getCurrentInstance().getExternalContext()
+						.redirect("../index.xhtml");
+			} catch (IOException ex) {
+				Mensaje.crearMensajeERROR(ex.getMessage());
+			}
+		}
+	}
+
+	public String cargarDatosPerfil() {
+		String pag = "";
+		if (session != null) {
+			try {
+				SubPostulante usr = managest.postulanteByID(session.getIdUsr());
+				setApellido(usr.getPosApellido());
+				setNombre(usr.getPosNombre());
+				setCorreo(usr.getPosCorreo());
+				setCedula(usr.getPosId());
+			} catch (Exception e) {
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR,
+								"Error al  cargar sus datos personales", null));
+			}
+		}
+		return pag;
+	}
+
+	public String regresarHomeUser() {
+		return "index?faces-redirect=true";
+	}
+
+	// metodo para enviar el correo
+	public String devolvercontra() {
+		String r = "";
+		Integer t = 0;
+		List<SubPostulante> u = managest.findAllpostulantes();
+		for (SubPostulante y : u) {
+			if (y.getPosCorreo().equals(correocontra)) {
+				System.out.println("si entra1");
+				enviarmensajerecuperarcontra(y);
+				FacesContext
+						.getCurrentInstance()
+						.addMessage(
+								null,
+								new FacesMessage(
+										FacesMessage.SEVERITY_INFO,
+										"Enviado correctamente revise su correo",
+										null));
+				correocontra = "";
+				t = 1;
+			}
+		}
+		if (t == 0) {
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage(
+					"Error..!!! su correo no existe o es incorrecto", null));
+		}
+		return r;
+	}
+
+	String correoveri = "";
+
+	// Tomar el id de estado general id_estadoSolicitud
+	public String enviarmensajerecuperarcontra(SubPostulante usr) {
+		try {
+			String passwordnuevo;
+			cedula = usr.getPosId();
+			nombre = usr.getPosNombre();
+			apellido = usr.getPosApellido();
+			correo = usr.getPosCorreo();
+			password = usr.getPosPassword();
+			System.out.println(password);
+			passwordnuevo = Utilidades.Desencriptar(password);
+			System.out.println(passwordnuevo);
+
+			smscor = "Estimado(a) "
+					+ nombre
+					+ " "
+					+ apellido
+					+ ", <br/>"
+					+ "Sus credenciales para ingreso al sistema de subastas: <br/>"
+					+ "<br/> Usuario: " + cedula + "" + "<br/> Contraseña: "
+					+ passwordnuevo + " " + "<br/> Correo: " + correo + ""
+					+ "<br/> Saludos cordiales, "
+					+ "<br/> Sistema de Subastas Yachay EP";
+
+			Mail.generateAndSendEmail(correo,
+					"Recuperación de contraseña Subastas", smscor);
+			// limpiamos los datos
+			cedula = "";
+			nombre = "";
+			apellido = "";
+			correo = "";
+			password = "";
+			passwordnuevo = "";
+			smscor = "";
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
+							"Error al enviar correo", null));
+		}
+		return "index?faces-redirect=true";
+	}
 
 }
