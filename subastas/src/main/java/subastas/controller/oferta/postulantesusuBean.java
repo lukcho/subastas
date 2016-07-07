@@ -6,7 +6,6 @@ import subastas.model.generic.Mensaje;
 import subastas.model.manager.ManagerGestion;
 import subastas.entidades.help.UsuarioHelp;
 import subastas.entidades.help.Utilidades;
-import subastas.model.generic.Mail;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -30,6 +29,9 @@ public class postulantesusuBean implements Serializable {
 
 	@EJB
 	private ManagerGestion managergest;
+	
+	@EJB
+	private subastas.model.manager.ManagerBuscar mb;
 
 	private String pos_id;
 	private Timestamp pos_fecha_reg;
@@ -395,8 +397,11 @@ public class postulantesusuBean implements Serializable {
 		           //  + "<br/> Contraseña: "+Utilidades.Desencriptar(pos_password)+" "
 		             + "<br/> Correo: "+pos_correo+""
 		             + "<br/> Saludos cordiales, "
-		             + "<br/> Sistema de Subastas Yachay EP";
-			Mail.generateAndSendEmail(pos_correo, "Notificación de Subastas", smscorusu);
+		             + "<br/> Sistema de Subastas Yachay EP"
+		             + "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em>";
+			
+//			Mail.generateAndSendEmail(pos_correo, "Notificación de Subastas", smscorusu);
+			mb.envioMailWS(pos_correo, "Notificación de Subastas", smscorusu);
 			
 			pos_id = "";
 			pos_nombre = "";

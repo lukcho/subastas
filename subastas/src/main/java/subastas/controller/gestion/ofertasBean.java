@@ -22,7 +22,6 @@ import subastas.model.dao.entities.SubItem;
 import subastas.model.dao.entities.SubOferta;
 import subastas.model.dao.entities.SubPostulante;
 import subastas.model.generic.Funciones;
-import subastas.model.generic.Mail;
 import subastas.model.generic.Mensaje;
 import subastas.model.manager.ManagerGestion;
 
@@ -37,6 +36,9 @@ public class ofertasBean implements Serializable {
 
 	@Inject
 	SesionBean ms;
+	
+	@EJB
+	private subastas.model.manager.ManagerBuscar mb;
 
 	// ofertas
 	private Integer ofer_id;
@@ -85,7 +87,6 @@ public class ofertasBean implements Serializable {
 	
 	//mensaje
 	private String smscorreoganador;
-
 
 	private String usuario;
 
@@ -814,10 +815,11 @@ public class ofertasBean implements Serializable {
 					 + "a cancelar el valor correspondiente de $"+item_valorventa+" para emitir la respectiva factura,<br/>"
 					 + " y la entrega del producto subastado.<br/> * El valor de las ofertas no incluye IVA<br/><br/>"
 					 + "<br/> Saludos cordiales, "
-		             + "<br/> Sistema de Subastas Yachay EP.";
+		             + "<br/> Sistema de Subastas Yachay EP."
+		             + "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em>";
 			
-			
-			Mail.generateAndSendEmail(pos_correo, "Notificación de Ganador Subastas Yachay", smscorreoganador);
+//			Mail.generateAndSendEmail(pos_correo, "Notificación de Ganador Subastas Yachay", smscorreoganador);
+			mb.envioMailWS(pos_correo, "Notificación de Ganador Subastas Yachay", smscorreoganador);
 			managergest.notificadoItem(item_id);
 			
 			FacesContext.getCurrentInstance().addMessage(

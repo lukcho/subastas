@@ -734,7 +734,6 @@ public class ofertausuBean implements Serializable {
 					valorMaximo = sublist.get(0).getOferValorOferta()
 							.toString();
 					valorUltimoPostulante = valoroferta.toString();
-
 					if (sublist.get(0).getSubPostulante().getPosId()
 							.equals(pos_id)) {
 						// System.out.println("estas ganando");

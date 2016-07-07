@@ -849,7 +849,8 @@ public class ManagerGestion {
 	public List<SubOferta> maximoGanador(Integer itemId){
 		return mDAO.findJPQL("SELECT o FROM SubOferta o  WHERE "
 				+ "o.oferFechaOferta=(SELECT MIN(p.oferFechaOferta) FROM SubOferta p where p.subItem.itemId = "+itemId
-				+ " and p.oferValorOferta= (SELECT MAX(q.oferValorOferta) FROM SubOferta q))");
+				+ " and p.oferValorOferta= (SELECT MAX(q.oferValorOferta) FROM SubOferta q where q.subItem.itemId = "+itemId
+				+ "))");
 	}
 	
 	@SuppressWarnings("unchecked")

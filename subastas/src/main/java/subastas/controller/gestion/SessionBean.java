@@ -8,7 +8,6 @@ import java.util.List;
 import subastas.entidades.help.UsuarioHelp;
 import subastas.entidades.help.Utilidades;
 import subastas.model.dao.entities.SubPostulante;
-import subastas.model.generic.Mail;
 import subastas.model.generic.Mensaje;
 import subastas.model.manager.ManagerGestion;
 
@@ -60,6 +59,9 @@ public class SessionBean {
 
 	@EJB
 	private ManagerGestion managergest;
+	
+	@EJB
+	private subastas.model.manager.ManagerBuscar mb;
 
 	public SessionBean() {
 		nombre = "";
@@ -477,10 +479,13 @@ public class SessionBean {
 					+ "<br/> Usuario: " + cedula + "" + "<br/> Contraseña: "
 					+ passwordnuevo + " " + "<br/> Correo: " + correo + ""
 					+ "<br/> Saludos cordiales, "
-					+ "<br/> Sistema de Subastas Yachay EP";
+					+ "<br/> Sistema de Subastas Yachay EP"
+					+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em>";
 
-			Mail.generateAndSendEmail(correo,
-					"Recuperación de contraseña Subastas", smscor);
+//			Mail.generateAndSendEmail(correo,
+//					"Recuperación de contraseña Subastas", smscor);
+			
+			mb.envioMailWS(correo, "Recuperación de contraseña Subastas", smscor);
 			// limpiamos los datos
 			cedula = "";
 			nombre = "";
