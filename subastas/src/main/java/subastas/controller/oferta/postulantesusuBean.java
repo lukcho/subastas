@@ -391,14 +391,16 @@ public class postulantesusuBean implements Serializable {
 					pos_direccion.trim(), pos_correo.trim(),
 					pos_telefono.trim(),pos_celular.trim(), pos_password.trim());
 			
-			smscorusu = "Estimado(a) "+pos_nombre+" "+pos_apellido+", <br/>"
-					 + "Se creó con éxito sus credenciales para ingreso al sistema de subastas: <br/>"
+		 smscorusu = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+					 + "<meta name='viewport' content='width=device-width'></head><body>"
+					 + "Estimado(a) postulante "+pos_nombre+" "+pos_apellido+", <br/>"
+			    	 + "Se creó con éxito sus credenciales para ingreso al sistema de subastas: <br/>"
 		             + "<br/> Usuario: "+pos_id+""
 		           //  + "<br/> Contraseña: "+Utilidades.Desencriptar(pos_password)+" "
 		             + "<br/> Correo: "+pos_correo+""
 		             + "<br/> Saludos cordiales, "
 		             + "<br/> Sistema de Subastas Yachay EP"
-		             + "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em>";
+		             + "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
 			
 //			Mail.generateAndSendEmail(pos_correo, "Notificación de Subastas", smscorusu);
 			mb.envioMailWS(pos_correo, "Notificación de Subastas", smscorusu);

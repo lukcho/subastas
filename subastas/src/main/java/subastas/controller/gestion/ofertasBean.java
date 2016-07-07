@@ -807,7 +807,9 @@ public class ofertasBean implements Serializable {
 			pos_gerencia = ofer.getSubPostulante().getPosGerencia();
 			pos_area = ofer.getSubPostulante().getPosArea();
 			
-			smscorreoganador = "Estimado(a) "+pos_nombre+" "+pos_apellido+", <br/>"
+			smscorreoganador = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+					+ "<meta name='viewport' content='width=device-width'></head><body>"
+					+ "Estimado(a) "+pos_nombre+" "+pos_apellido+", <br/>"
 					 + "Se ha establecido como Ganador del item: "+item_nombre+" <br/>"
 					 + "con las siguientes características: <br/>"+item_caracteristicas+"<br/>"
 					 + "el valor a pagar es de: $"+item_valorventa+"<br/><br/>"
@@ -816,7 +818,7 @@ public class ofertasBean implements Serializable {
 					 + " y la entrega del producto subastado.<br/> * El valor de las ofertas no incluye IVA<br/><br/>"
 					 + "<br/> Saludos cordiales, "
 		             + "<br/> Sistema de Subastas Yachay EP."
-		             + "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em>";
+		             + "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
 			
 //			Mail.generateAndSendEmail(pos_correo, "Notificación de Ganador Subastas Yachay", smscorreoganador);
 			mb.envioMailWS(pos_correo, "Notificación de Ganador Subastas Yachay", smscorreoganador);

@@ -470,17 +470,15 @@ public class SessionBean {
 			passwordnuevo = Utilidades.Desencriptar(password);
 			System.out.println(passwordnuevo);
 
-			smscor = "Estimado(a) "
-					+ nombre
-					+ " "
-					+ apellido
-					+ ", <br/>"
-					+ "Sus credenciales para ingreso al sistema de subastas: <br/>"
-					+ "<br/> Usuario: " + cedula + "" + "<br/> Contraseña: "
+			smscor = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+					+ "<meta name='viewport' content='width=device-width'></head><body>"
+					+ "Estimado(a) postulant: "+ nombre+ " "+ apellido+ ", <br/>"
+					+ "Sus credenciales para ingreso al sistema de subastas son: <br/>"
+					+ "Usuario: "+ cedula +" " + "<br/> Contraseña: "
 					+ passwordnuevo + " " + "<br/> Correo: " + correo + ""
 					+ "<br/> Saludos cordiales, "
 					+ "<br/> Sistema de Subastas Yachay EP"
-					+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em>";
+					+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
 
 //			Mail.generateAndSendEmail(correo,
 //					"Recuperación de contraseña Subastas", smscor);
