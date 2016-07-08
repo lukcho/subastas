@@ -38,7 +38,7 @@ public class ManagerCatalogos {
 	public List<SubCatCab> findCatalogo() {
 		return mDAO.findWhere(SubCatCab.class, "1=1", null);
 	}
-	
+
 	/**
 	 * buscar todos catalogos
 	 * 
@@ -48,7 +48,8 @@ public class ManagerCatalogos {
 
 	@SuppressWarnings("unchecked")
 	public List<SubCatCab> findCatalogosByCatalogo(Integer catId) {
-		return mDAO.findWhere(SubCatCab.class, "o.catcId= '"+catId+"'", null);
+		return mDAO.findWhere(SubCatCab.class, "o.catcId= '" + catId + "'",
+				null);
 	}
 
 	/**
@@ -153,11 +154,10 @@ public class ManagerCatalogos {
 	 * @param catId
 	 * @throws Exception
 	 */
-
 	@SuppressWarnings("unchecked")
 	public List<SubCatDet> findCatalogoItemsByCatalogo(Integer catId) {
-		return mDAO.findWhere(SubCatDet.class, "o.subCatCab.catcId= "
-				+ catId + " and catdIdPadre= 0", null);
+		return mDAO.findWhere(SubCatDet.class, "o.subCatCab.catcId= " + catId
+				+ " and catdIdPadre= 0", null);
 	}
 
 	/**
@@ -166,7 +166,6 @@ public class ManagerCatalogos {
 	 * @param catId
 	 * @throws Exception
 	 */
-
 	@SuppressWarnings("unchecked")
 	public List<SubCatDet> findCatalogoItemshijosByCatalogo(Integer cati_Id) {
 		return mDAO.findWhere(SubCatDet.class, "o.catdIdPadre = " + cati_Id,

@@ -1,6 +1,5 @@
 package subastas.controller.oferta;
 
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -70,7 +69,6 @@ public class ofertausuindexBean implements Serializable {
 	private List<SubOferta> listaOferta;
 
 	private List<String> ValorMaximo;
-
 
 	// horario
 	private Date fi;
@@ -337,7 +335,7 @@ public class ofertausuindexBean implements Serializable {
 	/**
 	 * metodo para listar los registros
 	 * 
-	 * @return
+	 * @return listaitems
 	 */
 	public List<SubItem> getListaItems() {
 		fecha = new Date();
@@ -348,8 +346,7 @@ public class ofertausuindexBean implements Serializable {
 			if (t.getItemGanadorDni() == null && t.getItemEstado().equals("A")
 					&& t.getItemFechaSubastaFin().after((fecha_ahora)))
 				l1.add(t);
-			else if(l1.isEmpty())
-			{
+			else if (l1.isEmpty()) {
 				l1.clear();
 			}
 		}
@@ -359,7 +356,7 @@ public class ofertausuindexBean implements Serializable {
 	/**
 	 * metodo para listar las ofertas x usuario
 	 * 
-	 * @return
+	 * @return listasubastaspasadas
 	 */
 	public List<SubItem> getlistaSubastasPasadas() {
 		List<SubItem> a = managergest.findAllItemsOrdenadasPasadas();
@@ -373,7 +370,7 @@ public class ofertausuindexBean implements Serializable {
 	/**
 	 * metodo para listar las ofertas x usuario
 	 * 
-	 * @return
+	 * @return listaofertaXitems
 	 */
 	public List<SubOferta> getListaOfertaXItem() {
 		List<SubOferta> a = managergest.findAllofertasOrdenadasXItem(item_id);
@@ -517,7 +514,6 @@ public class ofertausuindexBean implements Serializable {
 	/**
 	 * Cancela la accion de irHorario
 	 * 
-	 * @return
 	 */
 	public String irComprar() {
 		try {
@@ -568,7 +564,6 @@ public class ofertausuindexBean implements Serializable {
 	/**
 	 * Redirecciona a la pagina de creacion de sitios
 	 * 
-	 * @return
 	 */
 	public String nuevaSubasta() {
 		ofer_id = null;
@@ -594,7 +589,6 @@ public class ofertausuindexBean implements Serializable {
 	/**
 	 * limpia la informacion
 	 * 
-	 * @return
 	 */
 	public String salirPasuOferta() {
 		// limpiar datos
@@ -623,7 +617,7 @@ public class ofertausuindexBean implements Serializable {
 	/**
 	 * Lista de estados
 	 * 
-	 * @return lista de items de estados
+	 * @return listaitemsestados
 	 */
 	public List<SelectItem> getlistEstados() {
 		List<SelectItem> lista = new ArrayList<SelectItem>();
@@ -640,7 +634,6 @@ public class ofertausuindexBean implements Serializable {
 	/**
 	 * limpia la informacion
 	 * 
-	 * @return
 	 */
 	public String salir() {
 		// limpiar datos
@@ -670,7 +663,6 @@ public class ofertausuindexBean implements Serializable {
 	/**
 	 * limpia la informacion
 	 * 
-	 * @return
 	 */
 	public String limpiarItems() {
 		// limpiar datos
@@ -681,6 +673,8 @@ public class ofertausuindexBean implements Serializable {
 	}
 
 	/**
+	 * Método abrir el dialogo
+	 * 
 	 * 
 	 */
 	public void abrirDialog() {
@@ -695,8 +689,9 @@ public class ofertausuindexBean implements Serializable {
 	}
 
 	/**
+	 * Método para verificar el valor de la oferta
 	 * 
-	 * @return
+	 * @return boolean
 	 */
 	public boolean verificarValor() {
 		boolean r;
@@ -711,12 +706,20 @@ public class ofertausuindexBean implements Serializable {
 		}
 		return r;
 	}
+	
+	/**
+	 * Método para abrir el dialogo
+	 * 
+	 */
+	public void abrirLogin() {
+		RequestContext.getCurrentInstance().execute("PF('ic').show();");
+	}
 
+	/**
+	 * Método para cerrar el dialogo
+	 * 
+	 */
 	public void cerrarDialog() {
 		RequestContext.getCurrentInstance().execute("PF('veritem').hide();");
-	}
-	
-	public void abrirLogin(){
-		RequestContext.getCurrentInstance().execute("PF('ic').show();");
 	}
 }

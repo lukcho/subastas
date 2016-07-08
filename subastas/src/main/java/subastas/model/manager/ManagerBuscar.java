@@ -20,6 +20,13 @@ public class ManagerBuscar {
 		mDAO = new ManagerDAO();
 	}
 
+	/**
+	 * Método para lña busqueda de la información del usuario logueado
+	 * 
+	 * @param dni
+	 * @return
+	 * @throws Exception
+	 */
 	public Persona buscarPersonaWSReg(String dni) throws Exception {
 		SubParametro param = parametroByID("find_personas");
 		System.out.println(param.getParValor());
@@ -43,6 +50,14 @@ public class ManagerBuscar {
 		}
 	}
 	
+	/**
+	 * Método para enviar mensaje por WS
+	 * 
+	 * @param para
+	 * @param asunto
+	 * @param body
+	 * @throws Exception
+	 */
 	@SuppressWarnings("unchecked")
 	public void envioMailWS(String para, String asunto, String body)
 			throws Exception {

@@ -310,7 +310,12 @@ public class postulantesusuBean implements Serializable {
 	}
 
 	// Usuarios
-	// metodo para comprobar el alias
+	/**
+	 * Método para comprobar la cedula
+	 * 
+	 * @param cedula
+	 * @return boolean
+	 */
 	public boolean ccedula(String cedula) {
 		List<SubPostulante> u = managergest.findAllpostulantes();
 		for (SubPostulante us : u) {
@@ -321,7 +326,12 @@ public class postulantesusuBean implements Serializable {
 		return false;
 	}
 
-	// metodo para comprobar el correo
+	/**
+	 * metodo para comprobar el correo
+	 * 
+	 * @param correo
+	 * @return boolean
+	 */
 	public boolean ccorreo(String correo) {
 		List<SubPostulante> u = managergest.findAllpostulantes();
 		for (SubPostulante us : u) {
@@ -332,7 +342,11 @@ public class postulantesusuBean implements Serializable {
 		return false;
 	}
 
-	// metodo para comprobar repetidos
+	/**
+	 * metodo para comprobar correos repetidos 
+	 * 
+	 * @return boolean
+	 */
 	public boolean repetidosc() {
 		if (pos_correo.equals(rcorreo)) {
 			return true;
@@ -340,7 +354,11 @@ public class postulantesusuBean implements Serializable {
 		return false;
 	}
 
-	// metodo para comprobar repetidos
+	/**
+	 * metodo para comprobar contraseñas repetidas
+	 * 
+	 * @return boolean
+	 */
 	public boolean repetidosp() {
 		if (pos_password.equals(rpassword)) {
 			return true;
@@ -348,7 +366,11 @@ public class postulantesusuBean implements Serializable {
 		return false;
 	}
 
-	// metodo para listar los registros
+	/**
+	 * metodo para listarregistros 
+	 * 
+	 * @return list
+	 */
 	public List<SubPostulante> getListRegServi() {
 		List<SubPostulante> a = managergest.findAllpostulantes();
 		List<SubPostulante> l1 = new ArrayList<SubPostulante>();
@@ -364,7 +386,7 @@ public class postulantesusuBean implements Serializable {
 	/**
 	 * metodo para listar los registros
 	 * 
-	 * @return
+	 * @return lista
 	 */
 	public List<SubItem> getListaItems() {
 		fecha = new Date();
@@ -379,7 +401,11 @@ public class postulantesusuBean implements Serializable {
 		return l1;
 	}
 
-	// accion para invocar el manager y crear evento
+	/**
+	 * accion para invocar el manager y crear el postulante
+	 * 
+	 * @return String
+	 */
 	public String crearPostulante() {
 		String r = "";
 		try {
@@ -436,7 +462,11 @@ public class postulantesusuBean implements Serializable {
 		return r;
 	}
 
-	// accion para invocar el manager y crear evento
+	/**
+	 * accion para invocar el manager y editar el postulante 
+	 * 
+	 * @return String
+	 */
 	public String editarPostulante() {
 		String r = "";
 		try {
@@ -463,6 +493,11 @@ public class postulantesusuBean implements Serializable {
 		return r;
 	}
 
+	/**
+	 * Acción para cargar los datos del postulante 
+	 * 
+	 * @return String
+	 */
 	public String cargarDatosLogeado() {
 		if (session != null) {
 			try {
@@ -491,6 +526,10 @@ public class postulantesusuBean implements Serializable {
 		return "uperfil?faces-redirect=true";
 	}
 
+	/**
+	 * accion para abrir el dialogo
+	 * 
+	 */
 	public void abrirDialog() {
 		if (this.ccedula(pos_id)) {
 			FacesContext context = FacesContext.getCurrentInstance();
@@ -510,7 +549,11 @@ public class postulantesusuBean implements Serializable {
 		}
 	}
 	
-	//validar cedula
+	/**
+	 * Método para validar la cedula
+	 * 
+	 * @param x
+	 */
 	  public static boolean valida(String x){
 	    int suma=0;
 	    if(x.length()==9){
@@ -574,5 +617,4 @@ public class postulantesusuBean implements Serializable {
 		getListaItems().addAll(managergest.findAllItems());
 		return "index?faces-redirect=true";
 	}
-
 }

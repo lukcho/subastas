@@ -108,51 +108,51 @@ public class ofertausuBean implements Serializable {
 
 	@PostConstruct
 	public void ini() {
-		ofer_id=null;
-		ofer_valor_oferta="";
-		ofer_fecha_oferta=null;
-		item=null;
-		postulante=null;
-		valorMaximo="";
-		
-		item_id=null;
-		item_nombre="";
-		item_descripcion="";
-		item_caracteristicas="";
-		item_imagen="";
-		item_valorbase="";
-		item_valorventa="";
-		item_fecha_subasta_inicio=null;
-		item_fecha_subasta_fin=null;
-		faltatiempo=null;
-		
-		itemdelsita=null;
-		itemganador=null;
-		automatico=null;
-		ofertavalor=null;
-		listaItem=null;
-		listaOferta=null;
-		ocultarColorGana=false;
-		ocultarColorGana1=false;
-		
-		pos_id="";
-		pos_nombre="";
-		pos_apellido="";
-		pos_correo="";
-		pos_telefono="";
-		pos_celular="";
-		pos_institucion="";
-		pos_gerencia="";
-		pos_area="";
-		pos_direccion="";
-		pos_password="";
-		ofertadelsita=null;
-		
-		fi=null;
-		ff=null;
-		date=null;
-		fecha=null;
-		
+		ofer_id = null;
+		ofer_valor_oferta = "";
+		ofer_fecha_oferta = null;
+		item = null;
+		postulante = null;
+		valorMaximo = "";
+
+		item_id = null;
+		item_nombre = "";
+		item_descripcion = "";
+		item_caracteristicas = "";
+		item_imagen = "";
+		item_valorbase = "";
+		item_valorventa = "";
+		item_fecha_subasta_inicio = null;
+		item_fecha_subasta_fin = null;
+		faltatiempo = null;
+
+		itemdelsita = null;
+		itemganador = null;
+		automatico = null;
+		ofertavalor = null;
+		listaItem = null;
+		listaOferta = null;
+		ocultarColorGana = false;
+		ocultarColorGana1 = false;
+
+		pos_id = "";
+		pos_nombre = "";
+		pos_apellido = "";
+		pos_correo = "";
+		pos_telefono = "";
+		pos_celular = "";
+		pos_institucion = "";
+		pos_gerencia = "";
+		pos_area = "";
+		pos_direccion = "";
+		pos_password = "";
+		ofertadelsita = null;
+
+		fi = null;
+		ff = null;
+		date = null;
+		fecha = null;
+
 		edicion = true;
 		tiempo = "00 : 00 : 00";
 		valorUltimoPostulante = "0.00";
@@ -620,7 +620,7 @@ public class ofertausuBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Registrado- Se envio la oferta", null));
+							"Registrado- Se envió la oferta", null));
 			r = "";
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(
@@ -640,7 +640,6 @@ public class ofertausuBean implements Serializable {
 	 * 
 	 * @return
 	 */
-
 	public String editarPostulante() {
 		String r = "";
 		try {
@@ -784,7 +783,11 @@ public class ofertausuBean implements Serializable {
 		return l1;
 	}
 
-	// accion para invocar el manager y crear evento
+	/**
+	 * accion para invocar el manager y crear postulante
+	 * 
+	 * @return
+	 */
 	public String crearPostulante() {
 		String r = "";
 		try {
@@ -825,6 +828,11 @@ public class ofertausuBean implements Serializable {
 		return r;
 	}
 
+	/**
+	 * Mestodo para cargar datos del postulante logeado
+	 * 
+	 * @throws Exception
+	 */
 	public String cargarDatosLogeado() {
 		if (session != null) {
 			try {
@@ -1001,6 +1009,12 @@ public class ofertausuBean implements Serializable {
 			}
 	}
 
+	/**
+	 * Accion para conocer el tiempo restante
+	 * 
+	 * @param segundos
+	 * @return String
+	 */
 	public String tiempoRestanteHMS(Integer segundos) {
 		int hor = segundos / 3600;
 		int min = (segundos - (3600 * hor)) / 60;
@@ -1030,6 +1044,11 @@ public class ofertausuBean implements Serializable {
 		return "";
 	}
 
+	/**
+	 * Metodo para cambiar el estado de la oferta
+	 * 
+	 * @param ofer
+	 */
 	public void cambiarEstadoOferta(SubOferta ofer) {
 		setOfertadelsita(ofer);
 		RequestContext.getCurrentInstance().execute("PF('ce').show();");
@@ -1185,6 +1204,7 @@ public class ofertausuBean implements Serializable {
 	}
 
 	/**
+	 * Método para abrir el dialogo
 	 * 
 	 */
 	public void abrirDialogEdPerfil() {

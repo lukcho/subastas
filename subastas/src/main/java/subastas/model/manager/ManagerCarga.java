@@ -126,6 +126,13 @@ public class ManagerCarga {
 		return o;
 	}
 
+	/**
+	 * Consulta para buscar la aplicacion del usuario
+	 * 
+	 * @param usr
+	 * @return
+	 * @throws Exception
+	 */
 	public static String consultaSQL(String usr) throws Exception {
 		String cc = "jdbc:postgresql://10.1.0.158:5432/app_permisos?user=adm_svcyachay&password=_50STg-FGh2h";
 		Connection conexion = null;

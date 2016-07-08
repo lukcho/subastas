@@ -17,7 +17,6 @@ public class ManagerGestion {
 
 	private static SubItem sub_item;
 	private static SubPostulante sub_pos;
-	
 
 	String h = "";
 
@@ -57,7 +56,7 @@ public class ManagerGestion {
 	public SubItem itemByID(Integer item_id) throws Exception {
 		return (SubItem) mDAO.findById(SubItem.class, item_id);
 	}
-	
+
 	/**
 	 * listar todos los items por ganador
 	 * 
@@ -69,7 +68,7 @@ public class ManagerGestion {
 		return mDAO.findWhere(SubItem.class, " 1=1 ",
 				" o.itemGanadorDni not like '' desc");
 	}
-	
+
 	/**
 	 * listar todos los items por ganador
 	 * 
@@ -81,7 +80,7 @@ public class ManagerGestion {
 		return mDAO.findWhere(SubItem.class, " 1=1 ",
 				" o.itemFechaSubastaInicio desc");
 	}
-	
+
 	/**
 	 * listar todos los items por ganador
 	 * 
@@ -90,9 +89,9 @@ public class ManagerGestion {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<SubItemFoto> findAllItemsOrdenadaspara() {
-		return mDAO.findWhere(SubItemFoto.class, " o.itemfMostrar = true ", "o.subItem.itemFechaSubastaInicio desc");
+		return mDAO.findWhere(SubItemFoto.class, " o.itemfMostrar = true ",
+				"o.subItem.itemFechaSubastaInicio desc");
 	}
-	
 
 	/**
 	 * listar todos los items por fechas pasadas
@@ -108,7 +107,7 @@ public class ManagerGestion {
 						" o.itemFechaSubastaFin < now() or o.itemGanadorDni is not null or o.itemEstado = 'I' ",
 						" o.itemFechaSubastaFin desc");
 	}
-	
+
 	/**
 	 * listar todos las ofertas x item
 	 * 
@@ -117,8 +116,9 @@ public class ManagerGestion {
 	 */
 	@SuppressWarnings("unchecked")
 	public Integer itemByNombre(String item_nom) {
-		//System.out.println("entraaaaa");
-		List<SubItem> list = mDAO.findWhere(SubItem.class, "o.itemNombre = '"+item_nom+"'", null);
+		// System.out.println("entraaaaa");
+		List<SubItem> list = mDAO.findWhere(SubItem.class, "o.itemNombre = '"
+				+ item_nom + "'", null);
 		if (list.isEmpty()) {
 			return 0;
 		} else
@@ -193,8 +193,7 @@ public class ManagerGestion {
 		item.setItemEstado(item_estado);
 		mDAO.actualizar(item);
 	}
-	
-	
+
 	/**
 	 * Cambiar datos de item notificacion
 	 * 
@@ -206,8 +205,6 @@ public class ManagerGestion {
 		item.setItemSms("Notificado");
 		mDAO.actualizar(item);
 	}
-	
-	
 
 	/**
 	 * Concoer gaandor del Item
@@ -303,175 +300,201 @@ public class ManagerGestion {
 		mDAO.actualizar(item);
 		return h;
 	}
-	
-	//ITEMSFOTO
+
+	// ITEMSFOTO
 
 	// PRODUCTOFOTOS
-		/**
-		 * buscar todos itemfotos
-		 * @param prodfoto_id
-		 * @param nombre
-		 * @param valor
-		 * @throws Exception
-		 */	
-		
-		@SuppressWarnings("unchecked")
-		public List<SubItemFoto> findItemFoto() {
-			return mDAO.findWhere(SubItemFoto.class, " o.itemfMostrar = true", null);
-		}
+	/**
+	 * buscar todos itemfotos
+	 * 
+	 * @param prodfoto_id
+	 * @param nombre
+	 * @param valor
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<SubItemFoto> findItemFoto() {
+		return mDAO
+				.findWhere(SubItemFoto.class, " o.itemfMostrar = true", null);
+	}
 
-		/**
-		 * listar todos los itemfotos
-		 * @param id_prod
-		 * @param nombre
-		 * @param valor
-		 * @throws Exception
-		 */	
-		@SuppressWarnings("unchecked") 
-		public List<SubItemFoto> findAllItemFotos() {
-			return mDAO.findAll(SubItemFoto.class);
-		}
-		
-		@SuppressWarnings("unchecked")
-		public List<SubItemFoto> getListItemDFotoByID(String fot_id)
-		{
-			
-			return mDAO.findWhere(SubItemFoto.class, "o.itemId="+fot_id, null);
-		}
+	/**
+	 * listar todos los itemfotos
+	 * 
+	 * @param id_prod
+	 * @param nombre
+	 * @param valor
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<SubItemFoto> findAllItemFotos() {
+		return mDAO.findAll(SubItemFoto.class);
+	}
 
-		/**
-		 * buscar itemfotos por ID
-		 * @param id_prod
-		 * @param nombre
-		 * @param valor
-		 * @throws Exception
-		 */
-		public SubItemFoto itemFotoByID(Integer itemfoto_id) throws Exception {
-			return (SubItemFoto) mDAO.findById(SubItemFoto.class, itemfoto_id);
-		}
-		
+	@SuppressWarnings("unchecked")
+	public List<SubItemFoto> getListItemDFotoByID(String fot_id) {
 
-		@SuppressWarnings("unchecked")
-		public List<SubItemFoto> ItemFotoById1(Integer item_id) throws Exception {
-			return mDAO.findWhere(SubItemFoto.class, "o.subItem.itemId = "+item_id+" ", null);
+		return mDAO.findWhere(SubItemFoto.class, "o.itemId=" + fot_id, null);
+	}
+
+	/**
+	 * buscar itemfotos por ID
+	 * 
+	 * @param id_prod
+	 * @param nombre
+	 * @param valor
+	 * @throws Exception
+	 */
+	public SubItemFoto itemFotoByID(Integer itemfoto_id) throws Exception {
+		return (SubItemFoto) mDAO.findById(SubItemFoto.class, itemfoto_id);
+	}
+
+	/**
+	 * Método para buscar la imagen por Id del item
+	 * 
+	 * @param item_id
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<SubItemFoto> ItemFotoById1(Integer item_id) throws Exception {
+		return mDAO.findWhere(SubItemFoto.class, "o.subItem.itemId = "
+				+ item_id + " ", null);
+	}
+
+	/**
+	 * Método para buscar la imagen por Id del item
+	 * 
+	 * @param item_id
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<SubItemFoto> ItemFotoById12(Integer itemfoto_id)
+			throws Exception {
+		return mDAO.findWhere(SubItemFoto.class, "o.itemfId = " + itemfoto_id
+				+ " ", null);
+	}
+
+	/**
+	 * Agrega itemfoto
+	 * 
+	 * @param prod_id
+	 * @param nombre
+	 * @param valor
+	 * @throws Exception
+	 */
+	public void insertarItemFoto(String nombre, String direccion)
+			throws Exception {
+		SubItemFoto itemfoto = new SubItemFoto();
+		itemfoto.setSubItem(sub_item);
+		itemfoto.setItemfNombre(nombre);
+		itemfoto.setItemfDireccion(direccion);
+		itemfoto.setItemfEstado("A");
+		itemfoto.setItemfMostrar(false);
+		mDAO.insertar(itemfoto);
+	}
+
+	/**
+	 * Elimina itemfoto
+	 * 
+	 * @param prod_id
+	 * @throws Exception
+	 */
+	public void eliminarItemFoto(Integer itemf_id) throws Exception {
+		mDAO.eliminar(SubItemFoto.class, itemf_id);
+	}
+
+	/**
+	 * Cambiar datos de item
+	 * 
+	 * @param id_prod
+	 * @param nombre
+	 * @param valor
+	 * @throws Exception
+	 */
+	public void editarproducto_foto(Integer itemfoto_id, String nombre,
+			String valor, String direccion) throws Exception {
+		SubItemFoto prodfoto = this.itemFotoByID(itemfoto_id);
+		prodfoto.setSubItem(sub_item);
+		prodfoto.setItemfNombre(nombre);
+		prodfoto.setItemfDireccion(direccion);
+		prodfoto.setItemfEstado(valor);
+		mDAO.actualizar(prodfoto);
+	}
+
+	/**
+	 * Cambiar estado itemfotos
+	 * 
+	 * @param id_prod
+	 * @param nombre
+	 * @param apellido
+	 * @param correo
+	 * @throws Exception
+	 */
+	public String cambioEstadoItemFoto(Integer itemfoto_id) throws Exception {
+		String h = "";
+		SubItemFoto prodfoto = itemFotoByID(itemfoto_id);
+
+		if (prodfoto.getItemfEstado().equals("A")) {
+			prodfoto.setItemfEstado("I");
+			h = "Estado del prodalogo Modificado";
+		} else if (prodfoto.getItemfEstado().equals("I")) {
+			prodfoto.setItemfEstado("A");
+			h = "Estado del Registro Modificado";
 		}
-		
-		@SuppressWarnings("unchecked")
-		public List<SubItemFoto> ItemFotoById12(Integer itemfoto_id) throws Exception {
-			return mDAO.findWhere(SubItemFoto.class, "o.itemfId = "+itemfoto_id+" ", null);
-		}
-		
-		/**
-		 * Agrega itemfoto
-		 * @param prod_id
-		 * @param nombre
-		 * @param valor
-		 * @throws Exception
-		 */
-		public void insertarItemFoto(String nombre,String direccion) throws Exception {
-			SubItemFoto itemfoto = new SubItemFoto();
-			itemfoto.setSubItem(sub_item);
-			itemfoto.setItemfNombre(nombre);
-			itemfoto.setItemfDireccion(direccion);
-			itemfoto.setItemfEstado("A");
-			itemfoto.setItemfMostrar(false);
-			mDAO.insertar(itemfoto);
-		}
-		
-		/**
-		 * Elimina itemfoto
-		 * @param prod_id
-		 * @throws Exception
-		 */
-		public void eliminarItemFoto(Integer itemf_id) throws Exception {
-			mDAO.eliminar(SubItemFoto.class,itemf_id);
-		}
-		
-		/**
-		 * Cambiar datos de item
-		 * @param id_prod
-		 * @param nombre
-		 * @param valor
-		 * @throws Exception
-		 */	
-		public void editarproducto_foto(Integer itemfoto_id, String nombre, String valor, String direccion) throws Exception {
-			SubItemFoto prodfoto = this.itemFotoByID(itemfoto_id);
-			prodfoto.setSubItem(sub_item);
-			prodfoto.setItemfNombre(nombre);
-			prodfoto.setItemfDireccion(direccion);
-			prodfoto.setItemfEstado(valor);
-			mDAO.actualizar(prodfoto);
-		}
-			
-		/**
-		 * Cambiar estado itemfotos
-		 * @param id_prod
-		 * @param nombre
-		 * @param apellido
-		 * @param correo
-		 * @throws Exception
-		 */	
-		public String cambioEstadoItemFoto(Integer itemfoto_id) throws Exception{
-			String h="";
-			SubItemFoto prodfoto = itemFotoByID(itemfoto_id);						
-			
-			if(prodfoto.getItemfEstado().equals("A")){
-				prodfoto.setItemfEstado("I");
-				h="Estado del prodalogo Modificado";
-				}
-			else if(prodfoto.getItemfEstado().equals("I")){
-				prodfoto.setItemfEstado("A");
-				h="Estado del Registro Modificado";
-				}
-			mDAO.actualizar(prodfoto);
-			return h;
-			}		
-		
-		/**
-		 * Cambiar estado itemfotos
-		 * @param id_prod
-		 * @param nombre
-		 * @param apellido
-		 * @param correo
-		 * @throws Exception
-		 */	
-		public String cambioMostrarItemFoto(Integer itemfoto_id, SubItemFoto prodf) throws Exception{
-			String h="";
-			List<SubItemFoto> cond;
-				cond = ItemFotoById1(prodf.getSubItem().getItemId());
-				for (SubItemFoto y : cond) {
-					if (y.getItemfMostrar() == true) {
-						y.setItemfMostrar(false);
-					}
-				}
-				SubItemFoto prodfoto = itemFotoByID(itemfoto_id);
-				SubItem itemcam = itemByID(prodf.getSubItem().getItemId());
-			if(prodfoto.getItemfMostrar() == false){
-				prodfoto.setItemfMostrar(true);
-				itemcam.setItemImagen(prodfoto.getItemfDireccion());
-				h="Modificado mostrar imagen";
-				}
-			else if(prodfoto.getItemfMostrar() == true){
-				prodfoto.setItemfMostrar(false);
-				h="Modificado mostrar imagen";
-				}
-			mDAO.actualizar(prodfoto);
-			return h;
-			}		
-		
-		/**
-		 * Verifica si el item_foto esta activado
-		 * @param u prodalogo a analizar
-		 * @return true o false
-		 */
-		public boolean esProdFotoActivo(SubItemFoto u){
-			boolean  resp = false;
-			if(u.getItemfEstado().equals("A")){
-				resp = true;
+		mDAO.actualizar(prodfoto);
+		return h;
+	}
+
+	/**
+	 * Cambiar estado itemfotos
+	 * 
+	 * @param id_prod
+	 * @param nombre
+	 * @param apellido
+	 * @param correo
+	 * @throws Exception
+	 */
+	public String cambioMostrarItemFoto(Integer itemfoto_id, SubItemFoto prodf)
+			throws Exception {
+		String h = "";
+		List<SubItemFoto> cond;
+		cond = ItemFotoById1(prodf.getSubItem().getItemId());
+		for (SubItemFoto y : cond) {
+			if (y.getItemfMostrar() == true) {
+				y.setItemfMostrar(false);
 			}
-			return resp;
 		}
-	
+		SubItemFoto prodfoto = itemFotoByID(itemfoto_id);
+		SubItem itemcam = itemByID(prodf.getSubItem().getItemId());
+		if (prodfoto.getItemfMostrar() == false) {
+			prodfoto.setItemfMostrar(true);
+			itemcam.setItemImagen(prodfoto.getItemfDireccion());
+			h = "Modificado mostrar imagen";
+		} else if (prodfoto.getItemfMostrar() == true) {
+			prodfoto.setItemfMostrar(false);
+			h = "Modificado mostrar imagen";
+		}
+		mDAO.actualizar(prodfoto);
+		return h;
+	}
+
+	/**
+	 * Verifica si el item_foto esta activado
+	 * 
+	 * @param u
+	 *            prodalogo a analizar
+	 * @return true o false
+	 */
+	public boolean esProdFotoActivo(SubItemFoto u) {
+		boolean resp = false;
+		if (u.getItemfEstado().equals("A")) {
+			resp = true;
+		}
+		return resp;
+	}
+
 	// POSTULANTES
 	/**
 	 * listar todos los postulantes
@@ -510,8 +533,8 @@ public class ManagerGestion {
 	 */
 	public void insertarPostulante(String pos_id, Timestamp pos_fecha_reg,
 			String pos_nombre, String pos_apellido, String pos_direccion,
-			String pos_correo, String pos_telefono, String pos_celular, String pos_password)
-			throws Exception {
+			String pos_correo, String pos_telefono, String pos_celular,
+			String pos_password) throws Exception {
 		SubPostulante pos = new SubPostulante();
 		pos.setPosId(pos_id);
 		pos.setPosFechaRegistro(pos_fecha_reg);
@@ -542,8 +565,8 @@ public class ManagerGestion {
 	 */
 	public void editarPostulante(String pos_id, String pos_nombre,
 			String pos_apellido, String pos_direccion, String pos_correo,
-			String pos_telefono, String pos_celular, String pos_password, String pos_estado)
-			throws Exception {
+			String pos_telefono, String pos_celular, String pos_password,
+			String pos_estado) throws Exception {
 		System.out.println(pos_id);
 		SubPostulante pos = this.postulanteByID(pos_id);
 		pos.setPosNombre(pos_nombre);
@@ -573,7 +596,8 @@ public class ManagerGestion {
 	 */
 	public void editarPostulanteedicion(String pos_id, String pos_nombre,
 			String pos_apellido, String pos_direccion, String pos_correo,
-			String pos_telefono, String pos_celular, String pos_password) throws Exception {
+			String pos_telefono, String pos_celular, String pos_password)
+			throws Exception {
 		System.out.println(pos_id);
 		SubPostulante pos = this.postulanteByID(pos_id);
 		pos.setPosNombre(pos_nombre);
@@ -715,18 +739,21 @@ public class ManagerGestion {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Integer ofertaXPost(Integer item_id,String pos_id) {
-		//System.out.println("entraaaaa");
+	public Integer ofertaXPost(Integer item_id, String pos_id) {
+		// System.out.println("entraaaaa");
 		List<Integer> list = mDAO
 				.findJPQL("SELECT o.oferId FROM SubOferta o WHERE o.oferValorOferta = (SELECT MAX(p.oferValorOferta) FROM SubOferta p where p.subItem.itemId = "
-						+ item_id + " and p.subPostulante.posId = '"+pos_id+"' ) ");
+						+ item_id
+						+ " and p.subPostulante.posId = '"
+						+ pos_id
+						+ "' ) ");
 
 		if (list.size() == 0) {
 			return 0;
 		} else
 			return list.get(0);
 	}
-	
+
 	/**
 	 * listar todos las ofertas x item
 	 * 
@@ -734,11 +761,12 @@ public class ManagerGestion {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Integer ofertaNumPost(Integer item_id,String pos_id) {
-		//System.out.println("entraaaaa");
+	public Integer ofertaNumPost(Integer item_id, String pos_id) {
+		// System.out.println("entraaaaa");
 		List<SubOferta> list = mDAO
 				.findJPQL("SELECT o FROM SubOferta o WHERE o.subItem.itemId = "
-						+ item_id + " and o.subPostulante.posId = '"+pos_id+"' ) ");
+						+ item_id + " and o.subPostulante.posId = '" + pos_id
+						+ "' ) ");
 		if (list.size() == 0) {
 			return 1;
 		} else
@@ -827,6 +855,11 @@ public class ManagerGestion {
 		mDAO.actualizar(ofer);
 	}
 
+	/**
+	 * Método para mostrar la lista de ganadores
+	 * 
+	 * @return List
+	 */
 	@SuppressWarnings("unchecked")
 	public List<SubOferta> listadoGanadores() {
 		return mDAO
@@ -836,6 +869,11 @@ public class ManagerGestion {
 						null);
 	}
 
+	/**
+	 * Método para conocer la lista de no ganadores
+	 * 
+	 * @return List
+	 */
 	@SuppressWarnings("unchecked")
 	public List<SubOferta> listadoNoGanadores() {
 		return mDAO
@@ -844,17 +882,34 @@ public class ManagerGestion {
 						"o.oferId NOT IN (SELECT i.itemGanadorDni FROM SubItem i WHERE i.itemEstado='I')",
 						null);
 	}
-	
+
+	/**
+	 * Método para conocer al maximo ganador
+	 * 
+	 * @param itemId
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
-	public List<SubOferta> maximoGanador(Integer itemId){
-		return mDAO.findJPQL("SELECT o FROM SubOferta o  WHERE "
-				+ "o.oferFechaOferta=(SELECT MIN(p.oferFechaOferta) FROM SubOferta p where p.subItem.itemId = "+itemId
-				+ " and p.oferValorOferta= (SELECT MAX(q.oferValorOferta) FROM SubOferta q where q.subItem.itemId = "+itemId
-				+ "))");
+	public List<SubOferta> maximoGanador(Integer itemId) {
+		return mDAO
+				.findJPQL("SELECT o FROM SubOferta o  WHERE "
+						+ "o.oferFechaOferta=(SELECT MIN(p.oferFechaOferta) FROM SubOferta p where p.subItem.itemId = "
+						+ itemId
+						+ " and p.oferValorOferta= (SELECT MAX(q.oferValorOferta) FROM SubOferta q where q.subItem.itemId = "
+						+ itemId + "))");
 	}
-	
+
+	/**
+	 * Método para listar fotos por el nombre del item
+	 * 
+	 * @param itemfNombre
+	 * @return
+	 * @throws Exception
+	 */
 	@SuppressWarnings("unchecked")
-	public List<SubItemFoto> itemFotoByNombre(String itemfNombre) throws Exception {
-		return mDAO.findWhere(SubItemFoto.class, "o.itemfNombre='"+itemfNombre+"'", null);
+	public List<SubItemFoto> itemFotoByNombre(String itemfNombre)
+			throws Exception {
+		return mDAO.findWhere(SubItemFoto.class, "o.itemfNombre='"
+				+ itemfNombre + "'", null);
 	}
 }
