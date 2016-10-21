@@ -8,10 +8,8 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 
@@ -446,11 +444,9 @@ public class ofertasBean implements Serializable {
 			ofer_fecha_oferta = ofer.getOferFechaOferta();
 			item = ofer.getSubItem();
 			postulante = ofer.getSubPostulante();
-
 			item_nombre = ofer.getSubItem().getItemNombre();
 			item_caracteristicas = ofer.getSubItem().getItemCaracteristicas();
 			item_imagen = ofer.getSubItem().getItemImagen();
-
 			pos_nombre = ofer.getSubPostulante().getPosNombre();
 			pos_apellido = ofer.getSubPostulante().getPosApellido();
 			pos_direccion = ofer.getSubPostulante().getPosDireccion();
@@ -460,10 +456,8 @@ public class ofertasBean implements Serializable {
 			pos_institucion = ofer.getSubPostulante().getPosInstitucion();
 			pos_gerencia = ofer.getSubPostulante().getPosGerencia();
 			pos_area = ofer.getSubPostulante().getPosArea();
-
 			return "pasuoferta?faces-redirect=true";
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return "";
@@ -498,7 +492,6 @@ public class ofertasBean implements Serializable {
 			ff = item.getItemFechaSubastaFin();
 			return "pasofertasub?faces-redirect=true";
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return "";
@@ -525,7 +518,6 @@ public class ofertasBean implements Serializable {
 			ofer_fecha_oferta = ofer.getOferFechaOferta();
 			item = ofer.getSubItem();
 			postulante = ofer.getSubPostulante();
-
 			item_id = ofer.getSubItem().getItemId();
 			item_nombre = ofer.getSubItem().getItemNombre();
 			item_caracteristicas = ofer.getSubItem().getItemCaracteristicas();
@@ -533,13 +525,11 @@ public class ofertasBean implements Serializable {
 			item_imagen = ofer.getSubItem().getItemImagen();
 			item_valorbase = ofer.getSubItem().getItemValorBase().toString();
 			item_valorventa = ofer.getSubItem().getItemValorVenta().toString();
-
 			if (managergest.ValorMaximoXItem(item_id) == null) {
 				valorMaximo = "";
 			} else {
 				valorMaximo = managergest.ValorMaximoXItem(item_id).toString();
 			}
-
 			pos_nombre = ofer.getSubPostulante().getPosNombre();
 			pos_apellido = ofer.getSubPostulante().getPosApellido();
 			pos_direccion = ofer.getSubPostulante().getPosDireccion();
@@ -549,10 +539,8 @@ public class ofertasBean implements Serializable {
 			pos_institucion = ofer.getSubPostulante().getPosInstitucion();
 			pos_gerencia = ofer.getSubPostulante().getPosGerencia();
 			pos_area = ofer.getSubPostulante().getPosArea();
-			
 			return "noferta?faces-redirect=true";
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return "";
@@ -579,7 +567,6 @@ public class ofertasBean implements Serializable {
 			ofer_fecha_oferta = ofer.getOferFechaOferta();
 			item = ofer.getSubItem();
 			postulante = ofer.getSubPostulante();
-
 			item_id = ofer.getSubItem().getItemId();
 			item_nombre = ofer.getSubItem().getItemNombre();
 			item_caracteristicas = ofer.getSubItem().getItemCaracteristicas();
@@ -587,13 +574,11 @@ public class ofertasBean implements Serializable {
 			item_imagen = ofer.getSubItem().getItemImagen();
 			item_valorbase = ofer.getSubItem().getItemValorBase().toString();
 			item_valorventa = ofer.getSubItem().getItemValorVenta().toString();
-
 			if (managergest.ValorMaximoXItem(item_id) == null) {
 				valorMaximo = "";
 			} else {
 				valorMaximo = managergest.ValorMaximoXItem(item_id).toString();
 			}
-
 			pos_nombre = ofer.getSubPostulante().getPosNombre();
 			pos_apellido = ofer.getSubPostulante().getPosApellido();
 			pos_direccion = ofer.getSubPostulante().getPosDireccion();
@@ -603,10 +588,8 @@ public class ofertasBean implements Serializable {
 			pos_institucion = ofer.getSubPostulante().getPosInstitucion();
 			pos_gerencia = ofer.getSubPostulante().getPosGerencia();
 			pos_area = ofer.getSubPostulante().getPosArea();
-			
 			return "nganador?faces-redirect=true";
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return "";
@@ -633,7 +616,6 @@ public class ofertasBean implements Serializable {
 			ofer_fecha_oferta = ofertadelsita.getOferFechaOferta();
 			item = ofertadelsita.getSubItem();
 			postulante = ofertadelsita.getSubPostulante();
-
 			item_id = ofertadelsita.getSubItem().getItemId();
 			item_nombre = ofertadelsita.getSubItem().getItemNombre();
 			item_caracteristicas = ofertadelsita.getSubItem()
@@ -641,7 +623,6 @@ public class ofertasBean implements Serializable {
 			item_descripcion = ofertadelsita.getSubItem().getItemDescripcion();
 			item_imagen = ofertadelsita.getSubItem().getItemImagen();
 			item_ganador = ofertadelsita.getSubItem().getItemGanadorDni();
-
 			pos_nombre = ofertadelsita.getSubPostulante().getPosNombre();
 			pos_apellido = ofertadelsita.getSubPostulante().getPosApellido();
 			pos_direccion = ofertadelsita.getSubPostulante().getPosDireccion();
@@ -652,20 +633,12 @@ public class ofertasBean implements Serializable {
 					.getPosInstitucion();
 			pos_gerencia = ofertadelsita.getSubPostulante().getPosGerencia();
 			pos_area = ofertadelsita.getSubPostulante().getPosArea();
-
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(
-					null,
-					new FacesMessage("INFORMACION", managergest.ganadorItem(
-							item_id, "I", managergest.itemByID(item_id),
-							ofer_id)));
-
+			Mensaje.crearMensajeINFO(managergest.ganadorItem(item_id, "I", managergest.itemByID(item_id),ofer_id));
 			getListaOferta().clear();
 			getListaOferta().addAll(managergest.findAllofertasOrdenadas());
 			Mensaje.crearMensajeINFO("Se establecio Ganador");
 			return "ofertas?faces-redirect=true";
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return "";
@@ -690,15 +663,11 @@ public class ofertasBean implements Serializable {
 	 */
 	public String cambiarEstado() {
 		try {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(
-					null,
-					new FacesMessage("INFORMACION", managergest
-							.cambioEstadoItem(getOfertadelsita().getOferId())));
+			Mensaje.crearMensajeINFO(managergest.cambioEstadoItem(getOfertadelsita().getOferId()));
 			getListaOferta().clear();
 			getListaOferta().addAll(managergest.findAllofertasOrdenadas());
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return "";
 	}
@@ -719,12 +688,10 @@ public class ofertasBean implements Serializable {
 		ofer_fecha_oferta = null;
 		item = null;
 		postulante = null;
-
 		item_nombre = "";
 		item_caracteristicas = "";
 		item_descripcion = "";
 		item_imagen = "";
-
 		pos_nombre = "";
 		pos_apellido = "";
 		pos_direccion = "";
@@ -753,7 +720,6 @@ public class ofertasBean implements Serializable {
 		return lista;
 	}
 	
-	
 	/**
 	 * accion para cargar los datos en el formulario
 	 * 
@@ -772,17 +738,13 @@ public class ofertasBean implements Serializable {
 		try {
 			if(ofer.getSubItem().getItemSms().equals("Notificado"))
 			{
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"Yá se envió el mensaje al ganador", null));
+				Mensaje.crearMensajeINFO("Yá se envió el mensaje al ganador");
 			}else{
 			ofer_id = ofer.getOferId();
 			ofer_valor_oferta = ofer.getOferValorOferta().toString();
 			ofer_fecha_oferta = ofer.getOferFechaOferta();
 			item = ofer.getSubItem();
 			postulante = ofer.getSubPostulante();
-
 			item_id = ofer.getSubItem().getItemId();
 			item_nombre = ofer.getSubItem().getItemNombre();
 			item_caracteristicas = ofer.getSubItem().getItemCaracteristicas();
@@ -790,13 +752,11 @@ public class ofertasBean implements Serializable {
 			item_imagen = ofer.getSubItem().getItemImagen();
 			item_valorbase = ofer.getSubItem().getItemValorBase().toString();
 			item_valorventa = ofer.getSubItem().getItemValorVenta().toString();
-
 			if (managergest.ValorMaximoXItem(item_id) == null) {
 				valorMaximo = "";
 			} else {
 				valorMaximo = managergest.ValorMaximoXItem(item_id).toString();
 			}
-
 			pos_nombre = ofer.getSubPostulante().getPosNombre();
 			pos_apellido = ofer.getSubPostulante().getPosApellido();
 			pos_direccion = ofer.getSubPostulante().getPosDireccion();
@@ -806,7 +766,6 @@ public class ofertasBean implements Serializable {
 			pos_institucion = ofer.getSubPostulante().getPosInstitucion();
 			pos_gerencia = ofer.getSubPostulante().getPosGerencia();
 			pos_area = ofer.getSubPostulante().getPosArea();
-			
 			smscorreoganador = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
 					+ "<meta name='viewport' content='width=device-width'></head><body>"
 					+ "Estimado(a) "+pos_nombre+" "+pos_apellido+", <br/>"
@@ -819,29 +778,21 @@ public class ofertasBean implements Serializable {
 					 + "<br/> Saludos cordiales, "
 		             + "<br/> Sistema de Subastas Yachay EP."
 		             + "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
-			
 //			Mail.generateAndSendEmail(pos_correo, "Notificación de Ganador Subastas Yachay", smscorreoganador);
 			mb.envioMailWS(pos_correo, "Notificación de Ganador Subastas Yachay", smscorreoganador);
 			managergest.notificadoItem(item_id);
-			
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Correcto: Se envió el mensaje", null));
-			
+			Mensaje.crearMensajeINFO("Correcto: Se envió el mensaje");
 			smscorreoganador="";
 			ofer_id = null;
 			ofer_valor_oferta = null;
 			ofer_fecha_oferta = null;
 			item = null;
 			postulante = null;
-
 			item_nombre = "";
 			item_caracteristicas = "";
 			item_descripcion = "";
 			item_imagen = "";
 			item_valorbase = "";
-
 			pos_nombre = "";
 			pos_apellido = "";
 			pos_direccion = "";
@@ -851,46 +802,33 @@ public class ofertasBean implements Serializable {
 			pos_institucion = "";
 			pos_gerencia = "";
 			pos_area = "";
-			
-			
 			getListaOfertasGanadores().clear();
 			getListaOfertasGanadores().addAll(managergest.listadoGanadores());
 			}
-			
 		} catch (Exception e) {
-			// TODO: handle exception
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Error: No se envió el mensaje", null));
+			Mensaje.crearMensajeWARN("Error: No se envió el mensaje");
 			e.printStackTrace();
 		}
 		return "";
 	}
-	
-	
 
 	// ------ traslados--------
-
 	/**
 	 * limpia la informacion
 	 * 
 	 * @return
 	 */
 	public String salir() {
-		// limpiar datos
 		ofer_id = null;
 		ofer_valor_oferta = null;
 		ofer_fecha_oferta = null;
 		item = null;
 		postulante = null;
-
 		item_nombre = "";
 		item_caracteristicas = "";
 		item_descripcion = "";
 		item_imagen = "";
 		item_valorbase = "";
-
 		pos_nombre = "";
 		pos_apellido = "";
 		pos_direccion = "";
@@ -911,19 +849,16 @@ public class ofertasBean implements Serializable {
 	 * @return
 	 */
 	public String salirganador() {
-		// limpiar datos
 		ofer_id = null;
 		ofer_valor_oferta = null;
 		ofer_fecha_oferta = null;
 		item = null;
 		postulante = null;
-
 		item_nombre = "";
 		item_caracteristicas = "";
 		item_descripcion = "";
 		item_imagen = "";
 		item_valorbase = "";
-
 		pos_nombre = "";
 		pos_apellido = "";
 		pos_direccion = "";
@@ -944,17 +879,14 @@ public class ofertasBean implements Serializable {
 	 * @return
 	 */
 	public String salirPasuOferta() {
-		// limpiar datos
 		ofer_id = null;
 		ofer_valor_oferta = null;
 		ofer_fecha_oferta = null;
 		item = null;
 		postulante = null;
-
 		item_nombre = "";
 		item_caracteristicas = "";
 		item_imagen = "";
-
 		pos_nombre = "";
 		pos_apellido = "";
 		pos_direccion = "";

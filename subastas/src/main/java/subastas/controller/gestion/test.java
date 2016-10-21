@@ -1,10 +1,5 @@
 package subastas.controller.gestion;
 
-
-import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Date;
-
 import subastas.general.connection.SingletonJDBC;
 
 public class test {

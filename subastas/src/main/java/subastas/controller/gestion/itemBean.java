@@ -16,10 +16,8 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 
@@ -104,7 +102,7 @@ public class itemBean implements Serializable {
 	private String nombre_usuario;
 	private Persona per;
 	private Persona per1;
-	private ManagerCarga mc;
+//	private ManagerCarga mc;
 	private String img = "";
 
 	public itemBean() {
@@ -112,7 +110,7 @@ public class itemBean implements Serializable {
 
 	@PostConstruct
 	public void ini() {
-		mc = new ManagerCarga();
+//		mc = new ManagerCarga();
 		item_id1 = 0;
 		item_imagen = "300.jpg";
 		item_caracteristicas = "";
@@ -134,11 +132,10 @@ public class itemBean implements Serializable {
 		listaItem = managergest.findAllItemsOrdenadasad();
 		listaItemfoto = new ArrayList<SubItemFoto>();
 		usuario = ms.validarSesion();
-	    consumirURL();
+		consumirURL();
 	}
 
 	private void consumirURL() {
-
 		try {
 			img = ConsumeREST
 					.consumeGetRestEasyObject(
@@ -450,23 +447,13 @@ public class itemBean implements Serializable {
 		try {
 			item_id = itemdelsita.getItemId();
 			automatico = managergest.ofertaXItem(item_id);
-			System.out.println("coge el id del mayor: " + automatico);
 			managergest.ganadorItemAutom(item_id, "I", automatico);
 			item_id = null;
 			getListaItem().clear();
 			getListaItem().addAll(managergest.findAllItemsOrdenadasad());
-			Mensaje.crearMensajeINFO("Ganador establecido, dirigase a la tabla de ganadores");
-			FacesContext
-					.getCurrentInstance()
-					.addMessage(
-							null,
-							new FacesMessage(
-									FacesMessage.SEVERITY_INFO,
-									"Ganador establecido, dirigase a la tabla de ganadores",
-									null));
+			Mensaje.crearMensajeINFO("Ganador establecido, dirígase a la tabla de ganadores");
 			return "items?faces-redirect=true";
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return "";
@@ -483,11 +470,7 @@ public class itemBean implements Serializable {
 			setItemdelsita(item);
 			RequestContext.getCurrentInstance().execute("PF('cg').show();");
 		} else {
-			Mensaje.crearMensajeINFO("Yá se establecio Ganador");
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Yá se establecio Ganador", null));
+			Mensaje.crearMensajeINFO("Yá se estableció ganador");
 		}
 	}
 
@@ -525,12 +508,7 @@ public class itemBean implements Serializable {
 				item_id1 = managergest.itemByNombre(item_nombre);
 				managergest.asignarItem(item_id1);
 				guardarin = true;
-
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"Editado - Modificado", null));
 			} else {
 				if (!averiguarItemNombre(item_nombre)) {
 					managergest.insertarItem(item_nombre.trim(),
@@ -539,35 +517,17 @@ public class itemBean implements Serializable {
 							valorbase, valorventa, item_fecha_subasta_inicio,
 							item_fecha_subasta_fin, item_ganador_dni,
 							item_usuario_registro.trim());
-
-					Mensaje.crearMensajeINFO("Registrado - Creado");
+					Mensaje.crearMensajeINFO("Registrado - Creado Por favor seleccione una imágen principal");
 					item_id1 = managergest.itemByNombre(item_nombre);
 					managergest.asignarItem(item_id1);
-					FacesContext
-							.getCurrentInstance()
-							.addMessage(
-									null,
-									new FacesMessage(
-											FacesMessage.SEVERITY_INFO,
-											"Registrado - Creado Por favor seleccione una imágen principal",
-											null));
 				} else {
-					FacesContext.getCurrentInstance().addMessage(
-							null,
-							new FacesMessage(FacesMessage.SEVERITY_INFO,
-									"Error - No se creó", null));
+					Mensaje.crearMensajeWARN("Error - No se creó el registro");
 				}
 			}
 			r = "";
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Error al crear producto", null));
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, e
-							.getMessage(), null));
+			Mensaje.crearMensajeWARN("Error al crear producto");
+			e.printStackTrace();
 		}
 		return r;
 	}
@@ -602,19 +562,15 @@ public class itemBean implements Serializable {
 			item_fecha_subasta_fin = item.getItemFechaSubastaFin();
 			fi = item.getItemFechaSubastaInicio();
 			ff = item.getItemFechaSubastaFin();
-
 			if (managergest.ValorMaximoXItem(item_id) == null) {
 				valorMaximo = "";
 			} else {
 				valorMaximo = managergest.ValorMaximoXItem(item_id).toString();
 			}
-
 			item_ganador_dni = item.getItemGanadorDni();
 			item_usuario_registro = item.getItemUsuarioRegistro();
 			item_estado = item.getItemEstado();
-			
 			BuscarPersonaitem(item_usuario_registro);
-			
 			edicion = true;
 			imagenprod = false;
 			mostrarpro_id = true;
@@ -624,7 +580,6 @@ public class itemBean implements Serializable {
 			getListaItemfoto().addAll(managergest.ItemFotoById1(item_id));
 			return "nitem?faces-redirect=true";
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return "";
@@ -638,15 +593,12 @@ public class itemBean implements Serializable {
 	 */
 	public String cambiarEstado() {
 		try {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(
-					null, 
-					new FacesMessage("Información: ítem modificado",
-					managergest.cambioEstadoItem(getItemdelsita().getItemId())));
+			Mensaje.crearMensajeINFO(managergest
+					.cambioEstadoItem(getItemdelsita().getItemId()));
 			getListaItem().clear();
 			getListaItem().addAll(managergest.findAllItemsOrdenadasad());
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return "items?faces-redirect=true";
 	}
@@ -672,25 +624,24 @@ public class itemBean implements Serializable {
 			file = event.getFile();
 			InputStream inputStream = null;
 			OutputStream outputStream = null;
-
 			if (item_nombre != null && item_nombre != "") {
 				item_id1 = managergest.itemByID(item_id).getItemId();
 				asignarNombreImagencargado(item_id1);
 				int i = listaItemfoto.size() + 1;
-				System.out.println(i);
 				if (i < 6) {
 					if (file != null) {
 						try {
 							// Tomar PAD REAL
-//							 ServletContext servletContext = (ServletContext)
-//							 FacesContext
-//							 .getCurrentInstance().getExternalContext()
-//							 .getContext();
-//							 esto borrar
-//							 String carpetaImagenes = (String) servletContext
-//							 .getRealPath(File.separatorChar + "imgevent");
+							// ServletContext servletContext = (ServletContext)
+							// FacesContext
+							// .getCurrentInstance().getExternalContext()
+							// .getContext();
+							// esto borrar
+							// String carpetaImagenes = (String) servletContext
+							// .getRealPath(File.separatorChar + "imgevent");
 
-//							String carpetaImagenes = "C:/Users/lcorrea/Desktop/wildfly-8.2.1.Final/standalone/img/img_subastas/items";
+							// String carpetaImagenes =
+							// "C:/Users/lcorrea/Desktop/wildfly-8.2.1.Final/standalone/img/img_subastas/items";
 							String carpetaImagenes = "/opt/wildfly/standalone/img/img_subastas/items/";
 							setItem_imagen(g);
 							System.out.println("PAD------> " + carpetaImagenes);
@@ -708,61 +659,31 @@ public class itemBean implements Serializable {
 							}
 							guardarimagen();
 							getListaItemfoto().clear();
-							getListaItemfoto().addAll(managergest.ItemFotoById1(item_id1));
+							getListaItemfoto().addAll(
+									managergest.ItemFotoById1(item_id1));
 							setItem_imagen("");
-							g="";
-							FacesContext
-									.getCurrentInstance()
-									.addMessage(
-											null,
-											new FacesMessage(
-													FacesMessage.SEVERITY_INFO,
-													"Correcto: Carga correcta, Por favor seleccione una imágen principal",
-													null));
+							g = "";
+							Mensaje.crearMensajeINFO("Correcto: Carga correcta, Por favor seleccione una imágen principal");
 						} catch (Exception e) {
-							FacesContext
-									.getCurrentInstance()
-									.addMessage(
-											null,
-											new FacesMessage(
-													FacesMessage.SEVERITY_ERROR,
-													"Error: no se pudo subir la imagen",
-													null));
+							Mensaje.crearMensajeWARN("Error: no se pudo subir la imagen");
 							e.printStackTrace();
 						} finally {
 							if (inputStream != null) {
 								inputStream.close();
 							}
-
 							if (outputStream != null) {
 								outputStream.close();
 							}
 						}
 					} else {
-						FacesContext.getCurrentInstance().addMessage(
-								null,
-								new FacesMessage(FacesMessage.SEVERITY_ERROR,
-										"Error:",
-										"no se pudo seleccionar la imagen"));
+						Mensaje.crearMensajeWARN("No se pudo seleccionar la imagen");
 					}
 				} else
-					FacesContext
-							.getCurrentInstance()
-							.addMessage(
-									null,
-									new FacesMessage(
-											FacesMessage.SEVERITY_INFO,
-											"Error: Sólo puede subir 5 imagenes",
-											null));
+					Mensaje.crearMensajeWARN("Error: Sólo puede subir 5 imagenes");
 			} else
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"Error: Debe guardar el ítem primero",
-								null));
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+				Mensaje.crearMensajeWARN("Error: Debe guardar el ítem primero");
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -770,10 +691,7 @@ public class itemBean implements Serializable {
 	public void asignarNombreImagencargado(Integer item_nombre1) {
 		try {
 			if (getNombre_usuario().trim().isEmpty()) {
-				System.out.println("Vacio");
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO, "Error: debe guardar un item primero",null));
+				Mensaje.crearMensajeWARN("Error: debe guardar un item primero");
 			} else {
 				DateFormat dateFormat = new SimpleDateFormat("_ddMMyyyyHHmmss");
 				g = "img_" + managergest.itemByID(item_nombre1).getItemNombre()
@@ -781,7 +699,6 @@ public class itemBean implements Serializable {
 				System.out.println(g);
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -792,14 +709,7 @@ public class itemBean implements Serializable {
 	 */
 	public void asignarNombreImagen() {
 		if (getItem_nombre().trim().isEmpty()) {
-			System.out.println("Vacio");
-			FacesContext
-					.getCurrentInstance()
-					.addMessage(
-							null,
-							new FacesMessage(FacesMessage.SEVERITY_INFO,
-									"Error:",
-									"debe crear o guardar primero un producto o servicio"));
+			Mensaje.crearMensajeWARN("Debe crear o guardar primero un producto o servicio");
 		} else {
 			DateFormat dateFormat = new SimpleDateFormat("_ddMMyyyyHHmmss");
 			g = "img_" + getItem_nombre() + dateFormat.format(new Date())
@@ -850,7 +760,6 @@ public class itemBean implements Serializable {
 
 	public void BuscarPersona() {
 		try {
-			System.out.println(usuario);
 			cedula = ManagerCarga.consultaSQL(usuario);
 			per = mb.buscarPersonaWSReg(cedula);
 			if (per != null) {
@@ -861,7 +770,6 @@ public class itemBean implements Serializable {
 				throw new Exception("PERSONA NULA");
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -873,7 +781,6 @@ public class itemBean implements Serializable {
 			nombre_usuario = per1.getPerNombres() + " "
 					+ per1.getPerApellidos();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -916,7 +823,6 @@ public class itemBean implements Serializable {
 						break;
 					} else {
 						a = false;
-
 					}
 				}
 				if (a == true) {
@@ -939,30 +845,23 @@ public class itemBean implements Serializable {
 					mostrarpro_id = false;
 					getListaItemfoto().clear();
 					getListaItem().clear();
-					getListaItem().addAll(managergest.findAllItemsOrdenadasad());
+					getListaItem()
+							.addAll(managergest.findAllItemsOrdenadasad());
 					r = "items?faces-redirect=true";
 				} else {
-					FacesContext.getCurrentInstance().addMessage(
-							null,
-							new FacesMessage(FacesMessage.SEVERITY_WARN,
-									"Debe seleccionar por lo menos una imagen",
-									null));
+					Mensaje.crearMensajeWARN("Debe seleccionar por lo menos una imagen");
 					r = "nitems?faces-redirect=true";
 				}
 			}
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return r;
 	}
 
 	public void abrirDialog() {
 		if (fi.after(ff)) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_WARN,
-							"Inicio Subasta debe ser menor que la Fin Subasta",
-							null));
+			Mensaje.crearMensajeWARN("Inicio subasta debe ser menor que la fin subasta");
 		} else
 			RequestContext.getCurrentInstance().execute("PF('gu').show();");
 	}
@@ -977,13 +876,9 @@ public class itemBean implements Serializable {
 		List<SubItem> pro = managergest.findAllItems();
 		for (SubItem y : pro) {
 			if (y.getItemNombre().equals(item_nombre)) {
-				System.out.println("si entra1");
 				t = 1;
 				r = true;
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								"El nombre del item existe.", null));
+				Mensaje.crearMensajeWARN("El nombre del item existe");
 			}
 		}
 		if (t == 0) {
@@ -1003,13 +898,12 @@ public class itemBean implements Serializable {
 			managergest.asignarItem(item_id1);
 			managergest.insertarItemFoto(item_nombre, item_imagen);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return item_id1;
 	}
 
 	// itemfotos
-
 	/**
 	 * eliminar un fotoproducto
 	 * 
@@ -1024,7 +918,7 @@ public class itemBean implements Serializable {
 					managergest.itemFotoByNombre(getItemdelsitafot()
 							.getItemfNombre()));
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return "";
 	}
@@ -1037,24 +931,18 @@ public class itemBean implements Serializable {
 	 */
 	public String cambiarEstadofoto() {
 		try {
-			if(getItemdelsitafot().getItemfMostrar()==true)
-			{
-				FacesContext context = FacesContext.getCurrentInstance();
-				context.addMessage(
-						null,
-						new FacesMessage("INFORMACION: La imágen se muestra como principal",null ));
-			}else{
-			 managergest.cambioEstadoItemFoto(getItemdelsitafot().getItemfId());
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(
-					null,
-					new FacesMessage("INFORMACION: Cambio modificado ",null ));
-			getListaItemfoto().clear();
-			getListaItemfoto()
-					.addAll(managergest.itemFotoByNombre(item_nombre));
+			if (getItemdelsitafot().getItemfMostrar() == true) {
+				Mensaje.crearMensajeINFO("INFORMACIÓN: La imágen se muestra como principal");
+			} else {
+				managergest.cambioEstadoItemFoto(getItemdelsitafot()
+						.getItemfId());
+				Mensaje.crearMensajeINFO("INFORMACIÓN: Cambio modificado ");
+				getListaItemfoto().clear();
+				getListaItemfoto().addAll(
+						managergest.itemFotoByNombre(item_nombre));
 			}
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return "";
 	}
@@ -1067,17 +955,13 @@ public class itemBean implements Serializable {
 	 */
 	public String cambiarMostrarfoto() {
 		try {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(
-					null,
-					new FacesMessage(managergest.cambioMostrarItemFoto(
-							getItemdelsitafot().getItemfId(), itemdelsitafot)));
+			Mensaje.crearMensajeINFO(managergest.cambioMostrarItemFoto(getItemdelsitafot().getItemfId(), itemdelsitafot));
 			getListaItemfoto().clear();
 			getListaItemfoto().addAll(
 					managergest.ItemFotoById1(getItemdelsitafot().getSubItem()
 							.getItemId()));
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return "";
 	}
@@ -1091,7 +975,6 @@ public class itemBean implements Serializable {
 	public void cambiarEstadoprodfot(SubItemFoto item) {
 		setItemdelsitafot(item);
 		RequestContext.getCurrentInstance().execute("PF('ce').show();");
-		System.out.println("holi");
 
 	}
 
@@ -1103,11 +986,7 @@ public class itemBean implements Serializable {
 	 */
 	public void cambiarMostrarfotos(SubItemFoto item) {
 		if (item.getItemfEstado().equals("I")) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"La imágen está inactiva, seleccione una activa",
-							null));
+			Mensaje.crearMensajeINFO("La imágen está inactiva, seleccione una activa");
 		} else {
 			setItemdelsitafot(item);
 			RequestContext.getCurrentInstance().execute("PF('mf').show();");
@@ -1123,7 +1002,6 @@ public class itemBean implements Serializable {
 	public void eliminarfotocon(SubItemFoto item) {
 		setItemdelsitafot(item);
 		RequestContext.getCurrentInstance().execute("PF('ef').show();");
-		System.out.println("holi");
 	}
 
 }

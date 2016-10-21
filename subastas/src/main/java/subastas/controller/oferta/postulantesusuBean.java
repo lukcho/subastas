@@ -15,10 +15,8 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 
 import org.primefaces.context.RequestContext;
 
@@ -29,7 +27,7 @@ public class postulantesusuBean implements Serializable {
 
 	@EJB
 	private ManagerGestion managergest;
-	
+
 	@EJB
 	private subastas.model.manager.ManagerBuscar mb;
 
@@ -78,7 +76,7 @@ public class postulantesusuBean implements Serializable {
 		pos_password = "";
 		rpassword = "";
 		pos_telefono = "";
-		pos_celular="";
+		pos_celular = "";
 		pos_institucion = "";
 		pos_gerencia = "";
 		pos_area = "";
@@ -213,11 +211,11 @@ public class postulantesusuBean implements Serializable {
 	public void setPos_telefono(String pos_telefono) {
 		this.pos_telefono = pos_telefono;
 	}
-	
+
 	public String getPos_celular() {
 		return pos_celular;
 	}
-	
+
 	public void setPos_celular(String pos_celular) {
 		this.pos_celular = pos_celular;
 	}
@@ -343,7 +341,7 @@ public class postulantesusuBean implements Serializable {
 	}
 
 	/**
-	 * metodo para comprobar correos repetidos 
+	 * metodo para comprobar correos repetidos
 	 * 
 	 * @return boolean
 	 */
@@ -367,7 +365,7 @@ public class postulantesusuBean implements Serializable {
 	}
 
 	/**
-	 * metodo para listarregistros 
+	 * metodo para listarregistros
 	 * 
 	 * @return list
 	 */
@@ -415,55 +413,58 @@ public class postulantesusuBean implements Serializable {
 			managergest.insertarPostulante(pos_id.trim(), fecha_ahora,
 					pos_nombre.trim(), pos_apellido.trim(),
 					pos_direccion.trim(), pos_correo.trim(),
-					pos_telefono.trim(),pos_celular.trim(), pos_password.trim());
-			
-		 smscorusu = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
-					 + "<meta name='viewport' content='width=device-width'></head><body>"
-					 + "Estimado(a) postulante "+pos_nombre+" "+pos_apellido+", <br/>"
-			    	 + "Se creó con éxito sus credenciales para ingreso al sistema de subastas: <br/>"
-		             + "<br/> Usuario: "+pos_id+""
-		           //  + "<br/> Contraseña: "+Utilidades.Desencriptar(pos_password)+" "
-		             + "<br/> Correo: "+pos_correo+""
-		             + "<br/> Saludos cordiales, "
-		             + "<br/> Sistema de Subastas Yachay EP"
-		             + "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
-			
-//			Mail.generateAndSendEmail(pos_correo, "Notificación de Subastas", smscorusu);
-			mb.envioMailWS(pos_correo, "Notificación de Subastas", smscorusu);
-			
-			pos_id = "";
-			pos_nombre = "";
-			smscorusu="";
-			pos_apellido = "";
-			pos_direccion = "";
-			pos_correo = "";
-			rcorreo = "";
-			pos_password = "";
-			rpassword = "";
-			pos_telefono = "";
-			pos_celular="";
-			pos_institucion = "";
-			pos_gerencia = "";
-			pos_area = "";
-			pos_estado = "A";
-			Mensaje.crearMensajeINFO("Creado con éxito - Se envió una notificación su correo");
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Creado con éxito - Se envió una notificación su correo", null));
-			r = "index?faces-redirect=true";
+					pos_telefono.trim(), pos_celular.trim(),
+					pos_password.trim());
+			smscorusu = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+					+ "<meta name='viewport' content='width=device-width'></head><body>"
+					+ "Estimado(a) postulante "
+					+ pos_nombre
+					+ " "
+					+ pos_apellido
+					+ ", <br/>"
+					+ "Se creó con éxito sus credenciales para ingreso al sistema de subastas: <br/>"
+					+ "<br/> Usuario: "
+					+ pos_id
+					+ ""
+					// +
+					// "<br/> Contraseña: "+Utilidades.Desencriptar(pos_password)+" "
+					+ "<br/> Correo: "
+					+ pos_correo
+					+ ""
+					+ "<br/> Saludos cordiales, "
+					+ "<br/> Sistema de Subastas Yachay EP"
+					+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
 
+			mb.envioMailWS(pos_correo, "Notificación de Subastas", smscorusu);
+			limpiarCampos();
+			Mensaje.crearMensajeINFO("Creado con éxito - Se envió una notificación su correo");
+			r = "index?faces-redirect=true";
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Error al crear usuario postulante", null));
+			Mensaje.crearMensajeWARN("Error al crear usuario postulante");
 		}
 		return r;
 	}
+	
+	public void limpiarCampos(){
+		pos_id = "";
+		pos_nombre = "";
+		smscorusu = "";
+		pos_apellido = "";
+		pos_direccion = "";
+		pos_correo = "";
+		rcorreo = "";
+		pos_password = "";
+		rpassword = "";
+		pos_telefono = "";
+		pos_celular = "";
+		pos_institucion = "";
+		pos_gerencia = "";
+		pos_area = "";
+		pos_estado = "A";
+	}
 
 	/**
-	 * accion para invocar el manager y editar el postulante 
+	 * accion para invocar el manager y editar el postulante
 	 * 
 	 * @return String
 	 */
@@ -473,28 +474,20 @@ public class postulantesusuBean implements Serializable {
 			setPos_password(Utilidades.Encriptar(getPos_password()));// PASS
 			managergest.editarPostulante(pos_id.trim(), pos_nombre.trim(),
 					pos_apellido.trim(), pos_direccion.trim(),
-					pos_correo.trim(), pos_telefono.trim(),pos_celular.trim(),
+					pos_correo.trim(), pos_telefono.trim(), pos_celular.trim(),
 					pos_password.trim(), pos_estado);
 			getListaPostulante().clear();
 			getListaPostulante().addAll(managergest.findAllpostulantes());
 			Mensaje.crearMensajeINFO("Actualizado - Modificado");
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Modificado - Editado", null));
 			r = "home?faces-redirect=true";
-
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Error al  crear usuario postulante", null));
+			Mensaje.crearMensajeWARN("Error al crear usuario postulante");
 		}
 		return r;
 	}
 
 	/**
-	 * Acción para cargar los datos del postulante 
+	 * Acción para cargar los datos del postulante
 	 * 
 	 * @return String
 	 */
@@ -517,81 +510,70 @@ public class postulantesusuBean implements Serializable {
 				pos_area = usr.getPosArea();
 				edicion = true;
 			} catch (Exception e) {
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								"Error al cargar sus datos personales", null));
+				Mensaje.crearMensajeWARN("Error al cargar sus datos personales");
 			}
 		}
 		return "uperfil?faces-redirect=true";
 	}
 
 	/**
-	 * accion para abrir el dialogo
+	 * acción para abrir el dialogo
 	 * 
 	 */
 	public void abrirDialog() {
 		if (this.ccedula(pos_id)) {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Cédula Repetida..!!!",
-					"La cédula ya esta siendo utilizada"));
+			Mensaje.crearMensajeWARN("La cédula ya esta siendo utilizada");
 		} else if (this.ccorreo(pos_correo)) {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Correo Repetido..!!!",
-					"El correo ya esta siendo utilizado"));
+			Mensaje.crearMensajeWARN("El correo ya esta siendo utilizado");
 		} else if (valida(pos_id) == true) {
 			RequestContext.getCurrentInstance().execute("PF('gu').show();");
 		} else {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Cédula Incorrecta", null));
+			Mensaje.crearMensajeWARN("Cédula Incorrecta");
 		}
 	}
-	
+
 	/**
 	 * Método para validar la cedula
 	 * 
 	 * @param x
 	 */
-	  public static boolean valida(String x){
-	    int suma=0;
-	    if(x.length()==9){
-	      System.out.println("Ingrese su cedula de 10 digitos");
-	      return false;
-	    }else{
-	      int a[]=new int [x.length()/2];
-	      int b[]=new int [(x.length()/2)];
-	      int c=0;
-	      int d=1;
-	      for (int i = 0; i < x.length()/2; i++) {
-	        a[i]=Integer.parseInt(String.valueOf(x.charAt(c)));
-	        c=c+2;
-	        if (i < (x.length()/2)-1) {
-	          b[i]=Integer.parseInt(String.valueOf(x.charAt(d)));
-	          d=d+2;
-	        }
-	      }
-	    
-	      for (int i = 0; i < a.length; i++) {
-	        a[i]=a[i]*2;
-	        if (a[i] >9){
-	          a[i]=a[i]-9;
-	        }
-	        suma=suma+a[i]+b[i];
-	      } 
-	      int aux=suma/10;
-	      int dec=(aux+1)*10;
-	      if ((dec - suma) == Integer.parseInt(String.valueOf(x.charAt(x.length()-1))))
-	        return true;
-	      else
-	        if(suma%10==0 && x.charAt(x.length()-1)=='0'){
-	          return true;
-	        }else{
-	          return false;
-	        }
-	    }
-	  }
+	public static boolean valida(String x) {
+		int suma = 0;
+		if (x.length() == 9) {
+			System.out.println("Ingrese su cedula de 10 digitos");
+			return false;
+		} else {
+			int a[] = new int[x.length() / 2];
+			int b[] = new int[(x.length() / 2)];
+			int c = 0;
+			int d = 1;
+			for (int i = 0; i < x.length() / 2; i++) {
+				a[i] = Integer.parseInt(String.valueOf(x.charAt(c)));
+				c = c + 2;
+				if (i < (x.length() / 2) - 1) {
+					b[i] = Integer.parseInt(String.valueOf(x.charAt(d)));
+					d = d + 2;
+				}
+			}
+			for (int i = 0; i < a.length; i++) {
+				a[i] = a[i] * 2;
+				if (a[i] > 9) {
+					a[i] = a[i] - 9;
+				}
+				suma = suma + a[i] + b[i];
+			}
+			int aux = suma / 10;
+			int dec = (aux + 1) * 10;
+			if ((dec - suma) == Integer.parseInt(String.valueOf(x.charAt(x
+					.length() - 1))))
+				return true;
+			else if (suma % 10 == 0 && x.charAt(x.length() - 1) == '0') {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
 
 	/**
 	 * limpia la informacion
@@ -607,7 +589,7 @@ public class postulantesusuBean implements Serializable {
 		pos_correo = "";
 		pos_password = "";
 		pos_telefono = "";
-		pos_celular="";
+		pos_celular = "";
 		pos_institucion = "";
 		pos_gerencia = "";
 		pos_area = "";

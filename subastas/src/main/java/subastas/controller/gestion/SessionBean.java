@@ -285,7 +285,6 @@ public class SessionBean {
 
 	// login
 	public void veri() {
-		System.out.println("este es el id: " + nick);
 		int t = 0;
 		List<SubPostulante> a = managest.findAllpostulantes();
 		for (SubPostulante u : a) {
@@ -294,10 +293,7 @@ public class SessionBean {
 			}
 		}
 		if (t != 100) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Alias Inexistente o Usuario Desactivado", null));
+			Mensaje.crearMensajeWARN("Alias Inexistente o Usuario Desactivado");
 		}
 	}
 
@@ -308,8 +304,6 @@ public class SessionBean {
 		List<SubPostulante> u = managest.findAllpostulantes();
 		try {
 			for (SubPostulante y : u) {
-				System.out.println("avr "
-						+ Utilidades.Encriptar(pass).toString());
 				if (y.getPosId().equals(nick)
 						&& y.getPosPassword()
 								.equals(Utilidades.Encriptar(pass))
@@ -332,9 +326,7 @@ public class SessionBean {
 				}
 			}
 			if (t == 0) {
-				FacesContext context = FacesContext.getCurrentInstance();
-				context.addMessage(null, new FacesMessage("Error..!!!",
-						"Usuario o Contrasena Incorrecta "));
+				Mensaje.crearMensajeWARN("Usuario o Contrasena Incorrecta ");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -351,9 +343,7 @@ public class SessionBean {
 		correo = "";
 		pass = "";
 		nick = "";
-		System.out.println("si salio");
-		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_INFO, "Salió", null));
+		Mensaje.crearMensajeWARN("Salió");
 		return "/index?faces-redirect=true";
 	}
 
@@ -370,7 +360,6 @@ public class SessionBean {
 		SessionBean user = (SessionBean) session.getAttribute("sessionBean");
 		if (user == null || user.getSession() == null) {
 			try {
-				System.out.println("me envia a ajuera ");
 				FacesContext.getCurrentInstance().getExternalContext()
 						.redirect("../index.xhtml");
 			} catch (IOException ex) {
@@ -394,7 +383,6 @@ public class SessionBean {
 		SessionBean user = (SessionBean) session.getAttribute("sessionBean");
 		if (user == null || user.getSession() == null) {
 			try {
-				System.out.println("me envia a ajuefa ");
 				FacesContext.getCurrentInstance().getExternalContext()
 						.redirect("../index.xhtml");
 			} catch (IOException ex) {
@@ -413,10 +401,7 @@ public class SessionBean {
 				setCorreo(usr.getPosCorreo());
 				setCedula(usr.getPosId());
 			} catch (Exception e) {
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								"Error al  cargar sus datos personales", null));
+				Mensaje.crearMensajeWARN("Error al cargar sus datos personales");
 			}
 		}
 		return pag;
@@ -433,28 +418,17 @@ public class SessionBean {
 		List<SubPostulante> u = managest.findAllpostulantes();
 		for (SubPostulante y : u) {
 			if (y.getPosCorreo().equals(correocontra)) {
-				System.out.println("si entra1");
 				enviarmensajerecuperarcontra(y);
-				FacesContext
-						.getCurrentInstance()
-						.addMessage(
-								null,
-								new FacesMessage(
-										FacesMessage.SEVERITY_INFO,
-										"Enviado correctamente revise su correo",
-										null));
+				Mensaje.crearMensajeINFO("Enviado correctamente revise su correo");
 				correocontra = "";
 				t = 1;
 			}
 		}
 		if (t == 0) {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage(
-					"Error..!!! su correo no existe o es incorrecto", null));
+			Mensaje.crearMensajeWARN("Error..!!! su correo no existe o es incorrecto"); 
 		}
 		return r;
 	}
-
 	String correoveri = "";
 
 	// Tomar el id de estado general id_estadoSolicitud
@@ -469,7 +443,6 @@ public class SessionBean {
 			System.out.println(password);
 			passwordnuevo = Utilidades.Desencriptar(password);
 			System.out.println(passwordnuevo);
-
 			smscor = "<!DOCTYPE html><html lang='es'><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
 					+ "<meta name='viewport' content='width=device-width'></head><body>"
 					+ "Estimado(a) postulant: "+ nombre+ " "+ apellido+ ", <br/>"
@@ -479,12 +452,9 @@ public class SessionBean {
 					+ "<br/> Saludos cordiales, "
 					+ "<br/> Sistema de Subastas Yachay EP"
 					+ "<br/><em><strong>NOTA:</strong> Este correo es generado automáticamente por el sistema favor no responder al mismo.</em></body></html>";
-
 //			Mail.generateAndSendEmail(correo,
 //					"Recuperación de contraseña Subastas", smscor);
-			
 			mb.envioMailWS(correo, "Recuperación de contraseña Subastas", smscor);
-			// limpiamos los datos
 			cedula = "";
 			nombre = "";
 			apellido = "";
@@ -492,15 +462,10 @@ public class SessionBean {
 			password = "";
 			passwordnuevo = "";
 			smscor = "";
-
 		} catch (Exception e) {
+			Mensaje.crearMensajeWARN("Error al enviar correo");
 			e.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Error al enviar correo", null));
 		}
 		return "index?faces-redirect=true";
 	}
-
 }

@@ -6,10 +6,8 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 
@@ -60,7 +58,6 @@ public class catalogosBean implements Serializable {
 
 	@PostConstruct
 	public void ini() {
-
 		cat_id = 0;
 		cati_nombre = "";
 		cati_estado = "A";
@@ -202,45 +199,22 @@ public class catalogosBean implements Serializable {
 	 * @throws Exception
 	 */
 	public String crearCatalogo() {
-		
 		String r = "";
 		try {
 			if (edicion) {
 				managercat.editarCatalogoItems(cati_id, cati_nombre.trim(),
 						cati_estado, cati_idpadre);
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
-				r = "catalogos?faces-redirect=true";
-				getListaCatalogoItems().clear();
-				getListaCatalogoItems().addAll(
-						managercat.findAllCatalogoItems());
-				Mensaje.crearMensajeINFO("Si se alammaceno la oferta");
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"Modificado - Editado", null));
 			} else {
 				managercat.insertarCatalogoItems(cati_nombre, cati_idpadre);
 				Mensaje.crearMensajeINFO("Registrado - Creado");
-				getListaCatalogoItems().clear();
-				getListaCatalogoItems().addAll(
-						managercat.findAllCatalogoItems());
-				Mensaje.crearMensajeINFO("Si se alammaceno la oferta");
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"Registrado- Creado", null));
 			}
+			getListaCatalogoItems().clear();
+			getListaCatalogoItems().addAll(managercat.findAllCatalogoItems());
 			r = "catalogos?faces-redirect=true";
-
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Error al crear catalogo item", null));
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, e
-							.getMessage(), null));
+			Mensaje.crearMensajeWARN("Error al crear catalogo item");
+			e.printStackTrace();
 		}
 		return r;
 	}
@@ -257,7 +231,6 @@ public class catalogosBean implements Serializable {
 	 * @throws Exception
 	 */
 	public String cargarCatalogoItem(SubCatDet cati) {
-		
 		try {
 			cati_id = cati.getCatdId();
 			cati_nombre = cati.getCatdNombre();
@@ -271,7 +244,6 @@ public class catalogosBean implements Serializable {
 			edicion = true;
 			return "ncatalogo?faces-redirect=true";
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return "";
@@ -283,7 +255,7 @@ public class catalogosBean implements Serializable {
 	 * return
 	 */
 	public List<SelectItem> getListaCategoriatodos() {
-		
+
 		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
 		listadoSI.add(new SelectItem(0, "Seleccionar"));
 		for (SubCatDet t : managercat.findAllCatalogoItems()) {
@@ -297,7 +269,6 @@ public class catalogosBean implements Serializable {
 	 * 
 	 */
 	public List<SelectItem> getListaCategoria() {
-		
 		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
 		listadoSI.add(new SelectItem(0, "Seleccionar"));
 		for (SubCatCab t : managercat.findAllCatalogos()) {
@@ -311,7 +282,6 @@ public class catalogosBean implements Serializable {
 	 * 
 	 */
 	public List<SelectItem> getListaCatalogoitem() {
-		
 		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
 		listadoSI.add(new SelectItem(0, "Seleccionar"));
 		for (SubCatDet t : managercat.findCatalogoItemsByCatalogo(cat_id)) {
@@ -325,7 +295,6 @@ public class catalogosBean implements Serializable {
 	 * 
 	 */
 	public List<SelectItem> getListaCatalogoitemitems() {
-		
 		List<SelectItem> listadoSI = new ArrayList<SelectItem>();
 		if (cat_id != 0) {
 			listadoSI.add(new SelectItem(0, "Seleccionar"));
@@ -338,11 +307,11 @@ public class catalogosBean implements Serializable {
 	}
 
 	/**
-	 * Método para asignar el catalogo 
+	 * Método para asignar el catalogo
 	 * 
 	 */
 	public String asignarCat() {
-		
+
 		managercat.asignarcatalogo(cat_id);
 		return "";
 	}
@@ -352,7 +321,7 @@ public class catalogosBean implements Serializable {
 	 * 
 	 */
 	public String asignarCatItem() {
-		
+
 		managercat.asignarcati(cati_idpadre);
 		return "";
 	}
@@ -362,29 +331,24 @@ public class catalogosBean implements Serializable {
 	 * 
 	 */
 	public String asignarCatItemitem() {
-		
+
 		managercat.asignarcati(cati_idhijo);
 		return "";
 	}
 
 	/**
-	 *  Método para activar y desactivar estado
+	 * Método para activar y desactivar estado
 	 * 
 	 * @param pro_id
 	 * @throws Exception
 	 */
 	public String cambiarEstado() {
-		
 		try {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(
-					null,
-					new FacesMessage("INFORMACION", managercat
-							.cambioEstadocati(getFabcati().getCatdId())));
+			Mensaje.crearMensajeINFO(managercat.cambioEstadocati(getFabcati().getCatdId()));
 			getListaCatalogoItems().clear();
 			getListaCatalogoItems().addAll(managercat.findAllCatalogoItems());
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return "";
 	}
@@ -395,12 +359,10 @@ public class catalogosBean implements Serializable {
 	 * @param cat
 	 */
 	public void cambiarEstadocati(SubCatDet cat) {
-		
 		setFabcati(cat);
 		RequestContext.getCurrentInstance().execute("PF('ce').show();");
 	}
 
-	
 	/**
 	 * Método para conocer si esta usado el nombre del catalogo
 	 * 
@@ -408,20 +370,14 @@ public class catalogosBean implements Serializable {
 	 * @return
 	 */
 	public boolean averiguarCatId(String nombreid) {
-		
 		Integer t = 0;
 		boolean r = false;
 		List<SubCatDet> pro = managercat.findAllCatalogoItems();
 		for (SubCatDet y : pro) {
 			if (y.getCatdId().equals(nombreid)) {
-				System.out.println("si entra1");
 				t = 1;
 				r = true;
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								"El nombre del catalogo del producto existe.",
-								null));
+				Mensaje.crearMensajeWARN("El nombre del catálogo del producto existe");
 			}
 		}
 		if (t == 0) {
@@ -469,7 +425,6 @@ public class catalogosBean implements Serializable {
 	 * @return
 	 */
 	public String salir() {
-		// limpiar datos
 		edicion = false;
 		ediciontipo = false;
 		getListaCatalogoItems().clear();

@@ -9,10 +9,8 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import org.primefaces.context.RequestContext;
@@ -420,14 +418,8 @@ public class ofertausuindexBean implements Serializable {
 			getListaItem().addAll(managergest.findAllItems());
 			r = "home?faces-redirect=true";
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Error al crear producto", null));
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, e
-							.getMessage(), null));
+			Mensaje.crearMensajeWARN("Error al crear producto");
+			e.printStackTrace();
 		}
 		return r;
 	}
@@ -461,7 +453,6 @@ public class ofertausuindexBean implements Serializable {
 			ff = item.getItemFechaSubastaFin();
 			return "pasofertasub?faces-redirect=true";
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return "";
@@ -489,11 +480,9 @@ public class ofertausuindexBean implements Serializable {
 			ofer_fecha_oferta = ofer.getOferFechaOferta();
 			item = ofer.getSubItem();
 			postulante = ofer.getSubPostulante();
-
 			item_nombre = ofer.getSubItem().getItemNombre();
 			item_caracteristicas = ofer.getSubItem().getItemCaracteristicas();
 			item_imagen = ofer.getSubItem().getItemImagen();
-
 			pos_nombre = ofer.getSubPostulante().getPosNombre();
 			pos_apellido = ofer.getSubPostulante().getPosApellido();
 			pos_direccion = ofer.getSubPostulante().getPosDireccion();
@@ -502,10 +491,8 @@ public class ofertausuindexBean implements Serializable {
 			pos_institucion = ofer.getSubPostulante().getPosInstitucion();
 			pos_gerencia = ofer.getSubPostulante().getPosGerencia();
 			pos_area = ofer.getSubPostulante().getPosArea();
-
 			return "pasuoferta?faces-redirect=true";
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return "";
@@ -529,7 +516,6 @@ public class ofertausuindexBean implements Serializable {
 			fi = item.getItemFechaSubastaInicio();
 			ff = item.getItemFechaSubastaFin();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return "noferta?faces-redirect=true";
@@ -543,15 +529,12 @@ public class ofertausuindexBean implements Serializable {
 	 */
 	public String cambiarEstado() {
 		try {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(
-					null,
-					new FacesMessage("INFORMACION", managergest
-							.cambioEstadoItem(getOfertadelsita().getOferId())));
+			Mensaje.crearMensajeINFO(managergest
+					.cambioEstadoItem(getOfertadelsita().getOferId()));
 			getListaOferta().clear();
 			getListaOferta().addAll(managergest.findAllofertasOrdenadas());
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return "";
 	}
@@ -570,11 +553,9 @@ public class ofertausuindexBean implements Serializable {
 		ofer_valor_oferta = null;
 		ofer_fecha_oferta = null;
 		postulante = null;
-
 		item_nombre = "";
 		item_caracteristicas = "";
 		item_imagen = "";
-
 		pos_nombre = "";
 		pos_apellido = "";
 		pos_direccion = "";
@@ -591,17 +572,14 @@ public class ofertausuindexBean implements Serializable {
 	 * 
 	 */
 	public String salirPasuOferta() {
-		// limpiar datos
 		ofer_id = null;
 		ofer_valor_oferta = null;
 		ofer_fecha_oferta = null;
 		item = null;
 		postulante = null;
-
 		item_nombre = "";
 		item_caracteristicas = "";
 		item_imagen = "";
-
 		pos_nombre = "";
 		pos_apellido = "";
 		pos_direccion = "";
@@ -642,11 +620,9 @@ public class ofertausuindexBean implements Serializable {
 		ofer_fecha_oferta = null;
 		item = null;
 		postulante = null;
-
 		item_nombre = "";
 		item_caracteristicas = "";
 		item_imagen = "";
-
 		pos_nombre = "";
 		pos_apellido = "";
 		pos_direccion = "";
@@ -665,7 +641,6 @@ public class ofertausuindexBean implements Serializable {
 	 * 
 	 */
 	public String limpiarItems() {
-		// limpiar datos
 		item = new SubItem();
 		getListaItems().clear();
 		getListaItems().addAll(managergest.findAllItems());
@@ -681,10 +656,7 @@ public class ofertausuindexBean implements Serializable {
 		if (!verificarValor())
 			RequestContext.getCurrentInstance().execute("PF('gu').show();");
 		else {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"El valor es menor que el de base", null));
+			Mensaje.crearMensajeWARN("El valor es menor que el de base");
 		}
 	}
 
@@ -706,7 +678,7 @@ public class ofertausuindexBean implements Serializable {
 		}
 		return r;
 	}
-	
+
 	/**
 	 * Método para abrir el dialogo
 	 * 

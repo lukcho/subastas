@@ -16,10 +16,8 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 
@@ -397,22 +395,12 @@ public class postulantesBean implements Serializable {
 				pos_estado = "A";
 				pos_area = "";
 				Mensaje.crearMensajeINFO("Actualizado - Modificado");
-				FacesContext.getCurrentInstance().addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO,
-								"Modificado - Editado", null));
 				r = "postulantes?faces-redirect=true";
 			} else {
 				if (this.ccedula(pos_id)) {
-					FacesContext context = FacesContext.getCurrentInstance();
-					context.addMessage(null, new FacesMessage(
-							"Cédula Repetida..!!!",
-							"La cédula ya esta siendo utilizada"));
+					Mensaje.crearMensajeWARN("La cédula yá esta siendo utilizada");
 				} else if (this.ccorreo(pos_correo)) {
-					FacesContext context = FacesContext.getCurrentInstance();
-					context.addMessage(null, new FacesMessage(
-							"Correo Repetido..!!!",
-							"El correo ya esta siendo utilizado"));
+					Mensaje.crearMensajeWARN("El correo yá esta siendo utilizado"); 
 				} else {
 					setPos_password(Utilidades.Encriptar(getPos_password()));// PASS
 					managergest.insertarPostulante(pos_id.trim(),
@@ -437,11 +425,7 @@ public class postulantesBean implements Serializable {
 					pos_gerencia = "";
 					pos_area = "";
 					pos_estado = "A";
-					Mensaje.crearMensajeINFO("Actualizado - Modificado");
-					FacesContext.getCurrentInstance().addMessage(
-							null,
-							new FacesMessage(FacesMessage.SEVERITY_INFO,
-									"Registrado - Creado", null));
+					Mensaje.crearMensajeINFO("Postulante creado");
 					r = "postulantes?faces-redirect=true";
 				}
 			}
@@ -452,9 +436,7 @@ public class postulantesBean implements Serializable {
 			// }
 
 		} catch (Exception e) {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage("Error..!!!",
-					"Usuario no pudo ser Creado "));
+			Mensaje.crearMensajeWARN("Postulante no pudo ser creado");
 			e.printStackTrace();
 		}
 		return r;
@@ -491,15 +473,11 @@ public class postulantesBean implements Serializable {
 	 */
 	public String cambiarEstado() {
 		try {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(
-					null,
-					new FacesMessage("Información: postulante modificado", managergest
-							.cambioEstadoPostulante(getPostulante().getPosId())));
+			Mensaje.crearMensajeINFO(managergest.cambioEstadoPostulante(getPostulante().getPosId()));
 			getListaPostulante().clear();
 			getListaPostulante().addAll(managergest.findAllpostulantes());
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return "";
 	}
@@ -524,7 +502,6 @@ public class postulantesBean implements Serializable {
 			mostrarpro_id = true;
 			return "npostulante?faces-redirect=true";
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 
