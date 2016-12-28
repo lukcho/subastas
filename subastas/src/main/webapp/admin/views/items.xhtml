@@ -18,7 +18,7 @@
 </style>
 	</ui:define>
 	<ui:define name="contenido">
-	<h:form>
+		<h:form>
 			<p:remoteCommand name="onload"
 				actionListener="#{sesionBean.validaIndex()}" autoRun="true" />
 		</h:form>
@@ -74,8 +74,8 @@
 								value="Bot&oacute;n para Conocer al Ganador" trackMouse="true" />
 						</b:commandButton>
 					</p:column>
-					<p:column filterBy="#{item.subItem.itemNombre}" filterMatchMode="contains"
-						headerText="NOMBRE" width="50">
+					<p:column filterBy="#{item.subItem.itemNombre}"
+						filterMatchMode="contains" headerText="NOMBRE" width="50">
 						<h:outputText value="#{item.subItem.itemNombre}"></h:outputText>
 					</p:column>
 					<p:column headerText="DESCRIPCIÓN" width="60">
@@ -110,8 +110,8 @@
 							<f:convertDateTime pattern="yyyy/MM/dd HH:mm" timeZone="GMT-5" />
 						</h:outputText>
 					</p:column>
-					<p:column filterBy="#{item.subItem.itemEstado}" filterMatchMode="contains"
-						headerText="ESTADO" width="30">
+					<p:column filterBy="#{item.subItem.itemEstado}"
+						filterMatchMode="contains" headerText="ESTADO" width="30">
 						<h:outputText value="#{item.subItem.itemEstado}"></h:outputText>
 					</p:column>
 					<p:column filterBy="#{item.subItem.itemGanadorDni}"
